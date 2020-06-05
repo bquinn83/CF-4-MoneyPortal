@@ -1,0 +1,80 @@
+﻿@{
+    Random rand = new Random();
+
+    var quotes = new List<string>();
+    quotes.Add("Money often costs too much.");
+    quotes.Add("It's how you deal with failure that determines how you achieve success.");
+    quotes.Add("An investment in knowledge pays the best interest.");
+    quotes.Add("Empty pockets never held anyone back. Only empty heads and empty hearts can do that.");
+    quotes.Add("If money is your hope for independence you will never have it. The only real security that a man will have in this world is a reserve of knowledge, experience, and ability.");
+    quotes.Add("Money is a terrible master but an excellent servant.");
+    quotes.Add("Every time you borrow money, you're robbing your future self.");
+    quotes.Add("Never spend your money before you have it.");
+    quotes.Add("Don't tell me what you value, show me your budget, and I'll tell you what you value.");
+    quotes.Add("A real entrepreneur is somebody who has no safety net underneath them.");
+    ViewBag.Slogan = quotes[rand.Next(0, quotes.Count)];
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewBag.Title - Money</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+
+    <link href="~/Content/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/css/font.css" rel="stylesheet" />
+    <link href="~/Content/css/style.green.css" rel="stylesheet" />
+    <link href="~/Content/css/custom.css" rel="stylesheet" />
+    <!-- Google fonts - Muli-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,700">
+    <!-- Favicon-->
+    <link rel="apple-touch-icon" sizes="180x180" href="~/Content/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/Content/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/favicon_io/favicon-16x16.png">
+</head>
+
+<body>
+    <div class="login-page">
+        <div class="container d-flex align-items-center">
+            <div class="form-holder has-shadow">
+                <div class="row">
+                    <!-- Logo & Information Panel-->
+                    <div class="col-lg-6">
+                        <div class="info d-flex align-items-center">
+                            <div class="content">
+                                <div class="logo">
+                                    <h1>Money</h1>
+                                </div>
+                                <p>@ViewBag.Slogan</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Form Panel    -->
+                    <div class="col-lg-6">
+                        <div class="form d-flex align-items-center">
+                            <div class="content">
+                                @RenderBody()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--   Core JS Files   -->
+    <script src="~/Scripts/jquery.js"></script>
+    <script src="~/Scripts/popper.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <!--JS Plugins-->
+    <script src="~/Scripts/Chart.js"></script>
+    <script src="~/Scripts/datatables.js"></script>
+    <script src="~/Scripts/front.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

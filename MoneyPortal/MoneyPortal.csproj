@@ -1,0 +1,661 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C7D58F82-BAC6-430B-AD38-658292E20A57}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MoneyPortal</RootNamespace>
+    <AssemblyName>MoneyPortal</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44377</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="CsQuery, Version=1.3.3.249, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsQuery.1.3.4\lib\net40\CsQuery.dll</HintPath>
+    </Reference>
+    <Reference Include="en-html2enml, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\evernote-cloud-sdk-windows.1.0.8\lib\net40\en-html2enml.dll</HintPath>
+    </Reference>
+    <Reference Include="Evernote, Version=1.0.5377.16918, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\evernote-cloud-sdk-windows.1.0.8\lib\net40\Evernote.dll</HintPath>
+    </Reference>
+    <Reference Include="EvernoteOAuthNet, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\evernote-cloud-sdk-windows.1.0.8\lib\net40\EvernoteOAuthNet.dll</HintPath>
+    </Reference>
+    <Reference Include="EvernoteSDK, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\evernote-cloud-sdk-windows.1.0.8\lib\net40\EvernoteSDK.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Owin.Security.Providers.ArcGISOnline, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.ArcGISOnline.2.26.0\lib\net45\Owin.Security.Providers.ArcGISOnline.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.ArcGISPortal, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.ArcGISPortal.2.26.0\lib\net45\Owin.Security.Providers.ArcGISPortal.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Asana, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Asana.2.26.0\lib\net45\Owin.Security.Providers.Asana.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Backlog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Backlog.2.26.0\lib\net45\Owin.Security.Providers.Backlog.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Baidu, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Baidu.2.26.0\lib\net45\Owin.Security.Providers.Baidu.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.BattleNet, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.BattleNet.2.26.0\lib\net45\Owin.Security.Providers.BattleNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Bitbucket, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Bitbucket.2.26.0\lib\net45\Owin.Security.Providers.Bitbucket.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Box, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Box.2.26.0\lib\net45\Owin.Security.Providers.Box.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Buffer, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Buffer.2.26.0\lib\net45\Owin.Security.Providers.Buffer.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Cosign, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Cosign.2.26.0\lib\net45\Owin.Security.Providers.Cosign.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.DeviantArt, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.DeviantArt.2.26.0\lib\net45\Owin.Security.Providers.DeviantArt.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Discord, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Discord.2.26.0\lib\net45\Owin.Security.Providers.Discord.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.DoYouBuzz, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.DoYouBuzz.2.26.0\lib\net45\Owin.Security.Providers.DoYouBuzz.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Dropbox, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Dropbox.2.26.0\lib\net45\Owin.Security.Providers.Dropbox.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.EVEOnline, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.EVEOnline.2.26.0\lib\net45\Owin.Security.Providers.EVEOnline.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Evernote, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Evernote.2.26.0\lib\net45\Owin.Security.Providers.Evernote.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Fitbit, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Fitbit.2.26.0\lib\net45\Owin.Security.Providers.Fitbit.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Flickr, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Flickr.2.26.0\lib\net45\Owin.Security.Providers.Flickr.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Foursquare, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Foursquare.2.26.0\lib\net45\Owin.Security.Providers.Foursquare.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Geni, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Geni.2.26.0\lib\net45\Owin.Security.Providers.Geni.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.GitHub, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.GitHub.2.26.0\lib\net45\Owin.Security.Providers.GitHub.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Gitter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Gitter.2.26.0\lib\net45\Owin.Security.Providers.Gitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Google, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Google.2.26.0\lib\net45\Owin.Security.Providers.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.GooglePlus, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.GooglePlus.2.26.0\lib\net45\Owin.Security.Providers.GooglePlus.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.HealthGraph, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.HealthGraph.2.26.0\lib\net45\Owin.Security.Providers.HealthGraph.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Imgur, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Imgur.2.26.0\lib\net45\Owin.Security.Providers.Imgur.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Instagram, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Instagram.2.26.0\lib\net45\Owin.Security.Providers.Instagram.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.LinkedIn, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.LinkedIn.2.26.0\lib\net45\Owin.Security.Providers.LinkedIn.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.MyHeritage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.MyHeritage.2.26.0\lib\net45\Owin.Security.Providers.MyHeritage.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Onshape, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Onshape.2.26.0\lib\net45\Owin.Security.Providers.Onshape.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.OpenID, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.OpenID.2.26.0\lib\net45\Owin.Security.Providers.OpenID.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.OpenIDBase, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.OpenIDBase.2.1.1\lib\net45\Owin.Security.Providers.OpenIDBase.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Orcid, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Orcid.2.26.0\lib\net45\Owin.Security.Providers.Orcid.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.PayPal, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.PayPal.2.26.0\lib\net45\Owin.Security.Providers.PayPal.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Podbean, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Podbean.2.26.0\lib\net45\Owin.Security.Providers.Podbean.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Reddit, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Reddit.2.26.0\lib\net45\Owin.Security.Providers.Reddit.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Salesforce, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Salesforce.2.26.0\lib\net45\Owin.Security.Providers.Salesforce.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Shopify, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Shopify.2.26.0\lib\net45\Owin.Security.Providers.Shopify.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Slack, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.SlackProvider.2.26.0\lib\net45\Owin.Security.Providers.Slack.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.SoundCloud, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.SoundCloud.2.26.0\lib\net45\Owin.Security.Providers.SoundCloud.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Spotify, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Spotify.2.26.0\lib\net45\Owin.Security.Providers.Spotify.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.StackExchange, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.StackExchange.2.26.0\lib\net45\Owin.Security.Providers.StackExchange.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Steam, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Steam.2.26.0\lib\net45\Owin.Security.Providers.Steam.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.TripIt, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.TripIt.2.26.0\lib\net45\Owin.Security.Providers.TripIt.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Twitch, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Twitch.2.26.0\lib\net45\Owin.Security.Providers.Twitch.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Typeform, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Typeform.2.26.0\lib\net45\Owin.Security.Providers.Typeform.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Untappd, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Untappd.2.26.0\lib\net45\Owin.Security.Providers.Untappd.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Vimeo, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Vimeo.2.26.0\lib\net45\Owin.Security.Providers.Vimeo.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.VisualStudio, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.VisualStudio.2.26.0\lib\net45\Owin.Security.Providers.VisualStudio.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.VKontakte, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.VKontakte.2.26.0\lib\net45\Owin.Security.Providers.VKontakte.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Wargaming, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Wargaming.2.26.0\lib\net45\Owin.Security.Providers.Wargaming.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.WordPress, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.WordPress.2.26.0\lib\net45\Owin.Security.Providers.WordPress.dll</HintPath>
+    </Reference>
+    <Reference Include="OWin.Security.Providers.WSO2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.WSO2.2.26.0\lib\net45\OWin.Security.Providers.WSO2.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Xing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Xing.2.26.0\lib\net45\Owin.Security.Providers.Xing.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Yahoo, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Yahoo.2.26.0\lib\net45\Owin.Security.Providers.Yahoo.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Security.Providers.Yammer, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1328b8c16b108c43, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.Security.Providers.Yammer.2.26.0\lib\net45\Owin.Security.Providers.Yammer.dll</HintPath>
+    </Reference>
+    <Reference Include="PreMailer.Net, Version=1.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PreMailer.Net.1.2.7\lib\net40\PreMailer.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="SgmlReaderDll, Version=1.8.11.0, Culture=neutral, PublicKeyToken=46b2db9ca481831b, processorArchitecture=MSIL">
+      <HintPath>..\packages\SgmlReader.1.8.11\lib\4.0\SgmlReaderDll.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Thrift, Version=0.8.0.16918, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\evernote-cloud-sdk-windows.1.0.8\lib\net40\Thrift.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.3\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.3\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.4.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.4.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.4.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.4.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.4.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.4.0.1\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.4.0.1\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.4.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BankAccountsController.cs" />
+    <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\CategoryItemsController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HouseholdsController.cs" />
+    <Compile Include="Controllers\InvitationsController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Classes\NotificationHelper.cs" />
+    <Compile Include="Controllers\TransactionsController.cs" />
+    <Compile Include="Controllers\TransactionTypesController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\BankAccountType.cs" />
+    <Compile Include="ViewModels\AccountViewModels.cs" />
+    <Compile Include="Models\BankAccount.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\CategoryItem.cs" />
+    <Compile Include="Models\EmailModel.cs" />
+    <Compile Include="Models\Household.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Invitation.cs" />
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Notification.cs" />
+    <Compile Include="Models\Transaction.cs" />
+    <Compile Include="Models\TransactionType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\UserViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\css\all.css" />
+    <Content Include="Content\css\bootstrap.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\Chart.css" />
+    <Content Include="Content\css\custom.css" />
+    <Content Include="Content\css\datatables.css" />
+    <Content Include="Content\css\datatables.min.css" />
+    <Content Include="Content\css\font-awesome.css" />
+    <Content Include="Content\css\font-awesome.min.css" />
+    <Content Include="Content\css\font.css" />
+    <Content Include="Content\css\style.green.css" />
+    <Content Include="Content\css\style.red.css" />
+    <Content Include="Content\favicon_io\favicon.ico" />
+    <Content Include="Content\favicon_io\android-chrome-192x192.png" />
+    <Content Include="Content\favicon_io\android-chrome-512x512.png" />
+    <Content Include="Content\favicon_io\apple-touch-icon.png" />
+    <Content Include="Content\favicon_io\favicon-16x16.png" />
+    <Content Include="Content\favicon_io\favicon-32x32.png" />
+    <Content Include="Content\fonts\dark-dashboard.svg" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Images\app-chalkboard.jpg" />
+    <Content Include="Content\Images\blank-avatar.png" />
+    <Content Include="Content\Images\dollar.jpg" />
+    <Content Include="Content\Images\FileTypeIcons\aac.png" />
+    <Content Include="Content\Images\FileTypeIcons\ai.png" />
+    <Content Include="Content\Images\FileTypeIcons\aiff.png" />
+    <Content Include="Content\Images\FileTypeIcons\asp.png" />
+    <Content Include="Content\Images\FileTypeIcons\avi.png" />
+    <Content Include="Content\Images\FileTypeIcons\blank.png" />
+    <Content Include="Content\Images\FileTypeIcons\bmp.png" />
+    <Content Include="Content\Images\FileTypeIcons\c.png" />
+    <Content Include="Content\Images\FileTypeIcons\cpp.png" />
+    <Content Include="Content\Images\FileTypeIcons\css.png" />
+    <Content Include="Content\Images\FileTypeIcons\dat.png" />
+    <Content Include="Content\Images\FileTypeIcons\dmg.png" />
+    <Content Include="Content\Images\FileTypeIcons\doc.png" />
+    <Content Include="Content\Images\FileTypeIcons\docx.png" />
+    <Content Include="Content\Images\FileTypeIcons\dot.png" />
+    <Content Include="Content\Images\FileTypeIcons\dotx.png" />
+    <Content Include="Content\Images\FileTypeIcons\dwg.png" />
+    <Content Include="Content\Images\FileTypeIcons\dxf.png" />
+    <Content Include="Content\Images\FileTypeIcons\eps.png" />
+    <Content Include="Content\Images\FileTypeIcons\exe.png" />
+    <Content Include="Content\Images\FileTypeIcons\flv.png" />
+    <Content Include="Content\Images\FileTypeIcons\gif.png" />
+    <Content Include="Content\Images\FileTypeIcons\h.png" />
+    <Content Include="Content\Images\FileTypeIcons\html.png" />
+    <Content Include="Content\Images\FileTypeIcons\ics.png" />
+    <Content Include="Content\Images\FileTypeIcons\iso.png" />
+    <Content Include="Content\Images\FileTypeIcons\java.png" />
+    <Content Include="Content\Images\FileTypeIcons\jpg.png" />
+    <Content Include="Content\Images\FileTypeIcons\key.png" />
+    <Content Include="Content\Images\FileTypeIcons\m4v.png" />
+    <Content Include="Content\Images\FileTypeIcons\mid.png" />
+    <Content Include="Content\Images\FileTypeIcons\mov.png" />
+    <Content Include="Content\Images\FileTypeIcons\mp3.png" />
+    <Content Include="Content\Images\FileTypeIcons\mp4.png" />
+    <Content Include="Content\Images\FileTypeIcons\mpg.png" />
+    <Content Include="Content\Images\FileTypeIcons\odp.png" />
+    <Content Include="Content\Images\FileTypeIcons\ods.png" />
+    <Content Include="Content\Images\FileTypeIcons\odt.png" />
+    <Content Include="Content\Images\FileTypeIcons\otp.png" />
+    <Content Include="Content\Images\FileTypeIcons\ots.png" />
+    <Content Include="Content\Images\FileTypeIcons\ott.png" />
+    <Content Include="Content\Images\FileTypeIcons\pdf.png" />
+    <Content Include="Content\Images\FileTypeIcons\php.png" />
+    <Content Include="Content\Images\FileTypeIcons\png.png" />
+    <Content Include="Content\Images\FileTypeIcons\pps.png" />
+    <Content Include="Content\Images\FileTypeIcons\ppt.png" />
+    <Content Include="Content\Images\FileTypeIcons\psd.png" />
+    <Content Include="Content\Images\FileTypeIcons\py.png" />
+    <Content Include="Content\Images\FileTypeIcons\qt.png" />
+    <Content Include="Content\Images\FileTypeIcons\rar.png" />
+    <Content Include="Content\Images\FileTypeIcons\rb.png" />
+    <Content Include="Content\Images\FileTypeIcons\rtf.png" />
+    <Content Include="Content\Images\FileTypeIcons\sql.png" />
+    <Content Include="Content\Images\FileTypeIcons\tga.png" />
+    <Content Include="Content\Images\FileTypeIcons\tgz.png" />
+    <Content Include="Content\Images\FileTypeIcons\tiff.png" />
+    <Content Include="Content\Images\FileTypeIcons\txt.png" />
+    <Content Include="Content\Images\FileTypeIcons\wav.png" />
+    <Content Include="Content\Images\FileTypeIcons\xls.png" />
+    <Content Include="Content\Images\FileTypeIcons\xlsx.png" />
+    <Content Include="Content\Images\FileTypeIcons\xml.png" />
+    <Content Include="Content\Images\FileTypeIcons\yml.png" />
+    <Content Include="Content\Images\FileTypeIcons\zip.png" />
+    <Content Include="Content\Images\Stock\admin.png" />
+    <Content Include="Content\Images\Stock\avatar-0.jpg" />
+    <Content Include="Content\Images\Stock\avatar-1.jpg" />
+    <Content Include="Content\Images\Stock\avatar-10.jpg" />
+    <Content Include="Content\Images\Stock\avatar-11.jpg" />
+    <Content Include="Content\Images\Stock\avatar-2.jpg" />
+    <Content Include="Content\Images\Stock\avatar-3.jpg" />
+    <Content Include="Content\Images\Stock\avatar-4.jpg" />
+    <Content Include="Content\Images\Stock\avatar-5.jpg" />
+    <Content Include="Content\Images\Stock\avatar-6.jpg" />
+    <Content Include="Content\Images\Stock\avatar-7.jpg" />
+    <Content Include="Content\Images\Stock\avatar-8.jpg" />
+    <Content Include="Content\Images\Stock\avatar-9.jpg" />
+    <Content Include="Content\Images\Stock\dev.png" />
+    <Content Include="Content\Images\Stock\odin.jpg" />
+    <Content Include="Content\Images\Stock\pm.png" />
+    <Content Include="Content\Images\Stock\sub.png" />
+    <Content Include="Content\webfonts\fa-brands-400.svg" />
+    <Content Include="Content\webfonts\fa-regular-400.svg" />
+    <Content Include="Content\webfonts\fa-solid-900.svg" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\Chart.js" />
+    <Content Include="Scripts\datatables.js" />
+    <Content Include="Scripts\datatables.min.js" />
+    <Content Include="Scripts\front.js" />
+    <Content Include="Scripts\jquery.cookie.js" />
+    <Content Include="Scripts\jquery.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\popper.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\fonts\dark-dashboard.eot" />
+    <Content Include="Content\fonts\dark-dashboard.ttf" />
+    <Content Include="Content\fonts\dark-dashboard.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="Content\webfonts\fa-brands-400.eot" />
+    <Content Include="Content\webfonts\fa-brands-400.ttf" />
+    <Content Include="Content\webfonts\fa-brands-400.woff" />
+    <Content Include="Content\webfonts\fa-brands-400.woff2" />
+    <Content Include="Content\webfonts\fa-regular-400.eot" />
+    <Content Include="Content\webfonts\fa-regular-400.ttf" />
+    <Content Include="Content\webfonts\fa-regular-400.woff" />
+    <Content Include="Content\webfonts\fa-regular-400.woff2" />
+    <Content Include="Content\webfonts\fa-solid-900.eot" />
+    <Content Include="Content\webfonts\fa-solid-900.ttf" />
+    <Content Include="Content\webfonts\fa-solid-900.woff" />
+    <Content Include="Content\webfonts\fa-solid-900.woff2" />
+    <None Include="packages.config" />
+    <Content Include="Views\Shared\_Account.cshtml" />
+    <Content Include="Views\Shared\_SideMenu.cshtml" />
+    <Content Include="Views\Account\ConfirmationSent.cshtml" />
+    <Content Include="Views\Account\ResendEmailConfirmation.cshtml" />
+    <Content Include="Views\Manage\UserProfile.cshtml" />
+    <Content Include="private.config" />
+    <Content Include="Views\Dashboard\Main.cshtml" />
+    <Content Include="Views\TransactionTypes\Create.cshtml" />
+    <Content Include="Views\TransactionTypes\Delete.cshtml" />
+    <Content Include="Views\TransactionTypes\Details.cshtml" />
+    <Content Include="Views\TransactionTypes\Edit.cshtml" />
+    <Content Include="Views\TransactionTypes\Index.cshtml" />
+    <Content Include="Views\Transactions\Create.cshtml" />
+    <Content Include="Views\Transactions\Delete.cshtml" />
+    <Content Include="Views\Transactions\Details.cshtml" />
+    <Content Include="Views\Transactions\Edit.cshtml" />
+    <Content Include="Views\Transactions\Index.cshtml" />
+    <Content Include="Views\Households\Create.cshtml" />
+    <Content Include="Views\Households\Delete.cshtml" />
+    <Content Include="Views\Households\Details.cshtml" />
+    <Content Include="Views\Households\Edit.cshtml" />
+    <Content Include="Views\Households\Index.cshtml" />
+    <Content Include="Views\BankAccounts\Create.cshtml" />
+    <Content Include="Views\BankAccounts\Delete.cshtml" />
+    <Content Include="Views\BankAccounts\Details.cshtml" />
+    <Content Include="Views\BankAccounts\Edit.cshtml" />
+    <Content Include="Views\BankAccounts\Index.cshtml" />
+    <Content Include="Views\Categories\Create.cshtml" />
+    <Content Include="Views\Categories\Delete.cshtml" />
+    <Content Include="Views\Categories\Details.cshtml" />
+    <Content Include="Views\Categories\Edit.cshtml" />
+    <Content Include="Views\Categories\Index.cshtml" />
+    <Content Include="Views\CategoryItems\Create.cshtml" />
+    <Content Include="Views\CategoryItems\Delete.cshtml" />
+    <Content Include="Views\CategoryItems\Details.cshtml" />
+    <Content Include="Views\CategoryItems\Edit.cshtml" />
+    <Content Include="Views\CategoryItems\Index.cshtml" />
+    <Content Include="Views\BankAccountTypes\Create.cshtml" />
+    <Content Include="Views\BankAccountTypes\Delete.cshtml" />
+    <Content Include="Views\BankAccountTypes\Details.cshtml" />
+    <Content Include="Views\BankAccountTypes\Edit.cshtml" />
+    <Content Include="Views\BankAccountTypes\Index.cshtml" />
+    <Content Include="Views\Invitations\Create.cshtml" />
+    <Content Include="Views\Invitations\Delete.cshtml" />
+    <Content Include="Views\Invitations\Details.cshtml" />
+    <Content Include="Views\Invitations\Edit.cshtml" />
+    <Content Include="Views\Invitations\Index.cshtml" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>53433</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44377/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

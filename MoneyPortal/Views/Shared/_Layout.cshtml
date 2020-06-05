@@ -1,0 +1,126 @@
+﻿@using MoneyPortal.ViewModels
+@using MoneyPortal.Models
+@using Microsoft.AspNet.Identity
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewBag.Title - Money</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+
+    <link href="~/Content/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/css/datatables.css" rel="stylesheet" />
+    <link href="~/Content/css/font.css" rel="stylesheet" />
+    <link href="~/Content/css/style.green.css" rel="stylesheet" />
+    <link href="~/Content/css/custom.css" rel="stylesheet" />
+    <link href="~/Content/css/all.css" rel="stylesheet" />
+    <link href="~/Content/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/css/Chart.css" rel="stylesheet" />
+
+    <!-- Google fonts - Muli-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,700">
+    <!-- Favicon-->
+    <link rel="apple-touch-icon" sizes="180x180" href="~/Content/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/Content/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/favicon_io/favicon-16x16.png">
+
+</head>
+
+<body>
+    <header class="header">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid d-flex align-items-center justify-content-between">
+                <div class="navbar-header">
+                    <!-- Navbar Logo -->
+                    <a href="@Url.Action("Main","Dashboard")" class="navbar-brand">
+                        <div class="brand-text brand-big visible text-uppercase"><strong class="text-primary">Money</strong><strong>Portal</strong></div>
+                        <div class="brand-text brand-sm"><strong class="text-primary">$</strong></div>
+                    </a>
+                    <!-- Sidebar Toggle Btn -->
+                    <button class="sidebar-toggle"><i class="fa fa-long-arrow-left"></i></button>
+                </div>
+                <div class="right-menu list-inline no-margin-bottom">
+                    <!-- Notifications -->
+                    @*<div class="list-inline-item dropdown">
+                        <a id="navbarDropdownMenuLink2" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link tasks-toggle"><i class="icon-new-file"></i><span class="badge dashbg-3" id="notifications-count">@notifications.Count</span></a>
+                        <div aria-labelledby="navbarDropdownMenuLink2" class="dropdown-menu tasks-list">
+                            @foreach (var note in notifications.Take(4))
+                            {
+                                using (Html.BeginForm("HasBeenRead", "Notifications", new { notificationID = note.Id }, FormMethod.Post, new { id = note.Id }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <a id="link-@note.Id" href="javascript:document.getElementById('@note.Id').submit()" class="dropdown-item message d-flex align-items-center">
+                                        <div class="profile">
+                                            <img src="~/@note.Sender.AvatarPath" alt="..." class="img-fluid">
+                                        </div>
+                                        <div class="content">
+                                            <strong class="d-block">@note.Sender.FullNamePosition</strong>
+                                            <span class="d-block">@note.Subject</span>
+                                            <span class="d-block">@Html.Raw(note.Body)</span>
+                                            <small class="date d-block">@Html.DisplayFor(model => note.Created)</small>
+                                        </div>
+                                    </a>
+                                }
+                            }
+                            <a href="#" class="dropdown-item text-center">
+                                <strong>See All Notifications <i class="fa fa-angle-right"></i></strong>
+                            </a>
+                        </div>*@
+                </div>
+                <!-- Log out  -->
+                <div class="list-inline-item logout">
+                    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <a href="javascript:document.getElementById('logoutForm').submit()" class="nav-link"><span class="d-none d-sm-inline">Logout </span><i class="icon-logout"></i></a>
+                    }
+                </div>
+            </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="d-flex align-items-stretch">
+        <!-- Sidebar Navigation-->
+        @Html.Partial("_SideMenu", new CurrentUserInfoModel(User.Identity.GetUserId()))
+        <!-- END Sidebar Navigation -->
+        <!-- Page Content -->
+        <div class="page-content">
+            <div class="page-header">
+                <div class="container-fluid">
+                    <h2 class="h5 no-margin-bottom">@ViewBag.Title</h2>
+                </div>
+            </div>
+
+            <section>
+                @RenderBody()
+            </section>
+
+            <footer class="footer">
+                <div class="footer__block block no-margin-bottom">
+                    <div class="container-fluid text-center">
+                        <p class="no-margin-bottom">
+                            2020 &copy; MoneyPortal. A <a href="https://brianquinn.azurewebsites.net">Q's Lab Technology</a> Service.
+                        </p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!--   Core JS Files   -->
+    <script src="~/Scripts/jquery.js"></script>
+    <script src="~/Scripts/popper.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <!--JS Plugins-->
+    <script src="~/Scripts/Chart.js"></script>
+    <script src="~/Scripts/datatables.js"></script>
+    <script src="~/Scripts/front.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

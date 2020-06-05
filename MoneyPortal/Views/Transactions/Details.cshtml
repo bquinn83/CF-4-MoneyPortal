@@ -1,0 +1,74 @@
+﻿@model MoneyPortal.Models.Transaction
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Transaction</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BankAccount.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BankAccount.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CategoryItem.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CategoryItem.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Purchaser.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Purchaser.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TransactionType.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TransactionType.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Memo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Memo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Created)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Created)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
