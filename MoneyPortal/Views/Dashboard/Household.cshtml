@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "Household";
+}
+<div class="row shortcut-bar">
+    <div class="col-auto">
+        <div class="shortcut btn" id="shc-household"><strong>Household</strong> <i class="fas fa-plus"></i></div>
+    </div>
+    <div class="col-auto">
+        <div class="shortcut btn" id="shc-bankaccount"><strong>Bank Account</strong> <i class="fas fa-plus"></i></div>
+    </div>
+</div>
+<div class="row" id="shortcut-row">
+</div>
+
+@section Scripts{
+    <script>
+        //BLOCK CONTROL BUTTONS
+        $('.btn-block-minimize').on("click", function (e) {
+            $(e.currentTarget).toggleClass(['fa-chevron-up', 'fa-chevron-down'])
+            $(e.currentTarget).closest('.block').children('.collapsable').slideToggle()
+        });
+        $('.btn-block-close').on("click", function (e) {
+            $(e.currentTarget).closest('.block').parent().toggleClass('d-none')
+        });
+
+        //SHORTCUT BUTTONS
+        $('#shc-household').on("click", () => {
+            $('#add-household').removeClass('d-none')
+            $('#shortcut-row').prepend($('#add-household'))
+        })
+        $('#shc-bankaccount').on("click", () => {
+            $('#add-bankaccount').removeClass('d-none')
+            $('#shortcut-row').prepend($('#add-bankaccount'))
+        })
+
+    </script>
+}

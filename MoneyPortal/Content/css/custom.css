@@ -129,6 +129,10 @@ nav#sidebar .sidebar-header {
 .avatar {
     border: 3px solid #429244 !important;
 }
+.btn.block {
+    color: #429244;
+    display: block;
+}
 
 .btn-block-minimize {
     color: #6c757d !important;

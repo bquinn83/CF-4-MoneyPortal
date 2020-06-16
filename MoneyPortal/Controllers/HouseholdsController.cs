@@ -1,18 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Evernote.EDAM.UserStore;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using MoneyPortal.Models;
+using MoneyPortal.Classes;
+using System.Threading.Tasks;
 
 namespace MoneyPortal.Controllers
 {
+    [Authorize]
     public class HouseholdsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
 
         // GET: Households
         public ActionResult Index()
@@ -46,18 +54,30 @@ namespace MoneyPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(string HouseholdName, string HouseholdGreeting)
+        public async Task<ActionResult> Create(string HouseholdName, string HouseholdGreeting)
         {
             if (HouseholdName != null && HouseholdGreeting != null)
             {
+                var userId = User.Identity.GetUserId();
+                var user = db.Users.Find(User.Identity.GetUserId());
+
                 Household household = new Household
                 {
                     Created = DateTime.Now,
                     Name = HouseholdName,
-                    Greeting = HouseholdGreeting
+                    Greeting = HouseholdGreeting,
+                    OwnerId = userId
                 };
                 db.Households.Add(household);
                 db.SaveChanges();
+
+                //set users householdId
+                user.HouseholdId = household.Id;
+                userManager.RemoveFromRole(userId, "Personal");
+                userManager.AddToRole(userId, "Owner");
+
+                await UserAuthorization.RefreshAuthentication(HttpContext, user);
+
                 return RedirectToAction("Main","Dashboard");
             }
 
