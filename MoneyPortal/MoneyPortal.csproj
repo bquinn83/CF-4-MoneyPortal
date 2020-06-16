@@ -366,13 +366,11 @@
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CategoryItemsController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HouseholdsController.cs" />
     <Compile Include="Controllers\InvitationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Classes\NotificationHelper.cs" />
     <Compile Include="Controllers\TransactionsController.cs" />
-    <Compile Include="Controllers\TransactionTypesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -576,11 +574,6 @@
     <Content Include="Views\Manage\UserProfile.cshtml" />
     <Content Include="private.config" />
     <Content Include="Views\Dashboard\Main.cshtml" />
-    <Content Include="Views\TransactionTypes\Create.cshtml" />
-    <Content Include="Views\TransactionTypes\Delete.cshtml" />
-    <Content Include="Views\TransactionTypes\Details.cshtml" />
-    <Content Include="Views\TransactionTypes\Edit.cshtml" />
-    <Content Include="Views\TransactionTypes\Index.cshtml" />
     <Content Include="Views\Transactions\Create.cshtml" />
     <Content Include="Views\Transactions\Delete.cshtml" />
     <Content Include="Views\Transactions\Details.cshtml" />
@@ -606,11 +599,6 @@
     <Content Include="Views\CategoryItems\Details.cshtml" />
     <Content Include="Views\CategoryItems\Edit.cshtml" />
     <Content Include="Views\CategoryItems\Index.cshtml" />
-    <Content Include="Views\BankAccountTypes\Create.cshtml" />
-    <Content Include="Views\BankAccountTypes\Delete.cshtml" />
-    <Content Include="Views\BankAccountTypes\Details.cshtml" />
-    <Content Include="Views\BankAccountTypes\Edit.cshtml" />
-    <Content Include="Views\BankAccountTypes\Index.cshtml" />
     <Content Include="Views\Invitations\Create.cshtml" />
     <Content Include="Views\Invitations\Delete.cshtml" />
     <Content Include="Views\Invitations\Details.cshtml" />
@@ -645,6 +633,11 @@
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>
+    <MonoDevelop>
+      <Properties>
+        <XspParameters Port="8080" Address="127.0.0.1" SslMode="None" SslProtocol="Default" KeyType="None" CertFile="" KeyFile="" PasswordOptions="None" Password="" Verbose="True" />
+      </Properties>
+    </MonoDevelop>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
