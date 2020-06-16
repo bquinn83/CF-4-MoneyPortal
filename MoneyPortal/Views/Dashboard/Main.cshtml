@@ -82,41 +82,7 @@
             </div>
         </div>
     </div>
-<!--BANK ACCOUNT TYPES-->
-    <div id="add-bankaccount-type" class="col-4">
-        <div class="block">
-            <div class="title row no-gutters mb-0">
-                <div class="col-auto"><strong>Add Bank Account Type</strong></div>
-                <div class="col-auto ml-auto"><i class="fas fa-lg fa-chevron-up btn btn-block-minimize" id="collapse-bank-account"></i></div>
-                <div class="col-auto"><i class="fas fa-lg fa-times btn btn-block-close"></i></div>
-            </div>
-            <div class="block-body collapsable">
-                @using (Html.BeginForm("CreateType", "BankAccounts"))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="form-group row">
-                        @Html.Label("Name", htmlAttributes: new { @class = "control-label col-md-3" })
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" name="HouseholdName" />
-                        </div>
-                    </div>
 
-                    <div class="form-group row">
-                        @Html.Label("Greeting", htmlAttributes: new { @class = "control-label col-md-3" })
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" name="HouseholdGreeting" />
-                        </div>
-                    </div>
-                    <div class="form-group row no-gutters mb-0">
-                        <div class="col-auto ml-auto">
-                            <input type="submit" value="Create" class="btn btn-primary" />
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
 </div>
 
 @section Scripts{

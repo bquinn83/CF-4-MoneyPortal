@@ -10,5 +10,11 @@ namespace MoneyPortal.Models
         public int Id { get; set;}
         public string Name { get; set; }
 
+        public BankAccountType() { }
+        public BankAccountType(string type)
+        {
+            Name = type;
+        }
+
     }
 }

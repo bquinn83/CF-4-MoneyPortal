@@ -12,8 +12,8 @@ namespace MoneyPortal.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal TargetAmount { get; set; }
-        public virtual ICollection<CategoryItem> CategoryItems { get; set; }
         public virtual Household Household { get; set; }
+        public virtual ICollection<CategoryItem> CategoryItems { get; set; }
 
         public Category()
         {

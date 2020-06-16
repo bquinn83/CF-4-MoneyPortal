@@ -9,5 +9,11 @@ namespace MoneyPortal.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+
+        public TransactionType() { }
+        public TransactionType(string type)
+        {
+            Name = type;
+        }
     }
 }

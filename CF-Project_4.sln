@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyPortal", "MoneyPortal\MoneyPortal.csproj", "{C7D58F82-BAC6-430B-AD38-658292E20A57}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyPortal_Service", "MoneyPortal_Service\MoneyPortal_Service.csproj", "{5CF8FEBE-6FA3-44EA-9A4A-6730CDD092AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{C7D58F82-BAC6-430B-AD38-658292E20A57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7D58F82-BAC6-430B-AD38-658292E20A57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7D58F82-BAC6-430B-AD38-658292E20A57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CF8FEBE-6FA3-44EA-9A4A-6730CDD092AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CF8FEBE-6FA3-44EA-9A4A-6730CDD092AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CF8FEBE-6FA3-44EA-9A4A-6730CDD092AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CF8FEBE-6FA3-44EA-9A4A-6730CDD092AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

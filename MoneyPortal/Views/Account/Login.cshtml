@@ -48,15 +48,14 @@
 </div>
 <hr />
 <small>Try a Demo User!</small>
-<div id="DemoAdmin">
+<div id="DemuUsers">
     <p>
         @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post, htmlAttributes: new { style = "max-width: 100%" }))
         {
             @Html.AntiForgeryToken()
             <button type="submit" class="btn btn-primary" name="emailKey" value="DemoEmailAdmin">Admin</button>
-            <button type="submit" class="btn btn-primary" name="emailKey" value="DemoEmailHouseholdHead">Head of<br/>Household</button>
-            <button type="submit" class="btn btn-primary" name="emailKey" value="DemoEmailHouseholdMember">Member of<br/>Household</button>
-            <button type="submit" class="btn btn-primary" name="emailKey" value="DemoEmailPersonal">Personal<br/>Account</button>
+            @*<button type="submit" class="btn btn-primary" name="emailKey" value="DemoEmailPersonal">Owner</button>*@
+            <button type="submit" class="btn btn-primary" name="emailKey" value="DemoEmailPersonal">Personal</button>
         }
     </p>
 </div>

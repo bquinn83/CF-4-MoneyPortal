@@ -24,7 +24,7 @@ namespace MoneyPortal.Classes
             else
                 return;
         }
-        private void GenerateNotification(string subject, string message, int householdId)
+        private void GenerateNotification(string subject, string message, int? householdId)
         {
             var notification = new Notification
             {
@@ -32,7 +32,7 @@ namespace MoneyPortal.Classes
                 Subject = subject,
                 Body = message,
                 IsRead = false,
-                HouseholdId = householdId
+                HouseholdId = householdId == null ? null : householdId
             };
 
             db.Notifications.Add(notification);

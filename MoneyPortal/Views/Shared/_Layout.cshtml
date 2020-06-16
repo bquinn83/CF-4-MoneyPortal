@@ -81,14 +81,12 @@
                     }
                 </div>
             </div>
-            </div>
         </nav>
     </header>
 
     <div class="d-flex align-items-stretch">
         <!-- Sidebar Navigation-->
         @Html.Partial("_SideMenu", new CurrentUserInfoModel(User.Identity.GetUserId()))
-        <!-- END Sidebar Navigation -->
         <!-- Page Content -->
         <div class="page-content">
             <div class="page-header">
@@ -98,7 +96,9 @@
             </div>
 
             <section>
-                @RenderBody()
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
             </section>
 
             <footer class="footer">

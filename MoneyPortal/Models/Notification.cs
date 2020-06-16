@@ -8,7 +8,7 @@ namespace MoneyPortal.Models
     public class Notification
     {
         public int Id { get; set; }
-        public int HouseholdId { get; set; }
+        public int? HouseholdId { get; set; }
         
         public string Subject { get; set; }
         public string Body { get; set; }

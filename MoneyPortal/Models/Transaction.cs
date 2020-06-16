@@ -9,7 +9,6 @@ namespace MoneyPortal.Models
     {
         public int Id { get; set; }
         public int BankAccountId { get; set; }
-
         public int TransactionTypeId { get; set; }
         public int? CategoryItemId { get; set; }
 

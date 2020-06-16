@@ -9,11 +9,12 @@ namespace MoneyPortal.Models
     {
         public int Id { get; set; }
         public string OwnerId { get; set; }
-        public int HouseholdId { get; set; }
+        public int? HouseholdId { get; set; }
+        public int TypeId { get; set; }
 
         public string Name { get; set; }
         public DateTime Created { get; set; }
-        public BankAccountTypes Type { get; set; }
+        public BankAccountType Type { get; set; }
         
         public decimal StartingBalance { get; set; }
         public decimal CurrentBalance { get; set; }
@@ -26,10 +27,10 @@ namespace MoneyPortal.Models
         public BankAccount()
         {
             Transactions = new HashSet<Transaction>();
-         }
+        }
     }
 
-    public enum BankAccountTypes
+    public enum BankAccountTypesEnum
     {
         Checking,
         Savings,
@@ -38,4 +39,4 @@ namespace MoneyPortal.Models
         CD,
         Investment
     }
-}
+} 
