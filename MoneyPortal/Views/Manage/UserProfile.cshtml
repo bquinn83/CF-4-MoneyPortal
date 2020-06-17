@@ -1,4 +1,4 @@
-﻿@using  MoneyPortal.ViewModels
+﻿@using MoneyPortal.ViewModels
 @model UserProfileViewModel
 @*@model KillBug.Models.ApplicationUser*@
 @{
@@ -106,13 +106,11 @@
                             </div>
                         </div>
                         <div class="col-5 text-center">
-                            <div class="col-5 text-center">
-                                <div id="profile-container">
-                                    <img id="profileImage" class="image img-fluid rounded-circle" src="~/@Model.AvatarPath" />
-                                    <div class="centered"><strong>EDIT</strong></div>
-                                </div>
-                                <input id="imageUpload" type="file" name="image" capture>
+                            <div id="profile-container">
+                                <img id="profileImage" class="image img-fluid rounded-circle" src="~/@Model.AvatarPath" />
+                                <div class="centered"><strong>EDIT</strong></div>
                             </div>
+                            <input id="imageUpload" type="file" name="image" capture>
                         </div>
                     </div>
                 </div>

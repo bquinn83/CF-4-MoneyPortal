@@ -13,6 +13,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using MoneyPortal.Models;
 using MoneyPortal.Classes;
 using System.Threading.Tasks;
+using CsQuery.ExtensionMethods.Internal;
+using System.Web.ModelBinding;
 
 namespace MoneyPortal.Controllers
 {
@@ -22,33 +24,6 @@ namespace MoneyPortal.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
 
-        // GET: Households
-        public ActionResult Index()
-        {
-            return View(db.Households.ToList());
-        }
-
-        // GET: Households/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Household household = db.Households.Find(id);
-            if (household == null)
-            {
-                return HttpNotFound();
-            }
-            return View(household);
-        }
-
-        // GET: Households/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
         // POST: Households/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -56,7 +31,8 @@ namespace MoneyPortal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(string HouseholdName, string HouseholdGreeting)
         {
-            if (HouseholdName != null && HouseholdGreeting != null)
+
+            if (!HouseholdName.IsNullOrEmpty() && !HouseholdGreeting.IsNullOrEmpty())
             {
                 var userId = User.Identity.GetUserId();
                 var user = db.Users.Find(User.Identity.GetUserId());
@@ -71,17 +47,19 @@ namespace MoneyPortal.Controllers
                 db.Households.Add(household);
                 db.SaveChanges();
 
-                //set users householdId
                 user.HouseholdId = household.Id;
                 userManager.RemoveFromRole(userId, "Personal");
                 userManager.AddToRole(userId, "Owner");
 
                 await UserAuthorization.RefreshAuthentication(HttpContext, user);
 
-                return RedirectToAction("Main","Dashboard");
+                return RedirectToAction("Main", "Dashboard");
+            }
+            else
+            {
+                return RedirectToAction("Main", "Dashboard", new { ErrorMessage = "Your input was incomplete." });
             }
 
-            return RedirectToAction("Main", "Dashboard");
         }
 
         // GET: Households/Edit/5

@@ -50,7 +50,7 @@
                 <div class="col-auto"><i class="fas fa-lg fa-times btn btn-block-close"></i></div>
             </div>
             <div class="block-body collapsable">
-                @using (Html.BeginForm("CreateType", "BankAccounts"))
+                @using (Html.BeginForm("CreateType", "Transactions"))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })

@@ -1,16 +1,72 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Household";
 }
+
 <div class="row shortcut-bar">
-    <div class="col-auto">
-        <div class="shortcut btn" id="shc-household"><strong>Household</strong> <i class="fas fa-plus"></i></div>
-    </div>
-    <div class="col-auto">
-        <div class="shortcut btn" id="shc-bankaccount"><strong>Bank Account</strong> <i class="fas fa-plus"></i></div>
+    @if (User.IsInRole("Owner"))
+    {
+        <div class="col-auto">
+            <div class="shortcut btn" id="shc-invite-member"><strong>Invite Member</strong> <i class="fas fa-user-plus"></i></div>
+        </div>
+    }
+    @if (ViewBag.UsersBankAccounts != null)
+    {
+        <div class="col-auto">
+            <div class="shortcut btn" id="shc-join-bank-account"><strong>Join Bank Account</strong> <i class="fas fa-university"></i></div>
+        </div>
+    }
+</div>
+
+<div class="row" id="shortcut-row">
+    <div class="col-6 d-none" id="invite-member">
+        <div class="block">
+            <div class="title row no-gutters mb-0">
+                <strong>Invite Member</strong>
+                <div class="col-auto ml-auto"><i class="fas fa-lg fa-chevron-up btn btn-block-minimize" id="collapse-bank-account"></i></div>
+                <div class="col-auto"><i class="fas fa-lg fa-times btn btn-block-close"></i></div>
+            </div>
+            <div class="block-body collapsable">
+                @using (Html.BeginForm("InviteAsync", "Invitations"))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group row">
+                        @Html.Label("Recipient Emails", new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextArea("RecipientEmails", htmlAttributes: new { @class = "form-control", placeholder = "Enter comma seperated emails.", rows = "2" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.Label("Personal Message", new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextArea("PersonalMessage", htmlAttributes: new { @class = "form-control", rows = "4" })
+                        </div>
+                    </div>
+                    <div class="form-group row no-gutters mb-0">
+                        <div class="col-auto ml-auto">
+                            <button type="submit" class="btn btn-primary">Invite!</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-6 d-none" id="join-bank-account">
+            <div class="block">
+                <div class="title row no-gutters mb-0"><strong>Join Bank Account</strong></div>
+                <div class="col-auto ml-auto"><i class="fas fa-lg fa-chevron-up btn btn-block-minimize" id="collapse-bank-account"></i></div>
+                <div class="col-auto"><i class="fas fa-lg fa-times btn btn-block-close"></i></div>
+            </div>
+            <div class="block-body">
+
+            </div>
+        </div>
     </div>
 </div>
-<div class="row" id="shortcut-row">
+
+
+<div class="row">
+    <div class="col-4">
+
+    </div>
 </div>
 
 @section Scripts{
@@ -25,14 +81,39 @@
         });
 
         //SHORTCUT BUTTONS
-        $('#shc-household').on("click", () => {
-            $('#add-household').removeClass('d-none')
+        $('#shc-invite-member').on("click", () => {
+            $('#invite-member').removeClass('d-none')
             $('#shortcut-row').prepend($('#add-household'))
         })
         $('#shc-bankaccount').on("click", () => {
-            $('#add-bankaccount').removeClass('d-none')
+            $('#join-bank-account').removeClass('d-none')
             $('#shortcut-row').prepend($('#add-bankaccount'))
         })
 
+        //TOASTR ALERTS SETUP
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+
+        if ('@ViewBag.Success' == 'True') {
+            toastr["success"]("@ViewBag.Message", "Success!")
+        } else if ('@ViewBag.Success' == 'False') {
+            toastr["error"]("@ViewBag.Message","Error!")
+        }
+        
     </script>
 }

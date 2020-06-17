@@ -392,6 +392,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AdminVM.cs" />
+    <Compile Include="ViewModels\InvitationVM.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -495,9 +496,14 @@
     <Content Include="Content\Images\Stock\avatar-8.jpg" />
     <Content Include="Content\Images\Stock\avatar-9.jpg" />
     <Content Include="Content\Images\Stock\dev.png" />
+    <Content Include="Content\Images\Stock\member.png" />
     <Content Include="Content\Images\Stock\odin.jpg" />
+    <Content Include="Content\Images\Stock\owner.png" />
+    <Content Include="Content\Images\Stock\personal.png" />
     <Content Include="Content\Images\Stock\pm.png" />
     <Content Include="Content\Images\Stock\sub.png" />
+    <Content Include="Content\css\toastr.css" />
+    <Content Include="Content\css\toastr.min.css" />
     <Content Include="Content\webfonts\fa-brands-400.svg" />
     <Content Include="Content\webfonts\fa-regular-400.svg" />
     <Content Include="Content\webfonts\fa-solid-900.svg" />
@@ -512,6 +518,7 @@
     <Content Include="Scripts\jquery.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\popper.js" />
+    <Content Include="Scripts\toastr.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -609,6 +616,8 @@
     <Content Include="Views\Dashboard\Lobby.cshtml" />
     <Content Include="Views\Dashboard\Household.cshtml" />
     <Content Include="Views\Dashboard\BankAccounts.cshtml" />
+    <Content Include="Scripts\toastr.js.map" />
+    <Content Include="Views\Account\InviteRegister.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -20,6 +20,7 @@ namespace MoneyPortal.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public AccountController()
         {
@@ -236,6 +237,30 @@ namespace MoneyPortal.Controllers
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
+        [AllowAnonymous]
+        public async Task<ActionResult> ConfirmInvitation(string email, Guid code)
+        {
+            if (email == null || code == null)
+            {
+                return View("Error");
+            }
+            var invitation = db.Invitations.Where(i => i.RecipientEmail == email).FirstOrDefault();
+            if(code == invitation.Code)
+            {
+                return View("InviteRegister");
+            } else
+            {
+                return View("Error");
+            }
+            return View((code == invitation.Code) ? "InviteRegister" : "Error");
+        }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> RegisterWithInvite()
+        {
+            return View();
+        }
+
         //
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
@@ -388,41 +413,6 @@ namespace MoneyPortal.Controllers
         {
             // Request a redirect to the external login provider
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
-        }
-
-        //
-        // GET: /Account/SendCode
-        [AllowAnonymous]
-        public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
-        {
-            var userId = await SignInManager.GetVerifiedUserIdAsync();
-            if (userId == null)
-            {
-                return View("Error");
-            }
-            var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
-            var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
-            return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
-        }
-
-        //
-        // POST: /Account/SendCode
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SendCode(SendCodeViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
-
-            // Generate the token and send it
-            if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
-            {
-                return View("Error");
-            }
-            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
         }
 
         //

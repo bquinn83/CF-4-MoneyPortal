@@ -132,6 +132,5 @@ namespace MoneyPortal_Service.Controllers
             return await db.DeleteCategory(budgetId);
         }
         #endregion
-
     }
 }

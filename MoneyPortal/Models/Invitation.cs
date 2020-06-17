@@ -9,8 +9,17 @@ namespace MoneyPortal.Models
     {
         public int Id { get; set; }
         public int HouseholdId { get; set; }
-        public Guid Code { get; set; }
+
         public DateTime Created { get; set; }
+
+        public string RecipientEmail { get; set; }
+
+        public Guid Code { get; set; }
+        public bool Valid { get; set; }
+
+        public string PersonalMessage { get; set; }
+
         public virtual Household Household { get; set; }
+
     }
 }

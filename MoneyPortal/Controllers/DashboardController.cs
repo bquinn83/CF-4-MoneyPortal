@@ -1,4 +1,5 @@
-﻿using MoneyPortal.Models;
+﻿using CsQuery.ExtensionMethods.Internal;
+using MoneyPortal.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,20 +12,24 @@ namespace MoneyPortal.Controllers
     [Authorize]
     public class DashboardController : Controller
     {
+        private readonly ApplicationDbContext db = new ApplicationDbContext();
+
         // GET: Dashboard
-        public ActionResult Main()
+        public ActionResult Main(string Message, bool? success)
         {
-            //DECIDE WHAT TO VIEW
-            //IF OWNER/MEMBER SHOW HOUSEHOLD
-            //IF NEITHER SHOW CREATE HOUSE/ADD BANK ACCOUNT
+            if(!Message.IsNullOrEmpty())
+                ViewBag.Message = Message;
+
+            ViewBag.Success = null;
+            if (success != null)
+                ViewBag.Success = success;
 
             if (User.IsInRole("Owner") || User.IsInRole("Member"))
             {
-                //GO TO HOUSEHOLD DASH
+                return View("Household");
             }
             else if (User.IsInRole("Personal"))
             {
-                //GO TO LOBBY DASHBOARD
                 return View("Lobby");
             }
             else if (User.IsInRole("Admin"))
@@ -37,13 +42,17 @@ namespace MoneyPortal.Controllers
         //GET: Lobby Dashboard
         public ActionResult Lobby()
         {
-            return View();
+            if (User.IsInRole("Personal"))
+            {
+                ViewBag.BankAccountTypes = new SelectList(db.BankAccountTypes, "Id", "Name");
+                return View();
+            }
+            return RedirectToAction("Main");
         }
 
         //GET: Household Dashboard
         public ActionResult Household()
         {
-
             return View();
         }
 
