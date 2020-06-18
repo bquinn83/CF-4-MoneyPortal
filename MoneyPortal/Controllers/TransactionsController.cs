@@ -156,3 +156,16 @@ namespace MoneyPortal.Controllers
         }
     }
 }
+
+//public SelectList MyList()
+//{
+//    var group1 = new SelectListGroup() { Name = "Group 1" };
+//    var group2 = new SelectListGroup() { Name = "Group 2" };
+
+//    var items = new List<SelectListItem>();
+
+//    items.Add(new SelectListItem() { Value = "1", Text = "Item 1", Group = group1 });
+//    items.Add(new SelectListItem() { Value = "2", Text = "Item 2", Group = group2 });
+
+//    return new SelectList(items, "Value", "Text");
+//}

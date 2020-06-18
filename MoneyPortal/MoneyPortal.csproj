@@ -364,6 +364,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BankAccountsController.cs" />
+    <Compile Include="Controllers\BudgetsController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CategoryItemsController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
@@ -584,7 +585,6 @@
     <Content Include="Views\Account\ResendEmailConfirmation.cshtml" />
     <Content Include="Views\Manage\UserProfile.cshtml" />
     <Content Include="private.config" />
-    <Content Include="Views\Dashboard\Main.cshtml" />
     <Content Include="Views\Transactions\Create.cshtml" />
     <Content Include="Views\Transactions\Delete.cshtml" />
     <Content Include="Views\Transactions\Details.cshtml" />
@@ -621,6 +621,7 @@
     <Content Include="Views\Dashboard\BankAccounts.cshtml" />
     <Content Include="Scripts\toastr.js.map" />
     <Content Include="Views\Account\ConfirmInvitation.cshtml" />
+    <Content Include="Views\Budgets\_BudgetSelectBox.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

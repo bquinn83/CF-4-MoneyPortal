@@ -111,10 +111,10 @@ input[type="file"] {
     background-color: rgba(0,0,0,0.1);
 }
 
-/*.btn-primary {
-    background-color: #ff3f3f !important;
-    border-color: #ff3f3f !important;
-}*/
+.btn-primary {
+    background-color: #429244 !important;
+    border-color: #429244 !important;
+}
 
 nav#sidebar .sidebar-header {
     padding: 25px 20px;
@@ -143,15 +143,16 @@ nav#sidebar .sidebar-header {
 }
 .shortcut-bar {
     margin-top: -15px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .shortcut {
-    font-size: 1.25rem;
+    font-size: 1rem;
     padding: 10px;
     background: #2d3035;
     color: #8a8d93;
     border-radius: 10px;
+    margin-right: -10px;
 }
 
     .shortcut.btn:hover {
@@ -213,6 +214,15 @@ nav#sidebar .sidebar-header {
     border: 5px dashed #FF3F42;
 }
 
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+#SideMenu nav {
+    height: 100%;
+}
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -220,7 +230,11 @@ input::-webkit-inner-spin-button {
     margin: 0;
 }
 
-/* Firefox */
-input[type=number] {
-    -moz-appearance: textfield;
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    caret-color: #8a8d93;
+    -webkit-text-fill-color: #8a8d93;
+    transition: background-color 5000s ease-in-out 0s;
 }

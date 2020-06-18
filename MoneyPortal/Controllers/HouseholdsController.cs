@@ -26,8 +26,6 @@ namespace MoneyPortal.Controllers
         private UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
 
         // POST: Households/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(string HouseholdName, string HouseholdGreeting)
@@ -115,6 +113,5 @@ namespace MoneyPortal.Controllers
             }
             base.Dispose(disposing);
         }
-
     }
 }

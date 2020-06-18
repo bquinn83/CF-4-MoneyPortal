@@ -16,6 +16,13 @@ namespace MoneyPortal.Controllers
     {
         private readonly ApplicationDbContext db = new ApplicationDbContext();
 
+        // GET: SideMenu
+        public ActionResult SideMenuRefresh()
+        {
+            var viewData = new CurrentUserInfoModel();
+            return PartialView("~/Views/Shared/_SideMenu.cshtml", viewData);
+        }
+
         // GET: Dashboard
         public ActionResult Main(string Message, bool? success)
         {
@@ -56,10 +63,12 @@ namespace MoneyPortal.Controllers
         //GET: Household Dashboard
         public ActionResult Household()
         {
-            var userId = User.Identity.GetUserId();
+            var user = db.Users.Find(User.Identity.GetUserId());
             var viewData = new HouseholdVM
             {
-                UsersBankAccounts = new SelectList(db.BankAccounts.Where(ba => ba.OwnerId == userId), "Id", "DisplayName")
+                HouseholdId = (int)user.HouseholdId,
+                UsersBankAccounts = new SelectList(db.BankAccounts.Where(ba => ba.OwnerId == user.Id), "Id", "DisplayName"),
+                Budgets = new SelectList(db.Categories.Where(c => c.HouseholdId == user.HouseholdId), "Id", "Name")
             };
             return View(viewData);
         }
