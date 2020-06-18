@@ -16,8 +16,9 @@ namespace MoneyPortal.ViewModels
         public string Role { get; set; }
         public List<BankAccount> Accounts { get; set; }
 
-        public CurrentUserInfoModel(string userId)
+        public CurrentUserInfoModel()
         {
+            var userId = HttpContext.Current.User.Identity.GetUserId();
             var user = db.Users.Find(userId);
             DisplayName = user.FullName;
             AvatarPath = user.AvatarPath;
