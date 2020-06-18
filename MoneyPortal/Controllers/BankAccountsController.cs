@@ -11,21 +11,20 @@ using MoneyPortal.Models;
 
 namespace MoneyPortal.Controllers
 {
+    [Authorize]
     public class BankAccountsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // POST: BankAccounts/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(string bankAccountName, int bankAccountType, decimal startingBalance, decimal lowBalanceLevel)
+        public ActionResult Create(string bankAccountName, int Types, decimal startingBalance, decimal lowBalanceLevel)
         {
             var bankAccount = new BankAccount
             {
                 Name = bankAccountName,
-                TypeId = bankAccountType,
+                TypeId = Types,
                 Created = DateTime.Now,
                 OwnerId = User.Identity.GetUserId(),
                 StartingBalance = startingBalance,
@@ -35,42 +34,7 @@ namespace MoneyPortal.Controllers
 
             db.BankAccounts.Add(bankAccount);
             db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        // GET: BankAccounts/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            BankAccount bankAccount = db.BankAccounts.Find(id);
-            if (bankAccount == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", bankAccount.HouseholdId);
-            ViewBag.OwnerId = new SelectList(db.Users, "Id", "FirstName", bankAccount.OwnerId);
-            return View(bankAccount);
-        }
-
-        // POST: BankAccounts/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Created,Type,StartingBalance,CurrentBalance,LowBalanceLevel,OwnerId,HouseholdId")] BankAccount bankAccount)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(bankAccount).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", bankAccount.HouseholdId);
-            ViewBag.OwnerId = new SelectList(db.Users, "Id", "FirstName", bankAccount.OwnerId);
-            return View(bankAccount);
+            return RedirectToAction("Main", "Dashboard");
         }
 
         // GET: BankAccounts/Delete/5
@@ -100,6 +64,7 @@ namespace MoneyPortal.Controllers
         }
 
         // POST: Bank Account Types
+        [Authorize(Roles=("Admin"))]
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult CreateType(string name)
         {
@@ -113,6 +78,7 @@ namespace MoneyPortal.Controllers
             }
             return RedirectToAction("Main", "Dashboard");
         }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

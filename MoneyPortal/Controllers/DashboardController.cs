@@ -17,7 +17,7 @@ namespace MoneyPortal.Controllers
         // GET: Dashboard
         public ActionResult Main(string Message, bool? success)
         {
-            if(!Message.IsNullOrEmpty())
+            if (!Message.IsNullOrEmpty())
                 ViewBag.Message = Message;
 
             ViewBag.Success = null;
@@ -30,6 +30,7 @@ namespace MoneyPortal.Controllers
             }
             else if (User.IsInRole("Personal"))
             {
+                ViewBag.Types = new SelectList(db.BankAccountTypes, "Id", "Name");
                 return View("Lobby");
             }
             else if (User.IsInRole("Admin"))
@@ -44,7 +45,7 @@ namespace MoneyPortal.Controllers
         {
             if (User.IsInRole("Personal"))
             {
-                ViewBag.BankAccountTypes = new SelectList(db.BankAccountTypes, "Id", "Name");
+                ViewBag.Types = new SelectList(db.BankAccountTypes, "Id", "Name");
                 return View();
             }
             return RedirectToAction("Main");
@@ -61,5 +62,11 @@ namespace MoneyPortal.Controllers
         {
             return View();
         }
+    }
+
+    //ViewModels
+    public class LobbyVM 
+    {
+        public IEnumerable<SelectListItem> Types { get; set; }
     }
 }

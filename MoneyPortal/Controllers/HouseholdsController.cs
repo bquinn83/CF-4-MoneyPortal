@@ -15,6 +15,7 @@ using MoneyPortal.Classes;
 using System.Threading.Tasks;
 using CsQuery.ExtensionMethods.Internal;
 using System.Web.ModelBinding;
+using CsQuery.ExtensionMethods;
 
 namespace MoneyPortal.Controllers
 {
@@ -62,35 +63,22 @@ namespace MoneyPortal.Controllers
 
         }
 
-        // GET: Households/Edit/5
-        public ActionResult Edit(int? id)
+        //POST: Households/Leave
+        public async Task<ActionResult> Leave()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Household household = db.Households.Find(id);
-            if (household == null)
-            {
-                return HttpNotFound();
-            }
-            return View(household);
-        }
+            var user = db.Users.Find(User.Identity.GetUserId());
+            //remove user from household
+            user.HouseholdId = null;
+            //remove categories from all users transactions
+            db.BankAccounts.Where(ba => ba.OwnerId == user.Id).SelectMany(ba => ba.Transactions).ForEach(t => t.CategoryItemId = null);
+            db.SaveChanges();
 
-        // POST: Households/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Created,Name,Greeting")] Household household)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(household).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(household);
+            //reset user to Personal
+            userManager.RemoveFromRole(user.Id, "Member");
+            userManager.AddToRole(user.Id, "Personal");
+            await UserAuthorization.RefreshAuthentication(HttpContext, user);
+
+            return RedirectToAction("Main", "Dashboard");
         }
 
         // GET: Households/Delete/5

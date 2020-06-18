@@ -22,7 +22,7 @@
     <link href="~/Content/css/font-awesome.css" rel="stylesheet" />
     <link href="~/Content/css/Chart.css" rel="stylesheet" />
     <link href="~/Content/css/toastr.min.css" rel="stylesheet" />
-
+    <link href="~/Content/css/sweetalert2.min.css" rel="stylesheet" />
     <!-- Google fonts - Muli-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,700">
     <!-- Favicon-->
@@ -78,7 +78,7 @@
                     @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
                     {
                         @Html.AntiForgeryToken()
-                        <a href="javascript:document.getElementById('logoutForm').submit()" class="nav-link"><span class="d-none d-sm-inline">Logout </span><i class="icon-logout"></i></a>
+                        <a href="javascript:document.getElementById('logoutForm').submit()" class="nav-link"><span class="d-none d-sm-inline">Logout </span><i class="fas fa-sign-out-alt"></i></a>
                     }
                 </div>
             </div>
@@ -124,6 +124,7 @@
     <script src="~/Scripts/datatables.js"></script>
     <script src="~/Scripts/front.js"></script>
     <script src="~/Scripts/toastr.min.js"></script>
+    <script src="~/Scripts/sweetalert2.all.min.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

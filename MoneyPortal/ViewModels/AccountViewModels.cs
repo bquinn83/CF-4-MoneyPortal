@@ -90,6 +90,21 @@ namespace MoneyPortal.ViewModels
         public string ConfirmPassword { get; set; }
     }
 
+    public class InviteRegisterViewModel
+    {
+        [Required, Display(Name = "First Name"), StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 2)]
+        public string FirstName { get; set; }
+        [Required, Display(Name = "Last Name"), StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 2)]
+        public string LastName { get; set; }
+        [Required, Display(Name ="Password"), DataType(DataType.Password), StringLength(20, ErrorMessage ="The {0} must be at least {2} characters long.")]
+        public string Password { get; set; }
+        [Required, Display(Name ="Confirm Password"), DataType(DataType.Password), Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+
+        public int HouseholdId { get; set; }
+        public string Email { get; set; }
+    }
+
     public class ResetPasswordViewModel
     {
         [Required]

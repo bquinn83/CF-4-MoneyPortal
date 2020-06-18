@@ -8,11 +8,23 @@
         <div class="col-auto">
             <div class="shortcut btn" id="shc-invite-member"><strong>Invite Member</strong> <i class="fas fa-user-plus"></i></div>
         </div>
+        <div class="col-auto">
+            <div class="shortcut btn" id="shc-create-category"><strong>Create Category</strong> <i class="fas fa-sitemap"></i></div>
+        </div>
+        <div class="col-auto">
+            <div class="shortcut btn" id="shc-create-item"><strong>Create Category</strong> <i class="fas fa-project-diagram"></i></div>
+        </div>
     }
     @if (ViewBag.UsersBankAccounts != null)
     {
         <div class="col-auto">
             <div class="shortcut btn" id="shc-join-bank-account"><strong>Join Bank Account</strong> <i class="fas fa-university"></i></div>
+        </div>
+    }
+    @if (User.IsInRole("Member"))
+    {
+        <div class="col-auto ml-auto">
+            <div class="shortcut btn leave-household" id="shc-leave-household"><strong>Leave Household</strong> <i class="fas fa-door-closed"></i></div>
         </div>
     }
 </div>
@@ -68,7 +80,6 @@
 
     </div>
 </div>
-
 @section Scripts{
     <script>
         //BLOCK CONTROL BUTTONS
@@ -114,6 +125,23 @@
         } else if ('@ViewBag.Success' == 'False') {
             toastr["error"]("@ViewBag.Message","Error!")
         }
-        
+
+        //LEAVE HOUSEHOLD BUTTON
+        $('#shc-leave-household').on("click", () => {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You will need a new invitation code to rejoin this household!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, leave'
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = '@Url.Action("Leave", "Households")';
+                }
+            })
+        })
+
     </script>
 }

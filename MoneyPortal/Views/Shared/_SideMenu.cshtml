@@ -10,41 +10,57 @@
             </div>
             <div class="title">
                 <h1 class="h5">@Model.DisplayName</h1>
-                <p>@Model.Role</p>
             </div>
         </div>
     </a>
     <!-- Sidebar Navidation Menus-->
-    @if (User.IsInRole("Admin"))
-    {
-        <span class="heading">Admin</span>
-        <ul class="list-unstyled">
-            <li id="Admin"> <a href="@Url.Action("Admin", "Admin")"><i class="icon-settings-1"></i>Settings</a></li>
-        </ul>
-    }
-    @*<span class="heading">Main</span>*@
-    @if (User.IsInRole("Personal"))
-    {
-        <ul class="list-unstyled">
-            <li id="Home"><a href="@Url.Action("Main","Dashboard")"> <i class="fas fa-lg fa-home"></i>Home</a></li>
+    <span class="heading">@Model.Role</span>
+    <ul class="list-unstyled">
+        @if (User.IsInRole("Admin"))
+        {
+            <li id="Admin"><a href="@Url.Action("Admin", "Admin")"><i class="icon-settings-1"></i>Settings</a></li>
+        }
+        else if (User.IsInRole("Owner"))
+        {
+            <li id="Lobby"><a href="@Url.Action("Main","Dashboard")"> <i class="fas fa-lg fa-home"></i>Household</a></li>
+        }
+        else if (User.IsInRole("Member"))
+        {
+            <li id="Lobby"><a href="@Url.Action("Main","Dashboard")"> <i class="fas fa-lg fa-home"></i>Household</a></li>
+        }
+        else if (User.IsInRole("Personal"))
+        {
+            <li id="Lobby"><a href="@Url.Action("Main","Dashboard")"> <i class="fas fa-lg fa-home"></i>Lobby</a></li>
+        }
+        @if (Model.Role != "Admin")
+        {
             <li>
-                <a id="HomesMenu" href="#HomesDropdown" aria-expanded="false" data-toggle="collapse"><i class="fas fa-lg fa-door-open"></i>Households</a>
-                <ul id="HomesDropdown" class="collapse list-unstyled ">
-                    <!--for each home-->
-                    <li id="Home1">@Html.ActionLink("Home1", "Details", "Households")</li>
-                </ul>
-            </li>
-            <li>
-                <a id="AccountsMenu" href="#AccountsDropdown" aria-expanded="false" data-toggle="collapse"><i class="fas fa-lg fa-university"></i>Accounts</a>
+                <a href="#AccountsDropdown" aria-expanded="false" data-toggle="collapse"><i class="fas fa-lg fa-university"></i>Bank Accounts</a>
                 <ul id="AccountsDropdown" class="collapse list-unstyled ">
-                    <!--for each account-->
-                    <li id="Account1">@Html.ActionLink("Account1", "Details", "BankAccounts", new { accountId = " " }, null)</li>
+                    @foreach (var account in Model.Accounts)
+                    {
+                        <li>
+                            <a href="#ba-@account.Id" aria-expanded="false" data-toggle="collapse">
+                                @if (account.Type.Name == "Checking")
+                                {
+                                    <i class="fas fa-lg fa-money-check-alt"></i>@account.Name
+                                }
+                                else if (account.Type.Name == "Savings")
+                                {
+                                    <i class="fas fa-lg fa-piggy-bank"></i>@account.Name
+                                }
+                                else if (account.Type.Name == "Credit")
+                                {
+                                    <i class="fas fa-lg fa-credit-card"></i>@account.Name
+                                }
+                            </a>
+                            <ul id="ba-@account.Id" class="collapse list-unstyled ">
+                                <li id=transaction-@account.Id>@Html.ActionLink("Transactions", "Details", "BankAccounts", new { accountId = account.Id }, null)</li>
+                            </ul>
+                        </li>
+                    }
                 </ul>
             </li>
-        </ul>
-    }
-    else if (User.IsInRole("Business"))
-    {
-
-    }
+        }
+    </ul>
 </nav>

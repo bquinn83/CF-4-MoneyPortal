@@ -40,6 +40,13 @@ namespace MoneyPortal.Controllers
             {
                 if (new EmailAddressAttribute().IsValid(email.Trim()))
                 {
+                    var oldInvitations = db.Invitations.Where(i => i.RecipientEmail == email && i.Valid == true);
+                    foreach (var inv in oldInvitations)
+                    {
+                        inv.Valid = false;
+                        db.Entry(inv).State = EntityState.Modified;
+                    }
+
                     var invitation = new Invitation
                     {
                         HouseholdId = (int)householdId,
@@ -51,12 +58,12 @@ namespace MoneyPortal.Controllers
                     };
 
                     db.Invitations.Add(invitation);
-                    db.SaveChanges();
 
                     await SendInvitation(invitation.Id);
                     invitesSent++;
                 }
             }
+                    db.SaveChanges();
 
             return RedirectToAction("Main", "Dashboard", new { Message = $"You have sent { invitesSent } invitations.", success = (invitesSent > 0) });
         }
@@ -66,7 +73,7 @@ namespace MoneyPortal.Controllers
             var invitation = db.Invitations.Find(invitationId);
             var userId = User.Identity.GetUserId();
             var household = db.Households.Where(h => h.OwnerId == userId).FirstOrDefault();
-            var callbackUrl = Url.Action("ConfirmInvitation", "Invitations", new { email = invitation.RecipientEmail, code = invitation.Code }, protocol: Request.Url.Scheme);
+            var callbackUrl = Url.Action("ConfirmInvitation", "Account", new { email = invitation.RecipientEmail, code = invitation.Code }, protocol: Request.Url.Scheme);
 
             var mail = new EmailModel()
             {
@@ -74,7 +81,7 @@ namespace MoneyPortal.Controllers
                 FromEmail = WebConfigurationManager.AppSettings["OutlookFrom"],
                 ToEmail = invitation.RecipientEmail,
                 Subject = "You've been Invited to join a Money Portal Household!",
-                Body =  $"<p>{ household.Owner.FullName } has invited you to their Money Portal Household. </p>" +
+                Body = $"<p>{ household.Owner.FullName } has invited you to their Money Portal Household. </p>" +
                         $"<p>\"{ invitation.PersonalMessage }\"</p>" +
                         $"<p>Please click <a href=\"{callbackUrl}\">here</a> to join the household!</p>"
             };

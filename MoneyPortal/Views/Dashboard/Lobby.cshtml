@@ -1,4 +1,7 @@
-﻿@{
+﻿@using MoneyPortal.Controllers
+@model LobbyVM
+
+@{
     ViewBag.Title = "Lobby";
 }
 <div class="error-messages">
@@ -49,6 +52,7 @@
 </div>
 
 <!-- MODALS -->
+<!--CREATE HOUSEHOLD-->
 <div id="modal-create-household" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
@@ -66,14 +70,14 @@
                     <div class="form-group row">
                         @Html.Label("Name", htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-9">
-                            <input type="text" class="form-control" name="HouseholdName" />
+                            <input type="text" class="form-control" name="HouseholdName" required />
                         </div>
                     </div>
 
                     <div class="form-group row">
                         @Html.Label("Greeting", htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-9">
-                            <input type="text" class="form-control" name="HouseholdGreeting" />
+                            <input type="text" class="form-control" name="HouseholdGreeting" required />
                         </div>
                     </div>
                 </div>
@@ -100,16 +104,40 @@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group row">
-                        @Html.Label("Name", htmlAttributes: new { @class = "control-label col-md-3" })
+                        @Html.Label("Account Name", htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-9">
-                            <input type="text" class="form-control" name="HouseholdName" />
+                            <input type="text" class="form-control" name="bankAccountName" required />
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        @Html.Label("Greeting", htmlAttributes: new { @class = "control-label col-md-3" })
+                        @Html.Label("Type", htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-9">
-                            <input type="text" class="form-control" name="HouseholdGreeting" />
+                            @Html.DropDownList("Types", null, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.Label("Starting Balance", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9 input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text form-control">$</span>
+                            </div>
+                            <input type="number" class="form-control" name="startingBalance" required />
+                            <div class="input-group-append">
+                                <span class="input-group-text form-control">.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.Label("Low Balance Alert", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9 input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text form-control">$</span>
+                            </div>
+                            <input type="text" class="form-control" name="lowBalanceLevel" required />
+                            <div class="input-group-append">
+                                <span class="input-group-text form-control">.00</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -120,3 +148,9 @@
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script>
+        $('#Lobby').addClass("active")
+    </script>
+    }

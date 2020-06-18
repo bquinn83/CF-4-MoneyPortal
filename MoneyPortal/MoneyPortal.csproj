@@ -504,6 +504,7 @@
     <Content Include="Content\Images\Stock\sub.png" />
     <Content Include="Content\css\toastr.css" />
     <Content Include="Content\css\toastr.min.css" />
+    <Content Include="Content\css\sweetalert2.min.css" />
     <Content Include="Content\webfonts\fa-brands-400.svg" />
     <Content Include="Content\webfonts\fa-regular-400.svg" />
     <Content Include="Content\webfonts\fa-solid-900.svg" />
@@ -518,6 +519,7 @@
     <Content Include="Scripts\jquery.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\popper.js" />
+    <Content Include="Scripts\sweetalert2.all.min.js" />
     <Content Include="Scripts\toastr.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -617,7 +619,7 @@
     <Content Include="Views\Dashboard\Household.cshtml" />
     <Content Include="Views\Dashboard\BankAccounts.cshtml" />
     <Content Include="Scripts\toastr.js.map" />
-    <Content Include="Views\Account\InviteRegister.cshtml" />
+    <Content Include="Views\Account\ConfirmInvitation.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

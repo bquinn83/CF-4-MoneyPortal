@@ -1,11 +1,13 @@
-﻿@model MoneyPortal.ViewModels.RegisterViewModel
+﻿@model MoneyPortal.ViewModels.InviteRegisterViewModel
 @{
     ViewBag.Title = "Register";
 }
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "mb-4", role = "form" }))
+@using (Html.BeginForm("RegisterInvite", "Account", FormMethod.Post, new { @class = "mb-4", role = "form" }))
 {
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.HouseholdId)
+    @Html.HiddenFor(model => model.Email)
     <div class="form-group">
         @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control input-material" })
         @Html.LabelFor(m => m.FirstName, new { @class = "label-material" })
@@ -27,6 +29,3 @@
         <input type="submit" class="btn btn-primary" value="Register" />
     </div>
 }
-<small>Already have an account? </small>@Html.ActionLink("Log In", "Login", null, new { @class = "signup" })
-
-@Scripts.Render("~/bundles/jqueryval")

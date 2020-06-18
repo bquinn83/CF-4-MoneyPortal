@@ -191,11 +191,11 @@ namespace MoneyPortal.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    UserManager.AddToRole(user.Id, "Personal");
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
                     try
                     {
@@ -223,6 +223,41 @@ namespace MoneyPortal.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterInvite(InviteRegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    AvatarPath = "Content/Images/blank-avatar.png",
+                    HouseholdId = model.HouseholdId,
+                    EmailConfirmed = true
+                };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    UserManager.AddToRole(user.Id, "Member");
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    var invitation = db.Invitations.Where(i => i.RecipientEmail == user.Email && i.Valid == true).FirstOrDefault();
+                    invitation.Valid = false;
+                    db.SaveChanges();
+
+                    return RedirectToAction("Main", "Dashboard");
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
 
         //
         // GET: /Account/ConfirmEmail
@@ -238,27 +273,28 @@ namespace MoneyPortal.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<ActionResult> ConfirmInvitation(string email, Guid code)
+        public ActionResult ConfirmInvitation(string email, Guid code)
         {
             if (email == null || code == null)
             {
                 return View("Error");
             }
-            var invitation = db.Invitations.Where(i => i.RecipientEmail == email).FirstOrDefault();
+            var invitation = db.Invitations.Where(i => i.RecipientEmail == email && i.Valid == true).FirstOrDefault();
+            if (invitation == null)
+                return View("Error");
             if(code == invitation.Code)
             {
-                return View("InviteRegister");
+                var model = new InviteRegisterViewModel
+                {
+                    HouseholdId = invitation.HouseholdId,
+                    Email = invitation.RecipientEmail
+                };
+                return View(model);
             } else
             {
                 return View("Error");
             }
-            return View((code == invitation.Code) ? "InviteRegister" : "Error");
-        }
-
-        [AllowAnonymous]
-        public async Task<ActionResult> RegisterWithInvite()
-        {
-            return View();
+            //return View((code == invitation.Code) ? "InviteRegister" : "Error");
         }
 
         //

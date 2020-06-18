@@ -14,6 +14,7 @@ namespace MoneyPortal.ViewModels
         public string DisplayName { get; set; }
         public string AvatarPath { get; set; }
         public string Role { get; set; }
+        public List<BankAccount> Accounts { get; set; }
 
         public CurrentUserInfoModel(string userId)
         {
@@ -21,6 +22,7 @@ namespace MoneyPortal.ViewModels
             DisplayName = user.FullName;
             AvatarPath = user.AvatarPath;
             Role = user.UserRole();
+            Accounts = db.BankAccounts.Where(ba => ba.OwnerId == userId).ToList();
         }
     }
 

@@ -157,6 +157,12 @@ nav#sidebar .sidebar-header {
     .shortcut.btn:hover {
         color: #367838;
     }
+    .shortcut.leave-household{
+        background: maroon;
+    }
+    .shortcut.leave-household:hover{
+        color: cornsilk;
+    }
 
 #imageUpload {
     display: none;
@@ -205,4 +211,16 @@ nav#sidebar .sidebar-header {
     transition: .5s ease;
     backface-visibility: hidden;
     border: 5px dashed #FF3F42;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
 }
