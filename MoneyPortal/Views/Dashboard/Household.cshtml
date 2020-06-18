@@ -1,36 +1,150 @@
-﻿@{
+﻿@using MoneyPortal.ViewModels
+@model HouseholdVM
+@{
     ViewBag.Title = "Household";
 }
 
+<!--SHORTCUT BUTTONS-->
 <div class="row shortcut-bar">
     @if (User.IsInRole("Owner"))
     {
         <div class="col-auto">
             <div class="shortcut btn" id="shc-invite-member"><strong>Invite Member</strong> <i class="fas fa-user-plus"></i></div>
         </div>
+        if (Model.UsersBankAccounts != null)
+        {
+            <div class="col-auto">
+                <div class="shortcut btn" id="shc-join-bank-account"><strong>Join Bank Account</strong> <i class="fas fa-university"></i></div>
+            </div>
+        }
         <div class="col-auto">
-            <div class="shortcut btn" id="shc-create-category"><strong>Create Category</strong> <i class="fas fa-sitemap"></i></div>
+            <div class="shortcut btn" id="shc-add-budget"><strong>Add Budget</strong> <i class="fas fa-sitemap"></i></div>
         </div>
         <div class="col-auto">
-            <div class="shortcut btn" id="shc-create-item"><strong>Create Category</strong> <i class="fas fa-project-diagram"></i></div>
+            <div class="shortcut btn" id="shc-add-budget-item"><strong>Add Budget Item</strong> <i class="fas fa-project-diagram"></i></div>
         </div>
-    }
-    @if (ViewBag.UsersBankAccounts != null)
-    {
-        <div class="col-auto">
-            <div class="shortcut btn" id="shc-join-bank-account"><strong>Join Bank Account</strong> <i class="fas fa-university"></i></div>
+        <div class="col-auto ml-auto">
+            <div class="shortcut btn leave-household" id="shc-delete-household"><strong>Delete Household</strong> <i class="fas fa-house-damage"></i></div>
         </div>
     }
     @if (User.IsInRole("Member"))
     {
+        if (Model.UsersBankAccounts != null)
+        {
+            <div class="col-auto">
+                <div class="shortcut btn" id="shc-join-bank-account"><strong>Join Bank Account</strong> <i class="fas fa-university"></i></div>
+            </div>
+        }
         <div class="col-auto ml-auto">
             <div class="shortcut btn leave-household" id="shc-leave-household"><strong>Leave Household</strong> <i class="fas fa-door-closed"></i></div>
         </div>
     }
 </div>
 
+<!--SHORTCUT BOXES-->
 <div class="row" id="shortcut-row">
-    <div class="col-6 d-none" id="invite-member">
+    <!--INVITE MEMBER-->
+    <div class="col-6" id="invite-member">
+        <div class="block">
+            <div class="title row no-gutters mb-0">
+                <strong>Invite Member</strong>
+                <div class="col-auto ml-auto"><i class="fas fa-lg fa-chevron-up btn btn-block-minimize" id="collapse-bank-account"></i></div>
+                <div class="col-auto"><i class="fas fa-lg fa-times btn btn-block-close"></i></div>
+            </div>
+            <div class="block-body collapsable">
+                @using (Html.BeginForm("InviteAsync", "Invitations"))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group row">
+                        @Html.Label("Recipient Emails", new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextArea("RecipientEmails", htmlAttributes: new { @class = "form-control", placeholder = "Enter comma seperated emails.", rows = "2" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.Label("Personal Message", new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextArea("PersonalMessage", htmlAttributes: new { @class = "form-control", rows = "4" })
+                        </div>
+                    </div>
+                    <div class="form-group row no-gutters mb-0">
+                        <div class="col-auto ml-auto">
+                            <button type="submit" class="btn btn-primary">Invite!</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <!--JOIN BANK ACCOUNT-->
+    <div class="col-6" id="join-bank-account">
+        <div class="block">
+            <div class="title row no-gutters mb-0">
+                <strong>Invite Member</strong>
+                <div class="col-auto ml-auto"><i class="fas fa-lg fa-chevron-up btn btn-block-minimize" id="collapse-bank-account"></i></div>
+                <div class="col-auto"><i class="fas fa-lg fa-times btn btn-block-close"></i></div>
+            </div>
+            <div class="block-body collapsable">
+                @using (Html.BeginForm("InviteAsync", "Invitations"))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group row">
+                        @Html.Label("Recipient Emails", new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextArea("RecipientEmails", htmlAttributes: new { @class = "form-control", placeholder = "Enter comma seperated emails.", rows = "2" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.Label("Personal Message", new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextArea("PersonalMessage", htmlAttributes: new { @class = "form-control", rows = "4" })
+                        </div>
+                    </div>
+                    <div class="form-group row no-gutters mb-0">
+                        <div class="col-auto ml-auto">
+                            <button type="submit" class="btn btn-primary">Invite!</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+    <!--ADD BUDGET-->
+    <div class="col-6" id="add-budget">
+        <div class="block">
+            <div class="title row no-gutters mb-0">
+                <strong>Invite Member</strong>
+                <div class="col-auto ml-auto"><i class="fas fa-lg fa-chevron-up btn btn-block-minimize" id="collapse-bank-account"></i></div>
+                <div class="col-auto"><i class="fas fa-lg fa-times btn btn-block-close"></i></div>
+            </div>
+            <div class="block-body collapsable">
+                @using (Html.BeginForm("InviteAsync", "Invitations"))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group row">
+                        @Html.Label("Recipient Emails", new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextArea("RecipientEmails", htmlAttributes: new { @class = "form-control", placeholder = "Enter comma seperated emails.", rows = "2" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.Label("Personal Message", new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.TextArea("PersonalMessage", htmlAttributes: new { @class = "form-control", rows = "4" })
+                        </div>
+                    </div>
+                    <div class="form-group row no-gutters mb-0">
+                        <div class="col-auto ml-auto">
+                            <button type="submit" class="btn btn-primary">Invite!</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <!--ADD BUDGET ITEM-->
+    <div class="col-6" id="add-budget-item">
         <div class="block">
             <div class="title row no-gutters mb-0">
                 <strong>Invite Member</strong>
@@ -74,12 +188,8 @@
     </div>
 </div>
 
+<!-- ADD CHARTING & BUDGETS HERE -->
 
-<div class="row">
-    <div class="col-4">
-
-    </div>
-</div>
 @section Scripts{
     <script>
         //BLOCK CONTROL BUTTONS
@@ -88,17 +198,29 @@
             $(e.currentTarget).closest('.block').children('.collapsable').slideToggle()
         });
         $('.btn-block-close').on("click", function (e) {
-            $(e.currentTarget).closest('.block').parent().toggleClass('d-none')
+            $(e.currentTarget).closest('.block').parent().hide()
         });
 
         //SHORTCUT BUTTONS
+        $('#invite-member').hide()
         $('#shc-invite-member').on("click", () => {
-            $('#invite-member').removeClass('d-none')
-            $('#shortcut-row').prepend($('#add-household'))
+            $('#shortcut-row').prepend($('#invite-member'))
+            $('#invite-member').slideDown()
         })
-        $('#shc-bankaccount').on("click", () => {
-            $('#join-bank-account').removeClass('d-none')
-            $('#shortcut-row').prepend($('#add-bankaccount'))
+        $('#join-bank-account').hide()
+        $('#shc-join-bank-account').on("click", () => {
+            $('#shortcut-row').prepend($('#join-bank-account'))
+            $('#join-bank-account').slideDown()
+        })
+        $('#add-budget').hide()
+        $('#shc-add-budget').on("click", () => {
+            $('#shortcut-row').prepend($('#add-budget'))
+            $('#add-budget').slideDown()
+        })
+        $('#add-budget-item').hide()
+        $('#shc-add-budget-item').on("click", () => {
+            $('#shortcut-row').prepend($('#add-budget-item'))
+            $('#add-budget-item').slideDown()
         })
 
         //TOASTR ALERTS SETUP
@@ -132,16 +254,50 @@
                 title: 'Are you sure?',
                 text: "You will need a new invitation code to rejoin this household!",
                 icon: 'warning',
+                input: 'text',
+                inputPlaceholder: 'Enter LEAVE if you wish to proceed.',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, leave'
             }).then((result) => {
-                if (result.value) {
+                if (result.value == 'LEAVE') {
                     window.location.href = '@Url.Action("Leave", "Households")';
+                } else if (result.dismiss != Swal.DismissReason.cancel) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'LEAVE not confirmed!',
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                    })
+                }
+
+            })
+        })
+        $('#shc-delete-household').on("click", () => {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Deleting your household will remove all Budgets & Members!",
+                icon: 'warning',
+                input: 'text',
+                inputPlaceholder: 'Enter DELETE if you wish to proceed.',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Delete',
+                backdrop: false
+            }).then((result) => {
+                if (result.value == 'DELETE') {
+                    window.location.href = '@Url.Action("Delete", "Households")';
+                } else if (result.dismiss != Swal.DismissReason.cancel) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'DELETE not confirmed!',
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                    })
                 }
             })
         })
-
     </script>
 }

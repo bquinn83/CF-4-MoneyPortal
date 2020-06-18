@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MoneyPortal.Models
 {
@@ -23,6 +24,14 @@ namespace MoneyPortal.Models
         public virtual Household HouseHold { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
 
+        [NotMapped]
+        public string DisplayName
+        {
+            get
+            {
+                return $"{Name} - {Type.Name}";
+            }
+        }
         public BankAccount()
         {
             Transactions = new HashSet<Transaction>();

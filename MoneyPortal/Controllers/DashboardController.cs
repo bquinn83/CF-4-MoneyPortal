@@ -1,5 +1,7 @@
 ﻿using CsQuery.ExtensionMethods.Internal;
+using Microsoft.AspNet.Identity;
 using MoneyPortal.Models;
+using MoneyPortal.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +28,7 @@ namespace MoneyPortal.Controllers
 
             if (User.IsInRole("Owner") || User.IsInRole("Member"))
             {
-                return View("Household");
+                return RedirectToAction("Household");
             }
             else if (User.IsInRole("Personal"))
             {
@@ -54,7 +56,12 @@ namespace MoneyPortal.Controllers
         //GET: Household Dashboard
         public ActionResult Household()
         {
-            return View();
+            var userId = User.Identity.GetUserId();
+            var viewData = new HouseholdVM
+            {
+                UsersBankAccounts = new SelectList(db.BankAccounts.Where(ba => ba.OwnerId == userId), "Id", "DisplayName")
+            };
+            return View(viewData);
         }
 
         //GET: Bank Accounts Dashboard
@@ -62,11 +69,5 @@ namespace MoneyPortal.Controllers
         {
             return View();
         }
-    }
-
-    //ViewModels
-    public class LobbyVM 
-    {
-        public IEnumerable<SelectListItem> Types { get; set; }
     }
 }

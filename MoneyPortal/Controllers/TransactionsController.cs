@@ -19,7 +19,7 @@ namespace MoneyPortal.Controllers
         // GET: Transactions
         public ActionResult Index()
         {
-            var transactions = db.Transactions.Include(t => t.BankAccount).Include(t => t.CategoryItem).Include(t => t.Purchaser).Include(t => t.TransactionType);
+            var transactions = db.Transactions.Include(t => t.BankAccount).Include(t => t.CategoryItem).Include(t => t.TransactionType);
             return View(transactions.ToList());
         }
 
@@ -79,7 +79,6 @@ namespace MoneyPortal.Controllers
 
             ViewBag.BankAccountId = new SelectList(db.BankAccounts, "Id", "Name", transaction.BankAccountId);
             ViewBag.CategoryItemId = new SelectList(db.CategoryItems, "Id", "Name", transaction.CategoryItemId);
-            ViewBag.PurchaserId = new SelectList(db.Users, "Id", "FirstName", transaction.PurchaserId);
             ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name", transaction.TransactionTypeId);
             return View(transaction);
         }
@@ -98,7 +97,6 @@ namespace MoneyPortal.Controllers
             }
             ViewBag.BankAccountId = new SelectList(db.BankAccounts, "Id", "Name", transaction.BankAccountId);
             ViewBag.CategoryItemId = new SelectList(db.CategoryItems, "Id", "Name", transaction.CategoryItemId);
-            ViewBag.PurchaserId = new SelectList(db.Users, "Id", "FirstName", transaction.PurchaserId);
             ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name", transaction.TransactionTypeId);
             return View(transaction);
         }
@@ -118,7 +116,6 @@ namespace MoneyPortal.Controllers
             }
             ViewBag.BankAccountId = new SelectList(db.BankAccounts, "Id", "Name", transaction.BankAccountId);
             ViewBag.CategoryItemId = new SelectList(db.CategoryItems, "Id", "Name", transaction.CategoryItemId);
-            ViewBag.PurchaserId = new SelectList(db.Users, "Id", "FirstName", transaction.PurchaserId);
             ViewBag.TransactionTypeId = new SelectList(db.TransactionTypes, "Id", "Name", transaction.TransactionTypeId);
             return View(transaction);
         }

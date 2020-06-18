@@ -15,9 +15,7 @@ namespace MoneyPortal.Models
         public decimal Amount { get; set; }
         public string Memo { get; set; }
         public DateTime Created { get; set; }
-        public string PurchaserId { get; set; }
 
-        public virtual ApplicationUser Purchaser {get; set;}
         public virtual BankAccount BankAccount { get; set; }
         public virtual TransactionType TransactionType { get; set; }
         public virtual CategoryItem CategoryItem { get; set; }
