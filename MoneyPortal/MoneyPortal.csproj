@@ -413,6 +413,11 @@
     <Content Include="Content\css\font.css" />
     <Content Include="Content\css\style.green.css" />
     <Content Include="Content\css\style.red.css" />
+    <Content Include="Content\css\DataTables-1.10.21\images\sort_asc.png" />
+    <Content Include="Content\css\DataTables-1.10.21\images\sort_asc_disabled.png" />
+    <Content Include="Content\css\DataTables-1.10.21\images\sort_both.png" />
+    <Content Include="Content\css\DataTables-1.10.21\images\sort_desc.png" />
+    <Content Include="Content\css\DataTables-1.10.21\images\sort_desc_disabled.png" />
     <Content Include="Content\favicon_io\favicon.ico" />
     <Content Include="Content\favicon_io\android-chrome-192x192.png" />
     <Content Include="Content\favicon_io\android-chrome-512x512.png" />
@@ -614,6 +619,8 @@
     <Content Include="Views\Account\InvitationRegister.cshtml" />
     <Content Include="Views\Budgets\_BudgetSelectBox.cshtml" />
     <Content Include="Views\Households\_BudgetList.cshtml" />
+    <Content Include="Views\BankAccounts\_Transactions.cshtml" />
+    <Content Include="Views\BankAccounts\_AccountStatistics.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -255,3 +255,10 @@ input:-webkit-autofill:active {
     -webkit-text-fill-color: #8a8d93;
     transition: background-color 5000s ease-in-out 0s;
 }
+
+.text-amount-deposit {
+    color: #429244;
+}
+.text-amount-transfer {
+    color: #ffc107;
+}

@@ -136,6 +136,8 @@ namespace MoneyPortal.Controllers
                 return Json(false);
             }
         }
+
+        //PARTIAL VIEW
         //GET: Budgets/BudgetList
         public ActionResult BudgetList()
         {
@@ -171,7 +173,7 @@ namespace MoneyPortal.Controllers
 
             var viewData = new BudgetListVM {
                 BudgetList = new MultiSelectList(items, "Value", "Text", "Group.Name"),
-                TotalBudget = (decimal)db.Categories.Where(c => c.HouseholdId == householdId).Sum(c => c.TargetAmount)
+                TotalBudget = db.Categories.Where(c => c.HouseholdId == householdId).Sum(c => (decimal?)c.TargetAmount) ?? 0
             };
            
             return PartialView("~/Views/Households/_BudgetList.cshtml", viewData);

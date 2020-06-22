@@ -20,7 +20,7 @@ namespace MoneyPortal.Controllers
         public ActionResult AccountDetails(int accountId)
         {
             var account = db.BankAccounts.Find(accountId);
-            ViewBag.BankAccountTypes = new SelectList(db.BankAccounts.ToList(), "Id", "Name");
+            ViewBag.BankAccountTypes = new SelectList(db.BankAccountTypes.ToList(), "Id", "Name", account.TypeId);
             ViewBag.TransactionTypes = new SelectList(db.TransactionTypes.ToList(), "Id", "Name");
             return View(account);
         }
@@ -47,25 +47,39 @@ namespace MoneyPortal.Controllers
             return RedirectToAction("Main", "Dashboard");
         }
 
-        //GET: BankAccounts/Delete
-        public ActionResult Delete(int? id)
+        //POST: BankAccounts/Edit
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, string bankAccountName, int BankAccountTypes, decimal lowBalanceLevel)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            BankAccount bankAccount = db.BankAccounts.Find(id);
+            var account = db.BankAccounts.Find(id);
+            account.Name = bankAccountName;
+            account.TypeId = BankAccountTypes;
+            account.LowBalanceLevel = lowBalanceLevel;
+            account.DisplayName = $"{ account.Name } - { account.Type.Name }";
+            db.Entry(account).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("AccountDetails", new { accountId = id });
+        }
+
+        //GET: BankAccounts/Delete
+        public ActionResult Delete(int accountId)
+        {
+            BankAccount bankAccount = db.BankAccounts.Find(accountId);
             if (bankAccount == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Main", "Dashboard");
+            }
+
+            foreach(var transaction in bankAccount.Transactions.ToList())
+            {
+                db.Transactions.Remove(transaction);
             }
             db.BankAccounts.Remove(bankAccount);
             db.SaveChanges();
 
             return RedirectToAction("Main", "Dashboard");
         }
-
-
 
         // POST: Bank Account Types
         [Authorize(Roles = ("Admin"))]

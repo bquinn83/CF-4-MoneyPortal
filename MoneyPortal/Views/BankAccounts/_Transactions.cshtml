@@ -1,0 +1,244 @@
+﻿@using MoneyPortal.Models
+@model BankAccount
+
+<div class="block">
+    <div class="title row no-gutters">
+        <div><strong>Transactions</strong> <sub><small>(@Model.Transactions.Count)</small></sub></div>
+        <ul class="nav nav-pills ml-auto" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="tab-all" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="true">All</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tab-withdrawl" data-toggle="tab" href="#withdrawals" role="tab" aria-controls="withdrawals" aria-selected="false">Withdrawals</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tab-deposits" data-toggle="tab" href="#deposits" role="tab" aria-controls="deposits" aria-selected="false">Deposits</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tab-transfers" data-toggle="tab" href="#transfers" role="tab" aria-controls="transfers" aria-selected="false">Transfers</a>
+            </li>
+        </ul>
+        <div class="col-auto"><i class="fas fa-lg fa-chevron-up btn btn-block-minimize" id="collapse-bank-account"></i></div>
+    </div>
+    <div class="tab-content block-body collapsable" id="myTabContent">
+        <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="tab-all">
+            <div class="block-body mt-2">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Amount
+                            </th>
+                            <th>
+                                Memo
+                            </th>
+                            <th>
+                                Date
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model.Transactions)
+                        {
+                            <tr>
+                                @if (item.TransactionType.Name == "Deposit")
+                                {
+                                    <td class="text-amount-deposit">
+                                        <strong>@Html.DisplayFor(modelItem => item.Amount)</strong>
+                                    </td>
+                                }
+                                else if (item.TransactionType.Name == "Transfer")
+                                {
+                                    <td class="text-amount-transfer">
+                                        <strong>(@Html.DisplayFor(modelItem => item.Amount))</strong>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <strong>@Html.DisplayFor(modelItem => item.Amount)</strong>
+                                    </td>
+                                }
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Memo)
+                                    <br />
+                                    <small>@Html.DisplayFor(modelItem => item.TransactionType.Name)</small>
+                                </td>
+                                <td data-sort="@item.Created.Ticks">
+                                    <small>
+                                        @{
+                                            var date = item.Created.ToString("dddd, dd MMMM yyyy");
+                                            var time = item.Created.ToString("h:mm tt");
+
+                                        }
+                                        @Html.DisplayFor(modelItem => date) <br />
+                                        @Html.DisplayFor(modelItem => time)
+                                    </small>
+                                </td>
+                                <td class="text-right">
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                    @Html.ActionLink("Delete", "Delete", "Transactions", new { id = item.Id }, null)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="withdrawals" role="tabpanel" aria-labelledby="">
+            <div class="block-body mt-2">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Amount
+                            </th>
+                            <th>
+                                Memo
+                            </th>
+                            <th>
+                                Date
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model.Transactions.Where(t => t.TransactionType.Name != "Deposit" && t.TransactionType.Name != "Transfer"))
+                        {
+                            <tr>
+                                <td>
+                                    <strong>@Html.DisplayFor(modelItem => item.Amount)</strong>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Memo)
+                                    <br />
+                                    <small>@Html.DisplayFor(modelItem => item.TransactionType.Name)</small>
+                                </td>
+                                <td data-sort="@item.Created.Ticks">
+                                    <small>
+                                        @{
+                                            var date = item.Created.ToString("dddd, dd MMMM yyyy");
+                                            var time = item.Created.ToString("h:mm tt");
+
+                                        }
+                                        @Html.DisplayFor(modelItem => date) <br />
+                                        @Html.DisplayFor(modelItem => time)
+                                    </small>
+                                </td>
+                                <td class="text-right">
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="deposits" role="tabpanel" aria-labelledby="tab-deposits">
+            <div class="block-body mt-2">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Amount
+                            </th>
+                            <th>
+                                Memo
+                            </th>
+                            <th>
+                                Date
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model.Transactions.Where(t => t.TransactionType.Name == "Deposit"))
+                        {
+                            <tr>
+                                <td class="text-amount-deposit">
+                                    <strong>@Html.DisplayFor(modelItem => item.Amount)</strong>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Memo)
+                                    <br />
+                                    <small>@Html.DisplayFor(modelItem => item.TransactionType.Name)</small>
+                                </td>
+                                <td data-sort="@item.Created.Ticks">
+                                    <small>
+                                        @{
+                                            var date = item.Created.ToString("dddd, dd MMMM yyyy");
+                                            var time = item.Created.ToString("h:mm tt");
+
+                                        }
+                                        @Html.DisplayFor(modelItem => date) <br />
+                                        @Html.DisplayFor(modelItem => time)
+                                    </small>
+                                </td>
+                                <td class="text-right">
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="transfers" role="tabpanel" aria-labelledby="tab-transfers">
+            <div class="block-body mt-2">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Amount
+                            </th>
+                            <th>
+                                Memo
+                            </th>
+                            <th>
+                                Date
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model.Transactions.Where(t => t.TransactionType.Name == "Transfer"))
+                        {
+                            <tr>
+                                <td class="text-amount-transfer">
+                                    <strong>(@Html.DisplayFor(modelItem => item.Amount))</strong>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Memo)
+                                    <br />
+                                    <small>@Html.DisplayFor(modelItem => item.TransactionType.Name)</small>
+                                </td>
+                                <td data-sort="@item.Created.Ticks">
+                                    <small>
+                                        @{
+                                            var date = item.Created.ToString("dddd, dd MMMM yyyy");
+                                            var time = item.Created.ToString("h:mm tt");
+
+                                        }
+                                        @Html.DisplayFor(modelItem => date) <br />
+                                        @Html.DisplayFor(modelItem => time)
+                                    </small>
+                                </td>
+                                <td class="text-right">
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

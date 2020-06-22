@@ -180,8 +180,10 @@
                         {
                             @Html.AntiForgeryToken()
                             <div class="form-group mb-0" id="div-budget-list">
-                                @Html.Action("BudgetList", "Budgets")
-
+                                @if (User.IsInRole("Owner"))
+                                {
+                                    @Html.Action("BudgetList", "Budgets")
+                                }
                             </div>
                             <div class="form-group row no-gutters mb-0">
                                 <div class="col-auto ml-auto">
@@ -359,7 +361,6 @@
             var actionUrl = $(this).attr("action");
             $.post(actionUrl, $(this).serialize(), function (result) {
                 if (result > 0) {
-                    //$('#form-add-budget-item')[0].reset();
                     $('#div-budget-list').load('@Url.Action("BudgetList", "Budgets")')
                     toastr["warning"](`You have removed ${result} item(s)!`, "Removed Budget Item.")
                 } else {

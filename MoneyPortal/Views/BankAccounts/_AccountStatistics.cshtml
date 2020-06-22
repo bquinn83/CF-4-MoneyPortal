@@ -1,0 +1,50 @@
+﻿@using MoneyPortal.ViewModels
+@using System.Globalization
+
+@model AccountStatistics
+
+<div class="row">
+    <div class="col-md-3 col-sm-6">
+        <div class="statistic-block block">
+            <div class="progress-details d-flex align-items-end justify-content-between">
+                <div class="title">
+                    <div class="icon"><i class="fas fa-lg fa-money-bill-alt"></i></div><strong>Current<br/>Balance</strong>
+                </div>
+                <div class="number dashtext-1">@Model.CurrentBalance</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="statistic-block block">
+            <div class="progress-details d-flex align-items-end justify-content-between">
+                <div class="title">
+                    <div class="icon"><i class="fas fa-lg fa-receipt"></i></div><strong>This Months<br/>Spending</strong>
+                </div>
+                <div class="number dashtext-2">@Model.MonthlySpending</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="statistic-block block">
+            <div class="progress-details d-flex align-items-end justify-content-between">
+                <div class="title">
+                    <div class="icon"><i class="fas fa-lg fa-hand-holding-usd"></i></div><strong>Monthly<br/>Deposits</strong>
+                </div>
+                <div class="number dashtext-3">@Model.MonthlyDeposits</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="statistic-block block">
+            <div class="progress-details d-flex align-items-end justify-content-between">
+                <div class="title">
+                    <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong>All Projects</strong>
+                </div>
+                <div class="number dashtext-4">41</div>
+            </div>
+            <div class="progress progress-template">
+                <div role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-4"></div>
+            </div>
+        </div>
+    </div>
+</div>

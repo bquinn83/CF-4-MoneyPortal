@@ -1,188 +1,93 @@
 ﻿@using MoneyPortal.Models
+@using MoneyPortal.ViewModels
 @model BankAccount
 
 @{
-    ViewBag.Title = Model.Name;
+    ViewBag.Title = $"{ Model.Name } - { Model.Type.Name }";
 }
 
 <!--SHORTCUT BUTTONS-->
 <div class="row shortcut-bar">
-    <div class="col-auto">
-        <div class="shortcut btn" id="shc-join-bank-account"><strong>Join Bank Account</strong> <i class="fas fa-university"></i></div>
-    </div>
+    @if (User.IsInRole("Owner") || User.IsInRole("Member"))
+    {
+        if (Model.HouseholdId == null)
+        {
+            <div class="col-auto">
+                <div class="shortcut btn" id="shc-join-bank-account"><strong>Add to Household</strong> <i class="fas fa-home"></i></div>
+            </div>
+        }
+        else
+        {
+            <div class="col-auto">
+                <div class="shortcut btn" id="shc-join-bank-account"><strong>Add to Household</strong> <i class="fas fa-home"></i></div>
+            </div>
+        }
+    }
 
     <div class="col-auto ml-auto">
-        <div class="shortcut btn" id="shc-leave-household"><strong>Edit Account</strong> <i class="fas fa-edit"></i></div>
+        <div class="shortcut btn" id="shc-leave-household" data-toggle="modal" data-target="#modal-edit-bank-account"><strong>Edit Account</strong> <i class="fas fa-edit"></i></div>
     </div>
     <div class="col-auto">
         <div class="shortcut btn leave-household" id="shc-delete-bank-account"><strong>Delete Account</strong> <i class="fas fa-trash-alt"></i></div>
     </div>
 </div>
 
-<!--SHORTCUT BOXES-->
-<div class="row" id="shortcut-row">
-    <!--INVITE MEMBER-->
-    <div class="col-6 shortcut-block" id="invite-member">
-        <div class="block">
-            <div class="title row no-gutters mb-0">
-                <strong>Invite Member</strong>
-                <div class="col-auto ml-auto"><i class="fas fa-lg fa-chevron-up btn btn-block-minimize" id="collapse-bank-account"></i></div>
-                <div class="col-auto"><i class="fas fa-lg fa-times btn btn-block-close"></i></div>
-            </div>
-            <div class="block-body collapsable">
-                @using (Html.BeginForm("Invite", "Invitations", FormMethod.Post, new { id = "form-invite-member" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <div class="form-group row">
-                        @Html.Label("Recipient Emails", new { @class = "control-label col-md-4" })
-                        <div class="col-md-8">
-                            @Html.TextArea("RecipientEmails", htmlAttributes: new { @class = "form-control", placeholder = "Enter comma seperated emails.", rows = "2" })
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        @Html.Label("Personal Message", new { @class = "control-label col-md-4" })
-                        <div class="col-md-8">
-                            @Html.TextArea("PersonalMessage", htmlAttributes: new { @class = "form-control", rows = "4" })
-                        </div>
-                    </div>
-                    <div class="form-group row no-gutters mb-0">
-                        <div class="col-auto ml-auto">
-                            <button type="submit" class="btn btn-primary">Invite!</button>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-    <!--JOIN BANK ACCOUNT-->
-    <div class="col-6 shortcut-block" id="join-bank-account">
-        <div class="block">
-            <div class="title row no-gutters mb-0">
-                <strong>Join Bank Account</strong>
-                <div class="col-auto ml-auto"><i class="fas fa-lg fa-chevron-up btn btn-block-minimize" id="collapse-bank-account"></i></div>
-                <div class="col-auto"><i class="fas fa-lg fa-times btn btn-block-close"></i></div>
-            </div>
-            <div class="block-body collapsable">
-                @using (Html.BeginForm("JoinBankAccount", "Households", FormMethod.Post, new { id = "form-join-bank-account" }))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.HiddenFor(Model => Model.HouseholdId)
-                    <div class="form-group row">
-                        @Html.Label("Bank Accounts", new { @class = "control-label col-md-4" })
-                        <div class="col-md-8">
-                            @Html.DropDownList("UsersBankAccounts", null, new { @class = "form-control", id = "dd-user-bank-accounts" })
-                        </div>
-                    </div>
-                    <div class="form-group row no-gutters mb-0">
-                        <div class="col-auto ml-auto">
-                            <button type="submit" class="btn btn-primary">Join</button>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
+<!--ACCOUNT DETAILS-->
+<div id="account_statistics">
+    @Html.Partial("_AccountStatistics", new AccountStatistics(Model))
+</div>
 
-    </div>
-    <!--CREATE BUDGETS & ITEMS / REMOVE ITEMS-->
-    <div class="col-6 shortcut-block" id="create-budgets">
-        <div class="block">
-            <div class="title row no-gutters mb-0">
-                <strong>Create Budgets</strong>
-                <div class="col-auto ml-auto"><i class="fas fa-lg fa-chevron-up btn btn-block-minimize" id="collapse-bank-account"></i></div>
-                <div class="col-auto"><i class="fas fa-lg fa-times btn btn-block-close"></i></div>
+<!--ACCOUNT TRANSACTIONS-->
+<div id="account_transactions">
+    @Html.Partial("_Transactions", Model)
+</div>
+
+<!--EDIT MODAL-->
+<div id="modal-edit-bank-account" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Bank Account</h4>
+                <div data-dismiss="modal"><i class="fas fa-lg fa-times btn btn-block-close"></i></div>
+                <button type="button" class="close" data-dismiss="modal"><i class="fas fa-times"></i></button>
             </div>
-            <div class="block-body collapsable">
-                <div class="row">
-                    <div class="col-md-7">
-                        @using (Html.BeginForm("CreateBudget", "Budgets", FormMethod.Post, new { id = "form-add-budget" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            @Html.HiddenFor(Model => Model.HouseholdId)
-                            <div class="form-group row">
-                                @Html.Label("Name", new { @class = "control-label col-md-3" })
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" name="budgetName" required />
-
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                @Html.Label("Description", new { @class = "control-label col-md-3" })
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" name="budgetDescription" required />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                @Html.Label("Budget Amount", htmlAttributes: new { @class = "control-label col-md-3" })
-                                <div class="col-md-9 input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text form-control">$</span>
-                                    </div>
-                                    <input type="number" class="form-control" name="budgetAmount" required />
-                                    <div class="input-group-append">
-                                        <span class="input-group-text form-control">.00</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group row no-gutters mb-0">
-                                <div class="col-auto ml-auto">
-                                    <button type="submit" class="btn btn-primary" data-dismiss="modal">Create Budget</button>
-                                </div>
-                            </div>
-                        }
-                        <br />
-                        <div class="title"><strong>Create Items</strong></div>
-                        @using (Html.BeginForm("CreateBudgetItem", "Budgets", FormMethod.Post, new { id = "form-add-budget-item" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <div class="form-group row">
-                                @Html.Label("Budget", new { @class = "control-label col-md-3" })
-                                <div class="col-md-9">
-                                    @Html.DropDownList("Budgets", null, new { @class = "form-control", id = "dd-budgets" })
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                @Html.Label("Name", new { @class = "control-label col-md-3" })
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" name="budgetItemName" required />
-                                </div>
-                            </div>
-                            <div class="form-group row no-gutters mb-0">
-                                <div class="col-auto ml-auto">
-                                    <button type="submit" class="btn btn-primary">Create Item</button>
-                                </div>
-                            </div>
-                        }
+            @using (Html.BeginForm("Edit", "BankAccounts"))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.Id)
+                <div class="modal-body">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group row">
+                        @Html.Label("Account Name", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" name="bankAccountName" value="@Model.Name" required />
+                        </div>
                     </div>
-                    <div class="col-md-5">
-                        @using (Html.BeginForm("RemoveItem", "Budgets", FormMethod.Post, new { id = "form-remove-budget-item" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <div class="form-group mb-0" id="div-budget-list">
-                                @Html.Action("BudgetList", "Budgets")
 
+                    <div class="form-group row">
+                        @Html.Label("Type", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.DropDownList("BankAccountTypes", null, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.Label("Low Balance Alert", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9 input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text form-control">$</span>
                             </div>
-                            <div class="form-group row no-gutters mb-0">
-                                <div class="col-auto ml-auto">
-                                    <button type="submit" class="btn btn-danger">Remove Item</button>
-                                </div>
+                            <input type="text" class="form-control" name="lowBalanceLevel" value="@Model.LowBalanceLevel" required />
+                            <div class="input-group-append">
+                                <span class="input-group-text form-control">.00</span>
                             </div>
-                        }
+                        </div>
                     </div>
                 </div>
-
-            </div>
-        </div>
-    </div>
-    <!--EDIT BUDGET-->
-    <div class="col-6 shortcut-block" id="edit-budgets">
-        <div class="block">
-            <div class="title row no-gutters mb-0">
-                <strong>Edit Budget</strong>
-                <div class="col-auto ml-auto"><i class="fas fa-lg fa-chevron-up btn btn-block-minimize" id="collapse-bank-account"></i></div>
-                <div class="col-auto"><i class="fas fa-lg fa-times btn btn-block-close"></i></div>
-            </div>
-            <div class="block-body collapsable">
-            </div>
+                <div class="modal-footer" id="btn-add-bank-account">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            }
         </div>
     </div>
 </div>
@@ -203,7 +108,7 @@
                 backdrop: true
             }).then((result) => {
                 if (result.value == 'DELETE') {
-                    window.location.href = '@Url.Action("Delete", "BankAccounts")';
+                    window.location.href = '@Url.Action("Delete", "BankAccounts", new { accountId = Model.Id })';
                 } else if (result.dismiss != Swal.DismissReason.cancel || result.dismiss != Swal.DismissReason.backdrop) {
                     Swal.fire({
                         title: 'Error!',
@@ -214,28 +119,39 @@
                 }
             })
         })
-
         $('#shc-add-to-household').on("click", () => {
             Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
+                title: 'Add to Household?',
+                text: "This account will be added to your household!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
+                confirmButtonText: 'Add!'
             }).then((result) => {
                 if (result.value) {
-                    Swal.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                    )
+                    //add to household
                 }
             })
         })
-
-
-
+        $('#shc-remove-from-household').on("click", () => {
+            Swal.fire({
+                title: 'Remove from Household?',
+                text: "This account will be removed from your household!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Remove!'
+            }).then((result) => {
+                if (result.value) {
+                    //add to household
+                }
+            })
+        })
+        $('.table').DataTable({
+            "order": [2, 'desc'],
+            "columnDefs": [ { "orderable": false, "targets": 3 } ]
+        });
     </script>
 }

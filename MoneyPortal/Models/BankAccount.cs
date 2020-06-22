@@ -30,14 +30,4 @@ namespace MoneyPortal.Models
             Transactions = new HashSet<Transaction>();
         }
     }
-
-    public enum BankAccountTypesEnum
-    {
-        Checking,
-        Savings,
-        MoneyMarket,
-        Credit,
-        CD,
-        Investment
-    }
 } 

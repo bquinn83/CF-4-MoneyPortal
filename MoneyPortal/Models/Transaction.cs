@@ -19,5 +19,6 @@ namespace MoneyPortal.Models
         public virtual BankAccount BankAccount { get; set; }
         public virtual TransactionType TransactionType { get; set; }
         public virtual CategoryItem CategoryItem { get; set; }
+        
     }
 }
