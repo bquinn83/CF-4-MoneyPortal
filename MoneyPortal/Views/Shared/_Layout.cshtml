@@ -88,7 +88,7 @@
     <div class="d-flex align-items-stretch">
         <!-- Sidebar Navigation-->
         <div id="SideMenu">
-            @Html.Partial("_SideMenu", new CurrentUserInfoModel())
+            @Html.Partial("_SideMenu", new SideNavVM())
         </div>
         <!-- Page Content -->
         <div class="page-content">
@@ -127,6 +127,7 @@
     <script src="~/Scripts/front.js"></script>
     <script src="~/Scripts/toastr.min.js"></script>
     <script src="~/Scripts/sweetalert2.all.min.js"></script>
+    <script src="~/Scripts/plugin-settings.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

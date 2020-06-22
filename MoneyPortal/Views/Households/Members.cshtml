@@ -1,0 +1,75 @@
+﻿@using MoneyPortal.ViewModels
+@model HouseholdMembersVM
+
+@{
+    ViewBag.Title = "Household Members";
+}
+<table class="table">
+    <tr>
+        <th>
+            Owner
+        </th>
+        <th>
+            Joined Accounts
+        </th>
+        <th>
+            Transactions
+        </th>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(model => model.Owner.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.Owner.JoinedAccounts)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.Owner.Transactions)
+        </td>
+    </tr>
+</table>
+<br />
+<table class="table">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Joined Accounts
+            </th>
+            <th>
+                Transactions
+            </th>
+            @if (User.IsInRole("Owner"))
+            {
+                <th></th>
+            }
+        </tr>
+        @foreach (var member in Model.Members)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => member.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => member.JoinedAccounts)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => member.Transactions)
+                </td>
+                @if (User.IsInRole("Owner"))
+                {
+                    <td>
+                        @Html.ActionLink("Remove", "RemoveMember", new { id = member.Id })
+                    </td>
+                }
+            </tr>
+        }
+
+</table>
+@section Scripts{
+    <script>
+        $('#dd-household-link').click()
+        $('#household-members').addClass('active')
+    </script>
+}

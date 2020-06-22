@@ -15,6 +15,7 @@ namespace MoneyPortal.Models
         public DateTime Created { get; set; }
 
         public string Name { get; set; }
+        public string DisplayName { get; set; }
         public decimal StartingBalance { get; set; }
         public decimal CurrentBalance { get; set; }
         public decimal LowBalanceLevel { get; set; }
@@ -24,14 +25,6 @@ namespace MoneyPortal.Models
         public virtual Household HouseHold { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
 
-        [NotMapped]
-        public string DisplayName
-        {
-            get
-            {
-                return $"{Name} - {Type.Name}";
-            }
-        }
         public BankAccount()
         {
             Transactions = new HashSet<Transaction>();

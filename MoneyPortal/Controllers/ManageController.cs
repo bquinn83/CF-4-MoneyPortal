@@ -11,6 +11,8 @@ using MoneyPortal.ViewModels;
 using System.Configuration;
 using System.Web.Services.Description;
 using System.Data.Entity;
+using System.IO;
+using Blog.Classes;
 
 namespace MoneyPortal.Controllers
 {
@@ -74,7 +76,7 @@ namespace MoneyPortal.Controllers
         // POST: /Manage/UpdateUser
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdateUser([Bind(Include = "Id,FirstName,LastName,AvatarPath,AddressLine1,AddressLine2,AddressCity,AddressState,AddressZip,PhoneNumber,AboutMe")] ApplicationUser profile)
+        public ActionResult UpdateUser([Bind(Include = "Id,FirstName,LastName,AvatarPath,AddressLine1,AddressLine2,AddressCity,AddressState,AddressZip,PhoneNumber,AboutMe")] ApplicationUser profile, HttpPostedFileBase image)
         {
             if (profile != null)
             {
@@ -91,6 +93,17 @@ namespace MoneyPortal.Controllers
                     dbUser.AddressState = profile.AddressState;
                     dbUser.AddressZip = profile.AddressZip;
                     dbUser.PhoneNumber = profile.PhoneNumber;
+                    dbUser.AboutMe = profile.AboutMe;
+                    if (ImageUploadValidator.IsWebFriendlyImage(image))
+                    {
+                        var fileName = $"avatar-{DateTime.Now.Ticks}{Path.GetExtension(image.FileName)}";
+                        image.SaveAs(Path.Combine(Server.MapPath("~/Uploads/Avatars/"), fileName));
+                        dbUser.AvatarPath = $"Uploads/Avatars/{ fileName }";
+                    }
+                    else
+                    {
+                        dbUser.AvatarPath = profile.AvatarPath;
+                    }
 
                     db.Entry(dbUser).State = EntityState.Modified;
                     db.SaveChanges();

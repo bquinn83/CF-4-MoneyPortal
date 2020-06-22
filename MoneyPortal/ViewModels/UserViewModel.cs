@@ -5,18 +5,20 @@ using System.Linq;
 using System.Web;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Web.Mvc;
 
 namespace MoneyPortal.ViewModels
 {
-    public class CurrentUserInfoModel
+    public class SideNavVM
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         public string DisplayName { get; set; }
         public string AvatarPath { get; set; }
         public string Role { get; set; }
         public List<BankAccount> Accounts { get; set; }
+        public SelectList Types { get; set; }
 
-        public CurrentUserInfoModel()
+        public SideNavVM()
         {
             var userId = HttpContext.Current.User.Identity.GetUserId();
             var user = db.Users.Find(userId);
@@ -24,6 +26,7 @@ namespace MoneyPortal.ViewModels
             AvatarPath = user.AvatarPath;
             Role = user.UserRole();
             Accounts = db.BankAccounts.Where(ba => ba.OwnerId == userId).ToList();
+            Types = new SelectList(db.BankAccountTypes, "Id", "Name");
         }
     }
 
@@ -57,6 +60,7 @@ namespace MoneyPortal.ViewModels
             AddressState = user.AddressState;
             AddressZip = user.AddressZip;
             PhoneNumber = user.PhoneNumber;
+            AboutMe = user.AboutMe;
         }
     }
 }

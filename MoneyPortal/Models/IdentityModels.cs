@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using MoneyPortal.Controllers;
 
 namespace MoneyPortal.Models
 {
@@ -17,6 +19,7 @@ namespace MoneyPortal.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string AvatarPath { get; set; }
+        public string AboutMe { get; set; }
 
         #region ADDRESS
         public string AddressLine1 { get; set; }
@@ -29,6 +32,7 @@ namespace MoneyPortal.Models
         #region HOUSEHOLD
         public int? HouseholdId { get; set; }
         public virtual Household Household { get; set; }
+        public virtual ICollection<BankAccount> BankAccounts { get; set; }
         #endregion
 
         [NotMapped]
@@ -42,6 +46,11 @@ namespace MoneyPortal.Models
             var userId = HttpContext.Current.User.Identity.GetUserId();
             var role = userManager.GetRoles(userId).FirstOrDefault();
             return role;
+        }
+
+        public ApplicationUser()
+        {
+            BankAccounts = new HashSet<BankAccount>();
         }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)

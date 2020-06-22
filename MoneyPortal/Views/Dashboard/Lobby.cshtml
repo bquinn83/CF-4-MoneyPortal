@@ -20,7 +20,7 @@
         </div>
     </div>
     <div class="col-4">
-        <div class="btn block" id="join-household" data-toggle="modal" data-target="">
+        <div class="btn block" id="join-household" data-toggle="modal" data-target="#modal-join-household">
             <div class="title d-flex justify-content-center">
                 <strong>Join Household</strong>
             </div>
@@ -88,69 +88,52 @@
         </div>
     </div>
 </div>
-<!--ADD BANK ACCOUNT-->
-<div id="modal-add-bank-account" class="modal fade" role="dialog">
+<!--JOIN HOUSEHOLD-->
+<div id="modal-join-household" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Add Bank Account</h4>
+                <h4 class="modal-title">Join Household</h4>
                 <div data-dismiss="modal"><i class="fas fa-lg fa-times btn btn-block-close"></i></div>
                 @*<button type="button" class="close" data-dismiss="modal"><i class="fas fa-times"></i></button>*@
             </div>
-            @using (Html.BeginForm("Create", "BankAccounts"))
+            @using (Html.BeginForm("CheckInvitation", "Invitations", FormMethod.Post, new { id = "form-join-household" }))
             {
+                @Html.AntiForgeryToken()
                 <div class="modal-body">
-                    @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="form-group row">
-                        @Html.Label("Account Name", htmlAttributes: new { @class = "control-label col-md-3" })
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" name="bankAccountName" required />
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        @Html.Label("Type", htmlAttributes: new { @class = "control-label col-md-3" })
-                        <div class="col-md-9">
-                            @Html.DropDownList("Types", null, new { @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        @Html.Label("Starting Balance", htmlAttributes: new { @class = "control-label col-md-3" })
-                        <div class="col-md-9 input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text form-control">$</span>
-                            </div>
-                            <input type="number" class="form-control" name="startingBalance" required />
-                            <div class="input-group-append">
-                                <span class="input-group-text form-control">.00</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        @Html.Label("Low Balance Alert", htmlAttributes: new { @class = "control-label col-md-3" })
-                        <div class="col-md-9 input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text form-control">$</span>
-                            </div>
-                            <input type="text" class="form-control" name="lowBalanceLevel" required />
-                            <div class="input-group-append">
-                                <span class="input-group-text form-control">.00</span>
-                            </div>
+                    <div class="form-group">
+                        @Html.Label("Invitation Code", htmlAttributes: new { @class = "control-label" })
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" name="code" required />
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer" id="btn-add-bank-account">
-                    <button type="submit" class="btn btn-primary">Create</button>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Join!</button>
                 </div>
             }
         </div>
     </div>
 </div>
 
+
 @section Scripts{
     <script>
         $('#Lobby').addClass("active")
+        $('#form-join-household').on("submit", function (e) {
+            e.preventDefault();
+            var actionUrl = $(this).attr("action");
+            $.post(actionUrl, $(this).serialize(), function (result) {
+                if (result) {
+                    window.location.href = '@Url.Action("JoinHousehold", "Invitations")/?code=' + result;
+                } else {
+                    toastr["error"]("Your code was invalid.", "Invalid Code!")
+                }
+            }).fail(function () {
+                toastr["error"]("There was an error submitting your code.", "Submit Error!")
+            })
+        })
     </script>
 }

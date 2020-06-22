@@ -1,0 +1,73 @@
+﻿@using MoneyPortal.Models
+@using Microsoft.AspNet.Identity
+
+@model IEnumerable<BankAccount>
+
+@{
+    ViewBag.Title = "Household Bank Accounts";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Account
+            </th>
+            <th>
+                Current Balance
+            </th>
+            <th>
+                Low Balance Alert
+            </th>
+            <th>
+                Owner
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (item.Type.Name == "Checking")
+                    {
+                        <i class="fas fa-lg fa-money-check-alt"></i> @item.Name
+                    }
+                    else if (item.Type.Name == "Savings")
+                    {
+                        <i class="fas fa-lg fa-piggy-bank"></i> @item.Name
+                    }
+                    else if (item.Type.Name == "Credit")
+                    {
+                        <i class="fas fa-lg fa-credit-card"></i> @item.Name
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CurrentBalance)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LowBalanceLevel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Owner.FullName)
+                </td>
+                @if (User.IsInRole("Owner") || item.OwnerId == User.Identity.GetUserId())
+                {
+                    <td>
+                        @Html.ActionLink("Remove", "RemoveBankAccount", new { id = item.Id })
+                    </td>
+                } else { <td></td>}
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script>
+        $('#dd-household-link').click()
+        $('#household-bank-accounts').addClass('active')
+
+        $('.table').DataTable();
+    </script>
+}

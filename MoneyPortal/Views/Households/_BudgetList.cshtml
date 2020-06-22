@@ -1,0 +1,7 @@
+﻿@using MoneyPortal.ViewModels
+@model BudgetListVM
+
+@Html.ListBox("BudgetList", null, new { @class = "form-control", size = "16" })
+
+<div class="mt-1"><span>Total Budget: @Model.TotalBudget.ToString("C")</span></div>
+<br />

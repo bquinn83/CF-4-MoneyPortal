@@ -1,0 +1,105 @@
+﻿@using MoneyPortal.ViewModels
+@model HouseholdTransactionsVM
+
+@{
+    ViewBag.Title = "Household Transactions";
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Account
+            </th>
+            <th>
+                Amount
+            </th>
+            <th>
+                Memo
+            </th>
+            <th>
+                Budget
+            </th>
+            <th>
+                Date
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model.Transactions)
+        {
+            <tr>
+                <td data-sort="@item.BankAccountName-@item.Owner.FullName">
+                    <small>
+                        @Html.DisplayFor(modelItem => item.BankAccountName)<br />
+                        (@Html.DisplayFor(modelItem => item.Owner.FullName))
+                    </small>
+                </td>
+                <td>
+                    <strong>@Html.DisplayFor(modelItem => item.Amount)</strong>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Memo)
+                    <br />
+                    <small>@Html.DisplayFor(modelItem => item.Type)</small>
+                </td>
+                <td data-sort="@item.BudgetItem">
+                    @*@Html.DisplayFor(modelItem => item.BudgetItem)*@
+                    @Html.DropDownList("CategoryItem", item.BudgetItemList, "", new { @class = "form-control budget-select", id = item.Id })
+                </td>
+                <td data-sort="@item.Date.Ticks">
+                    <small>
+                        @{
+                            var date = item.Date.ToString("dddd, dd MMMM yyyy");
+                            var time = item.Date.ToString("h:mm tt");
+
+                        }
+                        @Html.DisplayFor(modelItem => date) <br />
+                        @Html.DisplayFor(modelItem => time)
+                    </small>
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+@section Scripts{
+    <script>
+        $('#dd-household-link').click()
+        $('#household-transactions').addClass('active')
+
+        $('.budget-select').change(function (e) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("UpdateBudgetItem", "Budgets")",
+                data: {
+                    transactionId: $(e.currentTarget).attr("id"),
+                    budgetItemId: $(e.currentTarget).val()
+                },
+                dataType: "json",
+                success: function (result) {
+                    if (result == true) {
+                        toastr["success"]("The transactions budget has been updated!.", "Success!")
+                    } else if (result == "reset") {
+                        toastr["warning"]("The transactions budget has been removed.", "Budget Removed!")
+                         $(e.currentTarget).val('')
+                    } else {
+                        toastr["error"]("There was an error updating your budget.", "Update Error!")
+                    }
+                },
+                error: function (result) {
+                    toastr["error"]("There was an error, please refresh.", "Submission Error!")
+                }
+            });
+        });
+
+        $('.table').DataTable({
+            "order": [4, 'desc']
+        });
+    </script>
+}

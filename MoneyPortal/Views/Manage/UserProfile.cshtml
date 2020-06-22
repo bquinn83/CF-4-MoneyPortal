@@ -9,7 +9,7 @@
     <div class="col-6">
         <div class="card">
             <div class="card-header text-muted">@Model.Role</div>
-            @using (Html.BeginForm("UpdateUser", "Manage", FormMethod.Post, new { id = "edit-form" }))
+            @using (Html.BeginForm("UpdateUser", "Manage", FormMethod.Post, new { id = "edit-form", enctype = "Multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(model => model.Id)
@@ -110,7 +110,7 @@
                                 <img id="profileImage" class="image img-fluid rounded-circle" src="~/@Model.AvatarPath" />
                                 <div class="centered"><strong>EDIT</strong></div>
                             </div>
-                            <input id="imageUpload" type="file" name="image" capture>
+                            <input id="imageUpload" type="file" name="image" value="~/@Model.AvatarPath">
                         </div>
                     </div>
                 </div>

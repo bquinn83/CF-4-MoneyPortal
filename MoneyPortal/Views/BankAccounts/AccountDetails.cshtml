@@ -1,44 +1,22 @@
-﻿@using MoneyPortal.ViewModels
-@model HouseholdVM
+﻿@using MoneyPortal.Models
+@model BankAccount
+
 @{
-    ViewBag.Title = Model.HouseholdName;
+    ViewBag.Title = Model.Name;
 }
 
 <!--SHORTCUT BUTTONS-->
 <div class="row shortcut-bar">
-    @if (User.IsInRole("Owner"))
-    {
-        <div class="col-auto">
-            <div class="shortcut btn" id="shc-invite-member"><strong>Invite Members</strong> <i class="fas fa-user-plus"></i></div>
-        </div>
-        if (Model.UsersBankAccounts != null)
-        {
-            <div class="col-auto">
-                <div class="shortcut btn" id="shc-join-bank-account"><strong>Join Bank Account</strong> <i class="fas fa-university"></i></div>
-            </div>
-        }
-        <div class="col-auto">
-            <div class="shortcut btn" id="shc-create-budgets"><strong>Create Budgets</strong> <i class="fas fa-sitemap"></i></div>
-        </div>
-        <div class="col-auto">
-            <div class="shortcut btn" id="shc-edit-budgets"><strong>Edit Budgets</strong> <i class="fas fa-edit"></i></div>
-        </div>
-        <div class="col-auto ml-auto">
-            <div class="shortcut btn leave-household" id="shc-delete-household"><strong>Delete Household</strong> <i class="fas fa-house-damage"></i></div>
-        </div>
-    }
-    @if (User.IsInRole("Member"))
-    {
-        if (Model.UsersBankAccounts != null)
-        {
-            <div class="col-auto">
-                <div class="shortcut btn" id="shc-join-bank-account"><strong>Join Bank Account</strong> <i class="fas fa-university"></i></div>
-            </div>
-        }
-        <div class="col-auto ml-auto">
-            <div class="shortcut btn leave-household" id="shc-leave-household"><strong>Leave Household</strong> <i class="fas fa-door-closed"></i></div>
-        </div>
-    }
+    <div class="col-auto">
+        <div class="shortcut btn" id="shc-join-bank-account"><strong>Join Bank Account</strong> <i class="fas fa-university"></i></div>
+    </div>
+
+    <div class="col-auto ml-auto">
+        <div class="shortcut btn" id="shc-leave-household"><strong>Edit Account</strong> <i class="fas fa-edit"></i></div>
+    </div>
+    <div class="col-auto">
+        <div class="shortcut btn leave-household" id="shc-delete-bank-account"><strong>Delete Account</strong> <i class="fas fa-trash-alt"></i></div>
+    </div>
 </div>
 
 <!--SHORTCUT BOXES-->
@@ -209,63 +187,12 @@
     </div>
 </div>
 
-<!-- ADD CHARTING & BUDGETS HERE -->
-
 @section Scripts{
     <script>
-        //ACTIVE MENU BUTTON
-        $('#dd-household-link').click()
-        $('#household-dashboard').addClass('active')
-
-        //SHORTCUT BUTTONS
-        $('.shortcut-block').hide()
-        $('#shc-invite-member').on("click", () => {
-            $('#shortcut-row').prepend($('#invite-member'))
-            $('#invite-member').slideDown()
-        })
-        $('#shc-join-bank-account').on("click", () => {
-            $('#shortcut-row').prepend($('#join-bank-account'))
-            $('#join-bank-account').slideDown()
-        })
-        $('#shc-create-budgets').on("click", () => {
-            $('#shortcut-row').prepend($('#create-budgets'))
-            $('#create-budgets').slideDown()
-        })
-        $('#shc-edit-budgets').on("click", () => {
-            $('#shortcut-row').prepend($('#edit-budgets'))
-            $('#edit-budgets').slideDown()
-        })
-
-        //LEAVE/DELETE HOUSEHOLD SHORTCUT BUTTON
-        $('#shc-leave-household').on("click", () => {
+        $('#shc-delete-bank-account').on("click", () => {
             Swal.fire({
                 title: 'Are you sure?',
-                text: "You will need a new invitation code to rejoin this household!",
-                icon: 'warning',
-                input: 'text',
-                inputPlaceholder: 'Enter LEAVE if you wish to proceed.',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, leave',
-                backdrop: true
-            }).then((result) => {
-                if (result.value == 'LEAVE') {
-                    window.location.href = '@Url.Action("Leave", "Households")';
-                } else if (result.dismiss != Swal.DismissReason.cancel || result.dismiss != Swal.DismissReason.backdrop) {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'LEAVE not confirmed!',
-                        icon: 'error',
-                        confirmButtonText: 'Ok'
-                    })
-                }
-            })
-        })
-        $('#shc-delete-household').on("click", () => {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "Deleting your household will remove all Budgets & Members!",
+                text: "This will permanently delete your account and all transactions!",
                 icon: 'warning',
                 input: 'text',
                 inputPlaceholder: 'Enter DELETE if you wish to proceed.',
@@ -276,7 +203,7 @@
                 backdrop: true
             }).then((result) => {
                 if (result.value == 'DELETE') {
-                    window.location.href = '@Url.Action("Delete", "Households")';
+                    window.location.href = '@Url.Action("Delete", "BankAccounts")';
                 } else if (result.dismiss != Swal.DismissReason.cancel || result.dismiss != Swal.DismissReason.backdrop) {
                     Swal.fire({
                         title: 'Error!',
@@ -288,86 +215,27 @@
             })
         })
 
-        //AJAX CLICKS
-        $('#form-invite-member').on("submit", function (e) {
-            e.preventDefault();
-            var actionUrl = $(this).attr("action");
-            $.post(actionUrl, $(this).serialize(), function (result) {
-                if (result > 0) {
-                    toastr["success"](`You have sent ${result} invitations!`, "Invitations Sent!")
-                    $('#form-invite-member')[0].reset();
-                } else {
-                    toastr["error"]("There were no valid emails", "Invite Error!")
+        $('#shc-add-to-household').on("click", () => {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value) {
+                    Swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                    )
                 }
-            }).fail(function () {
-                toastr["error"]("There was an error submitting your invites.", "Submit Error!")
-            })        })
-        $('#form-join-bank-account').on("submit", function (e) {
-            e.preventDefault();
-            var actionUrl = $(this).attr("action");
-            $.post(actionUrl, $(this).serialize(), function (result) {
-                if (result) {
-                    $("#dd-user-bank-accounts").empty()
-                    $.each(JSON.parse(result), function (value, key) {
-                        $("#dd-user-bank-accounts").append($("<option></option>").attr("value", value).text(key))
-                    })
-                    $('#form-join-bank-account')[0].reset()
-                    toastr["success"](`You have joined an account with the Household!`, "Bank Account Joined!")
-                } else {
-                    toastr["error"]("The bank account was not joined to the Household", "Join Error!")
-                }
-            }).fail(function () {
-                toastr["error"]("There was an error submitting your request.", "Submit Error!")
             })
         })
-        $('#form-add-budget').on("submit", function (e) {
-            e.preventDefault();
-            var actionUrl = $(this).attr("action");
-            $.post(actionUrl, $(this).serialize(), function (result) {
-                if (result) {
-                    $('#form-add-budget')[0].reset()
-                    $("#dd-budgets").empty()
-                    $.each(JSON.parse(result), function (value, key) {
-                        $("#dd-budgets").append($("<option></option>").attr("value", value).text(key))
-                    })
-                    $('#div-budget-list').load('@Url.Action("BudgetList", "Budgets")')
-                    toastr["success"]("Your budget has been added!", "New Budget!")
-                } else if (result == false){
-                    toastr["error"]("There was an error creating your budget.", "Error!")
-                }
-            }).fail(function () {
-                toastr["error"]("There was an error submitting your budget.", "Submit Error!")
-            })
-        })
-        $('#form-add-budget-item').on("submit", function (e) {
-            e.preventDefault();
-            var actionUrl = $(this).attr("action");
-            $.post(actionUrl, $(this).serialize(), function (result) {
-                if (result == true) {
-                    $('#form-add-budget-item')[0].reset();
-                    $('#div-budget-list').load('@Url.Action("BudgetList", "Budgets")')
-                    toastr["success"]("Your budget item has been added!", "New Budget Item!")
-                } else {
-                    toastr["error"]("There was an error creating your budget item.", "Error!")
-                }
-            }).fail(function () {
-                toastr["error"]("There was an error submitting your budget item.", "Submit Error!")
-            })
-        })
-        $('#form-remove-budget-item').on("submit", function (e) {
-            e.preventDefault();
-            var actionUrl = $(this).attr("action");
-            $.post(actionUrl, $(this).serialize(), function (result) {
-                if (result > 0) {
-                    //$('#form-add-budget-item')[0].reset();
-                    $('#div-budget-list').load('@Url.Action("BudgetList", "Budgets")')
-                    toastr["warning"](`You have removed ${result} item(s)!`, "Removed Budget Item.")
-                } else {
-                    toastr["error"]("There was an error removing your budget item.", "Removal Error!")
-                }
-            }).fail(function () {
-                toastr["error"]("There was an error submitting your budget item removal.", "Submit Error!")
-            })
-        })
+
+
+
     </script>
 }

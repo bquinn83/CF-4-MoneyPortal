@@ -16,7 +16,16 @@ namespace MoneyPortal.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // POST: BankAccounts/Create
+        //GET: BankAccounts/AccountDetails
+        public ActionResult AccountDetails(int accountId)
+        {
+            var account = db.BankAccounts.Find(accountId);
+            ViewBag.BankAccountTypes = new SelectList(db.BankAccounts.ToList(), "Id", "Name");
+            ViewBag.TransactionTypes = new SelectList(db.TransactionTypes.ToList(), "Id", "Name");
+            return View(account);
+        }
+
+        //POST: BankAccounts/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(string bankAccountName, int Types, decimal startingBalance, decimal lowBalanceLevel)
@@ -24,6 +33,7 @@ namespace MoneyPortal.Controllers
             var bankAccount = new BankAccount
             {
                 Name = bankAccountName,
+                DisplayName = $"{bankAccountName} - {db.BankAccountTypes.Where(bat => bat.Id == Types).First().Name}",
                 TypeId = Types,
                 Created = DateTime.Now,
                 OwnerId = User.Identity.GetUserId(),
@@ -37,7 +47,7 @@ namespace MoneyPortal.Controllers
             return RedirectToAction("Main", "Dashboard");
         }
 
-        // GET: BankAccounts/Delete/5
+        //GET: BankAccounts/Delete
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -49,22 +59,16 @@ namespace MoneyPortal.Controllers
             {
                 return HttpNotFound();
             }
-            return View(bankAccount);
-        }
-
-        // POST: BankAccounts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            BankAccount bankAccount = db.BankAccounts.Find(id);
             db.BankAccounts.Remove(bankAccount);
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            return RedirectToAction("Main", "Dashboard");
         }
 
+
+
         // POST: Bank Account Types
-        [Authorize(Roles=("Admin"))]
+        [Authorize(Roles = ("Admin"))]
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult CreateType(string name)
         {

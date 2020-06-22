@@ -19,20 +19,13 @@ namespace MoneyPortal.Controllers
         // GET: SideMenu
         public ActionResult SideMenuRefresh()
         {
-            var viewData = new CurrentUserInfoModel();
+            var viewData = new SideNavVM();
             return PartialView("~/Views/Shared/_SideMenu.cshtml", viewData);
         }
 
         // GET: Dashboard
-        public ActionResult Main(string Message, bool? success)
+        public ActionResult Main()
         {
-            if (!Message.IsNullOrEmpty())
-                ViewBag.Message = Message;
-
-            ViewBag.Success = null;
-            if (success != null)
-                ViewBag.Success = success;
-
             if (User.IsInRole("Owner") || User.IsInRole("Member"))
             {
                 return RedirectToAction("Household");
@@ -64,10 +57,13 @@ namespace MoneyPortal.Controllers
         public ActionResult Household()
         {
             var user = db.Users.Find(User.Identity.GetUserId());
+            var householdId = (int)user.HouseholdId;
+
             var viewData = new HouseholdVM
             {
-                HouseholdId = (int)user.HouseholdId,
-                UsersBankAccounts = new SelectList(db.BankAccounts.Where(ba => ba.OwnerId == user.Id), "Id", "DisplayName"),
+                HouseholdId = householdId,
+                HouseholdName = db.Households.Find(householdId).Name,
+                UsersBankAccounts = new SelectList(db.BankAccounts.Where(ba => ba.OwnerId == user.Id && ba.HouseholdId != householdId), "Id", "DisplayName"),
                 Budgets = new SelectList(db.Categories.Where(c => c.HouseholdId == user.HouseholdId), "Id", "Name")
             };
             return View(viewData);

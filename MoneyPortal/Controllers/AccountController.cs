@@ -31,7 +31,6 @@ namespace MoneyPortal.Controllers
             UserManager = userManager;
             SignInManager = signInManager;
         }
-
         public ApplicationSignInManager SignInManager
         {
             get
@@ -43,7 +42,6 @@ namespace MoneyPortal.Controllers
                 _signInManager = value; 
             }
         }
-
         public ApplicationUserManager UserManager
         {
             get
@@ -174,19 +172,18 @@ namespace MoneyPortal.Controllers
 
         //
         // POST: /Account/Register
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        [HttpPost, AllowAnonymous, ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { 
-                    UserName = model.Email, 
-                    Email = model.Email, 
-                    FirstName = model.FirstName, 
+                var user = new ApplicationUser {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
                     LastName = model.LastName,
-                    AvatarPath = "Content/Images/blank-avatar.png"
+                    AvatarPath = "Content/Images/blank-avatar.png",
+                    EmailConfirmed = true
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -215,7 +212,7 @@ namespace MoneyPortal.Controllers
                         await Task.FromResult(0);
                     }
 
-                    return RedirectToAction("Login", "Account");
+                    return RedirectToAction("Main", "Dashboard");
                 }
                 AddErrors(result);
             }
@@ -223,9 +220,8 @@ namespace MoneyPortal.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+
+        [HttpPost, AllowAnonymous, ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterInvite(InviteRegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -273,7 +269,7 @@ namespace MoneyPortal.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult ConfirmInvitation(string email, Guid code)
+        public ActionResult InvitationRegister(string email, Guid code)
         {
             if (email == null || code == null)
             {
