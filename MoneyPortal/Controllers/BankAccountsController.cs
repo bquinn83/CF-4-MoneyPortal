@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using MoneyPortal.Models;
+using MoneyPortal.ViewModels;
 
 namespace MoneyPortal.Controllers
 {
@@ -104,6 +105,20 @@ namespace MoneyPortal.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        //PARTIAL VIEW ACTIONS
+        //GET: BankAccounts/AccountStatistics
+        public ActionResult AccountStatistics(int id)
+        {
+            var account = db.BankAccounts.Find(id);
+            return PartialView("_AccountStatistics", new AccountStatistics(account));
+        }
+        //GET: BankAccounts/AccountTransactions
+        public ActionResult AccountTransactions(int id)
+        {
+            var account = db.BankAccounts.Find(id);
+            return PartialView("_Transactions", account);
         }
     }
 }

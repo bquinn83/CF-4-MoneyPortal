@@ -10,10 +10,10 @@ namespace MoneyPortal.ViewModels
         public string CurrentBalance { get; set; }
         public string MonthlySpending { get; set; }
         public string MonthlyDeposits { get; set; }
+        public int MonthlyTransactions { get; set; }
 
         public AccountStatistics(BankAccount account)
         {
-            decimal d = 0;
             CurrentBalance = account.CurrentBalance.ToString("C");
             
             var spending = (decimal)account.Transactions
@@ -26,6 +26,9 @@ namespace MoneyPortal.ViewModels
                                     .Where(t => t.TransactionType.Name == "Deposit")
                                     .Sum(t => (decimal?)t.Amount);
             MonthlyDeposits = deposits.ToString("c");
+            MonthlyTransactions = account.Transactions
+                                    .Where(t => t.Created.Year == DateTime.Now.Year && t.Created.Month == DateTime.Now.Month)
+                                    .Count();
         }
     }
 }

@@ -37,6 +37,50 @@
     @Html.Partial("_AccountStatistics", new AccountStatistics(Model))
 </div>
 
+<!--ADD TRANSACTION-->
+<div class="block">
+    <div class="title row no-gutters mb-0">
+        <strong>Add Transaction</strong>
+        <div class="col-auto ml-auto"><i class="fas fa-lg fa-chevron-up btn btn-block-minimize" id="collapse-bank-account"></i></div>
+    </div>
+    <div class="block-body collapsable">
+        @using (Html.BeginForm("AddTransaction", "Transactions", FormMethod.Post, new { id = "form-add-transaction" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("accountId", Model.Id)
+            <div class="row no-gutters">
+                <div class="col-md-2">
+                    @Html.Label("Amount", htmlAttributes: new { @class = "control-label" })
+                    <div class="col-md-12 input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text form-control">$</span>
+                        </div>
+                        <input type="text" class="form-control" name="amount" required />
+                        <div class="input-group-append">
+                            <span class="input-group-text form-control">.00</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    @Html.Label("Transaction Type", htmlAttributes: new { @class = "control-label" })
+                    <div class="col-md-12">
+                        @Html.DropDownList("TransactionTypes", null, new { @class = "form-control", required = "" })
+                        @*<input type="text" class="form-control" name="Transa" required />*@
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    @Html.Label("Memo", htmlAttributes: new { @class = "control-label" })
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="memo" required />
+                    </div>
+                </div>
+                <div class="col-auto ml-auto align-self-end">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
 <!--ACCOUNT TRANSACTIONS-->
 <div id="account_transactions">
     @Html.Partial("_Transactions", Model)
@@ -119,6 +163,7 @@
                 }
             })
         })
+        //not complete
         $('#shc-add-to-household').on("click", () => {
             Swal.fire({
                 title: 'Add to Household?',
@@ -149,6 +194,27 @@
                 }
             })
         })
+
+        //ADD TRANSACTION AJAX
+        $('#form-add-transaction').on("submit", function (e) {
+            e.preventDefault();
+            var actionUrl = $(this).attr("action");
+            $.post(actionUrl, $(this).serialize(), function (result) {
+                if (result) {
+                    $('#form-add-transaction')[0].reset()
+                    $('#account_statistics').load('@Url.Action("AccountStatistics", "BankAccounts", new { id = Model.Id })')
+                    $('#account_transactions').load('@Url.Action("AccountTransactions", "BankAccounts", new { id = Model.Id })')
+                    //refresh DATATABLES
+                    toastr["success"]("Your transaction has been added!", "New Transaction!")
+                } else if (result == false){
+                    toastr["error"]("There was an error adding your transaction.", "Error!")
+                }
+            }).fail(function () {
+                toastr["error"]("There was an error submitting your request.", "Submit Error!")
+            })
+        })
+
+        //jQUERY DATA TABLES
         $('.table').DataTable({
             "order": [2, 'desc'],
             "columnDefs": [ { "orderable": false, "targets": 3 } ]

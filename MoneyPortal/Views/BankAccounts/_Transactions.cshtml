@@ -242,3 +242,13 @@
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script>
+    //jQUERY DATA TABLES
+    $('.table').DataTable({
+    "order": [2, 'desc'],
+    "columnDefs": [ { "orderable": false, "targets": 3 } ]
+    });
+    </script>
+}
