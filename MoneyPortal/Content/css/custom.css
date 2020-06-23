@@ -262,3 +262,40 @@ input:-webkit-autofill:active {
 .text-amount-transfer {
     color: #ffc107;
 }
+
+.edit-button, .update-button {
+    color: #429244;
+}
+.cancel-button{
+    margin-right:4px;
+}
+.cancel-button, .delete-button {
+    color: rgb(221, 51, 51);
+}
+
+.edit-button:hover,
+.update-button:hover {
+    color: #429244 !important;
+}
+
+.cancel-button:hover,
+.delete-button:hover {
+    color: rgb(221, 51, 51) !important;
+}
+
+.table{
+    width: 100% !important;
+}
+.edit-amount {
+    max-width: 100px;
+}
+.edit-type {
+    max-width: 150px;
+}
+.controls {
+    width: 100px;
+}
+
+.control-label-sm {
+    font-size: .75rem;
+}

@@ -26,8 +26,14 @@ toastr.options = {
     "hideMethod": "fadeOut"
 }
 
-    //AJAX PARTIAL TEST
-    //< button type = "button" class="btn btn-primary" id = "freshTest" > Refresh Side Menu</button > *@
-    //$('#freshTest').on("click", () => {
-    //    $('#SideMenu').load('@Url.Action("SideMenuRefresh", "Dashboard")');
-    //})
+//CURRENCY FORMATTER
+var formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+});
+
+//AJAX PARTIAL TEST
+//< button type = "button" class="btn btn-primary" id = "freshTest" > Refresh Side Menu</button > *@
+//$('#freshTest').on("click", () => {
+//    $('#SideMenu').load('@Url.Action("SideMenuRefresh", "Dashboard")');
+//})

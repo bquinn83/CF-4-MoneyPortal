@@ -51,13 +51,13 @@
         @if (Model.Role != "Admin")
         {
             <li>
-                <a href="#AccountsDropdown" aria-expanded="false" data-toggle="collapse"><i class="fas fa-lg fa-university"></i>Bank Accounts</a>
+                <a id="dd-bank-accounts" href="#AccountsDropdown" aria-expanded="false" data-toggle="collapse"><i class="fas fa-lg fa-university"></i>Bank Accounts</a>
                 <ul id="AccountsDropdown" class="collapse list-unstyled ">
                     @*<li id="accounts-dashboard"><a href="@Url.Action("Main","Dashboard")"> <i class="fas fa-lg fa-tachometer-alt"></i>Lobby</a></li>*@
                     @foreach (var account in Model.Accounts)
                     {
                     <li id="ba-@account.Id">
-                        <a href="@Url.Action("AccountDetails","BankAccounts", new { accountId = account.Id })">
+                        <a href="@Url.Action("AccountDetails","BankAccounts", new { accountId = account.Id })" id="ba-@account.Id">
                             @if (account.Type.Name == "Checking")
                             {
                                 <i class="fas fa-lg fa-money-check-alt"></i>

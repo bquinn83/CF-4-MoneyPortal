@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroup')]/providers/Microsoft.Sql/servers/quinn-coderfoundry/databases/MoneyPortal",
+      "type": "mssql.azure",
+      "connectionId": "MoneyPortal",
+      "secretStore": null
+    }
+  }
+}

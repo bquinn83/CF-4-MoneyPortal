@@ -55,7 +55,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text form-control">$</span>
                         </div>
-                        <input type="text" class="form-control" name="amount" required />
+                        <input type="number" class="form-control" name="amount" required />
                         <div class="input-group-append">
                             <span class="input-group-text form-control">.00</span>
                         </div>
@@ -65,7 +65,6 @@
                     @Html.Label("Transaction Type", htmlAttributes: new { @class = "control-label" })
                     <div class="col-md-12">
                         @Html.DropDownList("TransactionTypes", null, new { @class = "form-control", required = "" })
-                        @*<input type="text" class="form-control" name="Transa" required />*@
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -81,9 +80,10 @@
         }
     </div>
 </div>
+
 <!--ACCOUNT TRANSACTIONS-->
 <div id="account_transactions">
-    @Html.Partial("_Transactions", Model)
+    @Html.Action("AccountTransactions", new { id = Model.Id })
 </div>
 
 <!--EDIT MODAL-->
@@ -138,6 +138,12 @@
 
 @section Scripts{
     <script>
+        //SIDE NAV ACTIVE
+        $('#dd-bank-accounts').click()
+        var ddLink = "#ba-" + @Model.Id
+        $(ddLink).addClass('active')
+
+        //SHORTCUT BUTTONS
         $('#shc-delete-bank-account').on("click", () => {
             Swal.fire({
                 title: 'Are you sure?',
@@ -198,13 +204,13 @@
         //ADD TRANSACTION AJAX
         $('#form-add-transaction').on("submit", function (e) {
             e.preventDefault();
+            tables.destroy();
             var actionUrl = $(this).attr("action");
             $.post(actionUrl, $(this).serialize(), function (result) {
                 if (result) {
                     $('#form-add-transaction')[0].reset()
                     $('#account_statistics').load('@Url.Action("AccountStatistics", "BankAccounts", new { id = Model.Id })')
                     $('#account_transactions').load('@Url.Action("AccountTransactions", "BankAccounts", new { id = Model.Id })')
-                    //refresh DATATABLES
                     toastr["success"]("Your transaction has been added!", "New Transaction!")
                 } else if (result == false){
                     toastr["error"]("There was an error adding your transaction.", "Error!")
@@ -214,10 +220,88 @@
             })
         })
 
-        //jQUERY DATA TABLES
-        $('.table').DataTable({
-            "order": [2, 'desc'],
-            "columnDefs": [ { "orderable": false, "targets": 3 } ]
+        //////////////////////////////
+        // FOLLOWING MUST ALSO BE   //
+        // IN _Transactions.cshtml  //
+        //////////////////////////////
+        //TRANSACTIONS BUTTONS
+        $('.edit-button').on("click", function (e) {
+            $(e.currentTarget).parent().toggleClass('d-none')
+            $(e.currentTarget).parent().siblings('.edit').toggleClass('d-none')
+            $(e.currentTarget).parent().siblings('.details').toggleClass('d-none')
+        })
+        $('.cancel-button').on("click", function (e) {
+            $(e.currentTarget).parent().toggleClass('d-none')
+            $(e.currentTarget).parent().siblings('.edit').toggleClass('d-none')
+            $(e.currentTarget).parent().siblings('.details').toggleClass('d-none')
+        })
+        $('.delete-button').on("click", function (e) {
+            var transactionId = $(e.currentTarget).attr('data-delete')
+            Swal.fire({
+                title: 'Delete Transaction?',
+                text: "Your transaction will be permanently removed!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Delete!'
+            }).then((result) => {
+                if (result.value) {
+                    $.post('@Url.Action("DeleteTransaction", "Transactions")', { id: transactionId }, function (r) {
+                        if (r) {
+                            toastr["success"]("Your transaction has been removed!", "Deleted!")
+                            tables.row($(e.currentTarget).parents('tr')).remove().draw()
+                            $('#account_statistics').load('@Url.Action("AccountStatistics", "BankAccounts", new { id = Model.Id })')
+                        }
+                        else {
+                            toastr["error"]("There was an error removing your transaction.", "Error!")
+                        }
+                    });
+                }
+            })
+        })
+        $('.form-edit-transaction').on("submit", function (e) {
+            e.preventDefault();
+
+            var t = $(this)
+            var actionUrl = $(this).attr("action");
+
+            $.post(actionUrl, $(this).serialize(), function (result) {
+                if (result) {
+                    t.parent().find('.cancel-button').click()
+                    t.parent().find('.update-amount').text(formatter.format(t.parent().find('.input-amount').val()))
+                    t.parent().find('.update-memo').text(t.parent().find('.input-memo').val())
+                    t.parent().find('.update-type').text(t.parent().find('.input-type option:selected').text())
+                    $('#account_statistics').load('@Url.Action("AccountStatistics", "BankAccounts", new { id = Model.Id })')
+                    toastr["success"]("Your transaction has been updated!", "Transaction Update!")
+                } else if (result == false){
+                    toastr["error"]("There was an error updating your transaction.", "Update Error!")
+                }
+            }).fail(function () {
+                toastr["error"]("There was an error submitting your request.", "Submit Error!")
+            })
+        })
+        //DATATABLE
+        var tables = $('.table').DataTable({
+            "order": [3, 'desc'],
+            "columnDefs": [{ "orderable": false, "targets": 4 }]
+        });
+        //DATATABLE FILTERS
+        $('#tab-all').on('click', function (e) {
+            e.preventDefault();
+            tables.columns(0).search("", false, false, false).draw();
+        });
+        $('#tab-withdrawals').on('click', function (e) {
+            e.preventDefault();
+            tables.columns(0).search("Withdrawal", false, false, false).draw();
+        });
+        $('#tab-deposits').on('click', function (e) {
+            e.preventDefault();
+            tables.columns(0).search("Deposit", false, false, false).draw();
+        });
+        $('#tab-transfers').on('click', function (e) {
+            e.preventDefault();
+            tables.columns(0).search("Transfer", false, false, false).draw();
         });
     </script>
 }

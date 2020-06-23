@@ -31,7 +31,7 @@ namespace MoneyPortal.Models
 
         #region HOUSEHOLD
         public int? HouseholdId { get; set; }
-        public virtual Household Household { get; set; }
+        //public virtual Household Household { get; set; }
         public virtual ICollection<BankAccount> BankAccounts { get; set; }
         #endregion
 

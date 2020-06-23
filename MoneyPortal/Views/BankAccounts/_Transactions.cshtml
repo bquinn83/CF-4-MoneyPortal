@@ -1,21 +1,21 @@
-﻿@using MoneyPortal.Models
-@model BankAccount
+﻿@using MoneyPortal.ViewModels
+@model IEnumerable<AccountTransactionVM>
 
 <div class="block">
     <div class="title row no-gutters">
-        <div><strong>Transactions</strong> <sub><small>(@Model.Transactions.Count)</small></sub></div>
+        <div><strong>Transactions</strong> <sub><small>(@Model.Count())</small></sub></div>
         <ul class="nav nav-pills ml-auto" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="tab-all" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="true">All</a>
+                <a class="nav-link active" id="tab-all" data-toggle="tab" href="" role="tab" aria-controls="all" aria-selected="true">All</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="tab-withdrawl" data-toggle="tab" href="#withdrawals" role="tab" aria-controls="withdrawals" aria-selected="false">Withdrawals</a>
+                <a class="nav-link" id="tab-withdrawals" role="tab" data-toggle="tab" href="" aria-controls="withdrawals" aria-selected="false">Withdrawals</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="tab-deposits" data-toggle="tab" href="#deposits" role="tab" aria-controls="deposits" aria-selected="false">Deposits</a>
+                <a class="nav-link" id="tab-deposits" data-toggle="tab" href="" role="tab" aria-controls="deposits" aria-selected="false">Deposits</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="tab-transfers" data-toggle="tab" href="#transfers" role="tab" aria-controls="transfers" aria-selected="false">Transfers</a>
+                <a class="nav-link" id="tab-transfers" data-toggle="tab" href="" role="tab" aria-controls="transfers" aria-selected="false">Transfers</a>
             </li>
         </ul>
         <div class="col-auto"><i class="fas fa-lg fa-chevron-up btn btn-block-minimize" id="collapse-bank-account"></i></div>
@@ -26,6 +26,7 @@
                 <table class="table">
                     <thead>
                         <tr>
+                            <th class="d-none"></th>
                             <th>
                                 Amount
                             </th>
@@ -36,37 +37,55 @@
                                 Date
                             </th>
                             <th></th>
+                            <th class="d-none"></th>
+                            <th class="d-none"></th>
+                            <th class="d-none"></th>
+                            <th class="d-none"></th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        @foreach (var item in Model.Transactions)
+                        @foreach (var item in Model)
                         {
                             <tr>
+                                <td class="d-none">
+                                    @if (item.TransactionType.Name == "Deposit")
+                                    {
+                                        <span>Deposit</span>
+                                    }
+                                    else if (item.TransactionType.Name == "Transfer")
+                                    {
+                                        <span>Transfer</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Withdrawal</span>
+                                    }
+                                </td>
                                 @if (item.TransactionType.Name == "Deposit")
                                 {
-                                    <td class="text-amount-deposit">
-                                        <strong>@Html.DisplayFor(modelItem => item.Amount)</strong>
+                                    <td class="details">
+                                        <strong class="text-amount-deposit update-amount">@Html.DisplayFor(modelItem => item.DisplayAmount)</strong>
                                     </td>
                                 }
                                 else if (item.TransactionType.Name == "Transfer")
                                 {
-                                    <td class="text-amount-transfer">
-                                        <strong>(@Html.DisplayFor(modelItem => item.Amount))</strong>
+                                    <td class="text-amount-transfer details">
+                                        <strong class="update-amount">(@Html.DisplayFor(modelItem => item.DisplayAmount))</strong>
                                     </td>
                                 }
                                 else
                                 {
-                                    <td>
-                                        <strong>@Html.DisplayFor(modelItem => item.Amount)</strong>
+                                    <td class="details">
+                                        <strong class="update-amount">@Html.DisplayFor(modelItem => item.DisplayAmount)</strong>
                                     </td>
                                 }
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Memo)
+                                <td class="details">
+                                    <span class="update-memo">@Html.DisplayFor(modelItem => item.Memo)</span>
                                     <br />
-                                    <small>@Html.DisplayFor(modelItem => item.TransactionType.Name)</small>
+                                    <small class="update-type">@Html.DisplayFor(modelItem => item.TransactionType.Name)</small>
                                 </td>
-                                <td data-sort="@item.Created.Ticks">
+                                <td data-sort="@item.Created.Ticks" class="details">
                                     <small>
                                         @{
                                             var date = item.Created.ToString("dddd, dd MMMM yyyy");
@@ -77,163 +96,43 @@
                                         @Html.DisplayFor(modelItem => time)
                                     </small>
                                 </td>
-                                <td class="text-right">
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                    @Html.ActionLink("Delete", "Delete", "Transactions", new { id = item.Id }, null)
+                                <td class="text-right details align-middle controls">
+                                    <div class="edit-button btn"><i class="fas fa-lg fa-edit"></i></div>
+                                    <div class="delete-button btn" data-delete="@item.Id"><i class="fas fa-lg fa-trash-alt"></i></div>
                                 </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="tab-pane fade" id="withdrawals" role="tabpanel" aria-labelledby="">
-            <div class="block-body mt-2">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                Amount
-                            </th>
-                            <th>
-                                Memo
-                            </th>
-                            <th>
-                                Date
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @foreach (var item in Model.Transactions.Where(t => t.TransactionType.Name != "Deposit" && t.TransactionType.Name != "Transfer"))
-                        {
-                            <tr>
-                                <td>
-                                    <strong>@Html.DisplayFor(modelItem => item.Amount)</strong>
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Memo)
-                                    <br />
-                                    <small>@Html.DisplayFor(modelItem => item.TransactionType.Name)</small>
-                                </td>
-                                <td data-sort="@item.Created.Ticks">
-                                    <small>
-                                        @{
-                                            var date = item.Created.ToString("dddd, dd MMMM yyyy");
-                                            var time = item.Created.ToString("h:mm tt");
-
-                                        }
-                                        @Html.DisplayFor(modelItem => date) <br />
-                                        @Html.DisplayFor(modelItem => time)
-                                    </small>
-                                </td>
-                                <td class="text-right">
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="tab-pane fade" id="deposits" role="tabpanel" aria-labelledby="tab-deposits">
-            <div class="block-body mt-2">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                Amount
-                            </th>
-                            <th>
-                                Memo
-                            </th>
-                            <th>
-                                Date
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @foreach (var item in Model.Transactions.Where(t => t.TransactionType.Name == "Deposit"))
-                        {
-                            <tr>
-                                <td class="text-amount-deposit">
-                                    <strong>@Html.DisplayFor(modelItem => item.Amount)</strong>
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Memo)
-                                    <br />
-                                    <small>@Html.DisplayFor(modelItem => item.TransactionType.Name)</small>
-                                </td>
-                                <td data-sort="@item.Created.Ticks">
-                                    <small>
-                                        @{
-                                            var date = item.Created.ToString("dddd, dd MMMM yyyy");
-                                            var time = item.Created.ToString("h:mm tt");
-
-                                        }
-                                        @Html.DisplayFor(modelItem => date) <br />
-                                        @Html.DisplayFor(modelItem => time)
-                                    </small>
-                                </td>
-                                <td class="text-right">
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="tab-pane fade" id="transfers" role="tabpanel" aria-labelledby="tab-transfers">
-            <div class="block-body mt-2">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                Amount
-                            </th>
-                            <th>
-                                Memo
-                            </th>
-                            <th>
-                                Date
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @foreach (var item in Model.Transactions.Where(t => t.TransactionType.Name == "Transfer"))
-                        {
-                            <tr>
-                                <td class="text-amount-transfer">
-                                    <strong>(@Html.DisplayFor(modelItem => item.Amount))</strong>
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Memo)
-                                    <br />
-                                    <small>@Html.DisplayFor(modelItem => item.TransactionType.Name)</small>
-                                </td>
-                                <td data-sort="@item.Created.Ticks">
-                                    <small>
-                                        @{
-                                            var date = item.Created.ToString("dddd, dd MMMM yyyy");
-                                            var time = item.Created.ToString("h:mm tt");
-
-                                        }
-                                        @Html.DisplayFor(modelItem => date) <br />
-                                        @Html.DisplayFor(modelItem => time)
-                                    </small>
-                                </td>
-                                <td class="text-right">
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                                </td>
+                                @using (Html.BeginForm("EditTransaction", "Transactions", FormMethod.Post, new { @class = "form-edit-transaction", id=item.Id }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.Hidden("transactionId", item.Id, new { id ="a-" + item.Id })
+                                    <td class="edit edit-amount d-none">
+                                        @Html.Label("Amount", htmlAttributes: new { @class = "control-label-sm" })
+                                        <div class="col-md-12 input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text form-control form-control-sm">$</span>
+                                            </div>
+                                            <input type="number" class="form-control form-control-sm input-amount" name="amount" value="@item.Amount" required />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text form-control form-control-sm">.00</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="edit edit-type d-none">
+                                        @Html.Label("Transaction Type", htmlAttributes: new { @class = "control-label-sm" })
+                                        <div class="col-md-12">
+                                            @Html.DropDownList("TypeId", item.TransactionTypes, new { id="b-" + item.Id, @class = "form-control form-control-sm input-type", required = "" })
+                                        </div>
+                                    </td>
+                                    <td class="edit d-none">
+                                        @Html.Label("Memo", htmlAttributes: new { @class = "control-label-sm" })
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control form-control-sm input-memo" name="memo" value="@item.Memo" required />
+                                        </div>
+                                    </td>
+                                    <td class="text-right edit align-middle controls d-none">
+                                        <div class="cancel-button btn"><i class="fas fa-lg fa-times"></i></div>
+                                        <button type="submit" class="update-button btn"><i class="fas fa-lg fa-check"></i></button> 
+                                    </td>
+                                }
                             </tr>
                         }
                     </tbody>
@@ -242,13 +141,95 @@
         </div>
     </div>
 </div>
+<script>
+    if (document.readyState === "complete") {
+        //BLOCK CONTROL BUTTONS
+        $('.btn-block-minimize').on("click", function (e) {
+            $(e.currentTarget).toggleClass(['fa-chevron-up', 'fa-chevron-down'])
+            $(e.currentTarget).closest('.block').children('.collapsable').slideToggle()
+        });
 
-@section Scripts{
-    <script>
-    //jQUERY DATA TABLES
-    $('.table').DataTable({
-    "order": [2, 'desc'],
-    "columnDefs": [ { "orderable": false, "targets": 3 } ]
-    });
-    </script>
-}
+        //TRANSACTIONS BUTTONS & SUBMIT
+        $('.edit-button').on("click", function (e) {
+            $(e.currentTarget).parent().toggleClass('d-none')
+            $(e.currentTarget).parent().siblings('.edit').toggleClass('d-none')
+            $(e.currentTarget).parent().siblings('.details').toggleClass('d-none')
+        })
+        $('.cancel-button').on("click", function (e) {
+            $(e.currentTarget).parent().toggleClass('d-none')
+            $(e.currentTarget).parent().siblings('.edit').toggleClass('d-none')
+            $(e.currentTarget).parent().siblings('.details').toggleClass('d-none')
+        })
+        $('.delete-button').on("click", function (e) {
+            var transactionId = $(e.currentTarget).attr('data-delete')
+            Swal.fire({
+                title: 'Delete Transaction?',
+                text: "Your transaction will be permanently removed!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Delete!'
+            }).then((result) => {
+                if (result.value) {
+                    $.post('@Url.Action("DeleteTransaction", "Transactions")', { id: transactionId }, function (r) {
+                        if (r) {
+                            toastr["success"]("Your transaction has been removed!", "Deleted!")
+                            $('#account_statistics').load('@Url.Action("AccountStatistics", "BankAccounts", new { id = Model.FirstOrDefault().BankAccountId })')
+                            tables.row($(e.currentTarget).parents('tr')).remove().draw()
+                        }
+                        else {
+                            toastr["error"]("There was an error removing your transaction.", "Error!")
+                        }
+                    });
+                }
+            })
+        })
+        $('.form-edit-transaction').on("submit", function (e) {
+            e.preventDefault();
+
+            var t = $(this)
+            var actionUrl = $(this).attr("action");
+
+            $.post(actionUrl, $(this).serialize(), function (result) {
+                if (result) {
+                    t.parent().find('.cancel-button').click()
+                    t.parent().find('.update-amount').text(formatter.format(t.parent().find('.input-amount').val()))
+                    t.parent().find('.update-memo').text(t.parent().find('.input-memo').val())
+                    t.parent().find('.update-type').text(t.parent().find('.input-type option:selected').text())
+                    $('#account_statistics').load('@Url.Action("AccountStatistics", "BankAccounts", new { id = Model.FirstOrDefault().BankAccountId })')
+                    toastr["success"]("Your transaction has been updated!", "Transaction Update!")
+                } else if (result == false){
+                    toastr["error"]("There was an error updating your transaction.", "Update Error!")
+                }
+            }).fail(function () {
+                toastr["error"]("There was an error submitting your request.", "Submit Error!")
+            })
+        })
+
+        //DATATABLE
+        var tables = $('.table').DataTable({
+            "order": [3, 'desc'],
+            "columnDefs": [{ "orderable": false, "targets": 4 }]
+        });
+        //DATATABLE FILTERS
+        $('#tab-all').on('click', function (e) {
+            e.preventDefault();
+            tables.columns(0).search("", false, false, false).draw();
+        });
+        $('#tab-withdrawals').on('click', function (e) {
+            e.preventDefault();
+            tables.columns(0).search("Withdrawal", false, false, false).draw();
+        });
+        $('#tab-deposits').on('click', function (e) {
+            e.preventDefault();
+            tables.columns(0).search("Deposit", false, false, false).draw();
+        });
+        $('#tab-transfers').on('click', function (e) {
+            e.preventDefault();
+            tables.columns(0).search("Transfer", false, false, false).draw();
+        });
+
+    }
+
+</script>

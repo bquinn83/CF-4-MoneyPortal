@@ -117,8 +117,23 @@ namespace MoneyPortal.Controllers
         //GET: BankAccounts/AccountTransactions
         public ActionResult AccountTransactions(int id)
         {
+            var transactions = new List<AccountTransactionVM>();
+            foreach(var transaction in db.Transactions.Where(t => t.BankAccountId == id).ToList())
+            {
+                transactions.Add(new AccountTransactionVM
+                {
+                    Id = transaction.Id,
+                    BankAccountId = transaction.BankAccountId,
+                    Amount = transaction.Amount,
+                    DisplayAmount = transaction.Amount.ToString("c"),
+                    Memo = transaction.Memo,
+                    Created = transaction.Created,
+                    TransactionType = transaction.TransactionType,
+                    TransactionTypes = new SelectList(db.TransactionTypes, "Id", "Name", transaction.TransactionTypeId)
+                });
+            }
             var account = db.BankAccounts.Find(id);
-            return PartialView("_Transactions", account);
+            return PartialView("_Transactions", transactions);
         }
     }
 }
