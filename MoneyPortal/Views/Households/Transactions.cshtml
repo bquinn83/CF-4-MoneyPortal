@@ -19,12 +19,11 @@
             <th>
                 Budget
             </th>
-            <th>
+            <th class="text-right">
                 Date
             </th>
-            <th></th>
         </tr>
-    </thead>
+    </thead>asdfasf
     <tbody>
         @foreach (var item in Model.Transactions)
         {
@@ -36,7 +35,18 @@
                     </small>
                 </td>
                 <td>
-                    <strong>@Html.DisplayFor(modelItem => item.Amount)</strong>
+                    @if (item.Type == "Deposit")
+                    {
+                        <strong class="text-amount-deposit update-amount">@item.Amount.ToString("c")</strong>
+                    }
+                    else if (item.Type == "Transfer")
+                    {
+                        <strong class="text-amount-transfer">(@item.Amount.ToString("c"))</strong>
+                    }
+                    else
+                    {
+                        <strong class="update-amount">@item.Amount.ToString("c")</strong>
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Memo)
@@ -44,23 +54,17 @@
                     <small>@Html.DisplayFor(modelItem => item.Type)</small>
                 </td>
                 <td data-sort="@item.BudgetItem">
-                    @*@Html.DisplayFor(modelItem => item.BudgetItem)*@
                     @Html.DropDownList("CategoryItem", item.BudgetItemList, "", new { @class = "form-control budget-select", id = item.Id })
                 </td>
-                <td data-sort="@item.Date.Ticks">
+                <td data-sort="@item.Date.Ticks" class="text-right">
                     <small>
                         @{
                             var date = item.Date.ToString("dddd, dd MMMM yyyy");
                             var time = item.Date.ToString("h:mm tt");
-
                         }
                         @Html.DisplayFor(modelItem => date) <br />
                         @Html.DisplayFor(modelItem => time)
                     </small>
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                 </td>
             </tr>
         }

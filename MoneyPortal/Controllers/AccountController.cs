@@ -504,7 +504,7 @@ namespace MoneyPortal.Controllers
                     AvatarPath = "Content/Images/blank-avatar.png"
                 };
                 var result = await UserManager.CreateAsync(user);
-                //UserManager.AddToRoles(user.Id, "Submitter");
+                UserManager.AddToRoles(user.Id, "Personal");
                 if (result.Succeeded)
                 {
                     result = await UserManager.AddLoginAsync(user.Id, info.Login);

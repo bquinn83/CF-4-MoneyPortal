@@ -13,7 +13,8 @@ namespace MoneyPortal.ViewModels
         public string HouseholdName { get; set; }
         public SelectList UsersBankAccounts { get; set; }
         public SelectList Budgets { get; set; }
-        public List<Transaction> RecentTransactions { get; set; }
+        public SelectList BudgetList { get; set; }
+        public List<Transaction> MonthlyTransactions { get; set; }
     }
     public class LobbyVM
     {

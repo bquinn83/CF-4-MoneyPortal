@@ -44,20 +44,20 @@
                     }
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CurrentBalance)
+                    @item.CurrentBalance.ToString("c")
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.LowBalanceLevel)
+                    @item.LowBalanceLevel.ToString("c")
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Owner.FullName)
                 </td>
-                @if (User.IsInRole("Owner") || item.OwnerId == User.Identity.GetUserId())
-                {
-                    <td>
+                <td class="text-right">
+                    @if (User.IsInRole("Owner") || item.OwnerId == User.Identity.GetUserId())
+                    {
                         @Html.ActionLink("Remove", "RemoveBankAccount", new { id = item.Id })
-                    </td>
-                } else { <td></td>}
+                    }
+                </td>
             </tr>
         }
     </tbody>
@@ -68,6 +68,9 @@
         $('#dd-household-link').click()
         $('#household-bank-accounts').addClass('active')
 
-        $('.table').DataTable();
+        $('.table').DataTable({
+            "order": [0, 'asc'],
+            "columnDefs": [{ "orderable": false, "targets": 4 }]
+        });
     </script>
 }

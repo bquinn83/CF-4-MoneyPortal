@@ -132,7 +132,8 @@ namespace MoneyPortal.Controllers
                     TransactionTypes = new SelectList(db.TransactionTypes, "Id", "Name", transaction.TransactionTypeId)
                 });
             }
-            var account = db.BankAccounts.Find(id);
+            //var account = db.BankAccounts.Find(id);
+            ViewBag.BankAccountId = id;
             return PartialView("_Transactions", transactions);
         }
     }

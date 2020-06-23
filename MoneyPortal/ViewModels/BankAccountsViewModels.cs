@@ -31,8 +31,6 @@ namespace MoneyPortal.ViewModels
                                     .Where(t => t.Created.Year == DateTime.Now.Year && t.Created.Month == DateTime.Now.Month)
                                     .Count();
         }
-
-
     }
     public class AccountTransactionVM
     {

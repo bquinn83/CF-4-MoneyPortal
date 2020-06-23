@@ -175,7 +175,7 @@
                     $.post('@Url.Action("DeleteTransaction", "Transactions")', { id: transactionId }, function (r) {
                         if (r) {
                             toastr["success"]("Your transaction has been removed!", "Deleted!")
-                            $('#account_statistics').load('@Url.Action("AccountStatistics", "BankAccounts", new { id = Model.FirstOrDefault().BankAccountId })')
+                            $('#account_statistics').load('@Url.Action("AccountStatistics", "BankAccounts", new { id = ViewBag.BankAccountId })')
                             tables.row($(e.currentTarget).parents('tr')).remove().draw()
                         }
                         else {
@@ -197,7 +197,7 @@
                     t.parent().find('.update-amount').text(formatter.format(t.parent().find('.input-amount').val()))
                     t.parent().find('.update-memo').text(t.parent().find('.input-memo').val())
                     t.parent().find('.update-type').text(t.parent().find('.input-type option:selected').text())
-                    $('#account_statistics').load('@Url.Action("AccountStatistics", "BankAccounts", new { id = Model.FirstOrDefault().BankAccountId })')
+                    $('#account_statistics').load('@Url.Action("AccountStatistics", "BankAccounts", new { id = ViewBag.BankAccountId })')
                     toastr["success"]("Your transaction has been updated!", "Transaction Update!")
                 } else if (result == false){
                     toastr["error"]("There was an error updating your transaction.", "Update Error!")

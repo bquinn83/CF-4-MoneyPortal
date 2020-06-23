@@ -211,8 +211,39 @@
     </div>
 </div>
 
-<!-- ADD CHARTING & BUDGETS HERE -->
+<!--ACCOUNT DETAILS-->
+<div id="household-statistics">
+    @Html.Partial("_HouseholdStatistics", new HouseholdStatisticsVM(Model.HouseholdId))
+</div>
 
+<!-- ADD CHARTING & BUDGETS HERE -->
+<div class="row">
+    <div class="col-md-8">
+        <div class="block">
+            <div class="title row no-gutters mb-0">
+                <div class="col-10"><strong class="d-block">Budgets</strong></div>
+                <div class="ml-auto"><i class="fas fa-lg fa-chevron-up btn btn-block-minimize" id="collapse-ticket-priorities"></i></div>
+            </div>
+            <div class="block-body collapsable">
+                <canvas id="budgets-bar-chart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="block">
+            <div class="title row no-gutters mb-0">
+                <div class="col-10"><strong class="d-block">Budget Breakdown</strong></div>
+                <div class="ml-auto"><i class="fas fa-lg fa-chevron-up btn btn-block-minimize" id="collapse-ticket-priorities"></i></div>
+            </div>
+            <div class="block-body collapsable">
+                @Html.DropDownList("Budgets", null, new { @class = "form-control", id = "budget-select" })
+                <canvas id="budgets-breakdown-chart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--SCRIPTS & FUNCTIONALITY-->
 @section Scripts{
     <script>
         //ACTIVE MENU BUTTON
@@ -370,5 +401,108 @@
                 toastr["error"]("There was an error submitting your budget item removal.", "Submit Error!")
             })
         })
+
+        //CHARTING
+        var budgets = $('#budgets-bar-chart');
+        var breakdown = $('#budgets-breakdown-chart');
+
+        $('#budget-select').change(function (e) {
+            //alert($(e.currentTarget).val())
+            @*$.ajax({
+                type: "POST",
+                url: "@Url.Action("UpdateBudgetItem", "Budgets")",
+                data: {
+                    transactionId: $(e.currentTarget).attr("id"),
+                    budgetItemId: $(e.currentTarget).val()
+                },
+                dataType: "json",
+                success: function (result) {
+                    if (result == true) {
+                        toastr["success"]("The transactions budget has been updated!.", "Success!")
+                    } else if (result == "reset") {
+                        toastr["warning"]("The transactions budget has been removed.", "Budget Removed!")
+                         $(e.currentTarget).val('')
+                    } else {
+                        toastr["error"]("There was an error updating your budget.", "Update Error!")
+                    }
+                },
+                error: function (result) {
+                    toastr["error"]("There was an error, please refresh.", "Submission Error!")
+                }
+            });*@
+        });
+
+        var budgetsChart = new Chart(budgets, {
+            type: 'horizontalBar',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+        var breakdownChart = new Chart(breakdown, {
+            type: 'doughnut',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
     </script>
 }

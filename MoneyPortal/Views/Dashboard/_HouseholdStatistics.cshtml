@@ -1,0 +1,47 @@
+﻿@using MoneyPortal.ViewModels
+@using System.Globalization
+
+@model HouseholdStatisticsVM
+
+<div class="row">
+    <div class="col-md-3 col-sm-6">
+        <div class="statistic-block block">
+            <div class="progress-details d-flex align-items-end justify-content-between">
+                <div class="title">
+                    <div class="icon"><i class="fas fa-lg fa-money-bill-alt"></i></div><strong>Total<br />Balance</strong>
+                </div>
+                <div class="number dashtext-1">@Model.TotalBalance.ToString("c")</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="statistic-block block">
+            <div class="progress-details d-flex align-items-end justify-content-between">
+                <div class="title">
+                    <div class="icon"><i class="fas fa-lg fa-list-ol"></i></div><strong>Total<br />Budget</strong>
+                </div>
+                <div class="number dashtext-2">@Model.TotalBudget.ToString("c")</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="statistic-block block">
+            <div class="progress-details d-flex align-items-end justify-content-between">
+                <div class="title">
+                    <div class="icon"><i class="fas fa-lg fa-hand-holding-usd"></i></div><strong>Monthly<br />Spending</strong>
+                </div>
+                <div class="number dashtext-3">@Model.CurrentSpending.ToString("c")</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="statistic-block block">
+            <div class="progress-details d-flex align-items-end justify-content-between">
+                <div class="title">
+                    <div class="icon"><i class="fas fa-lg fa-wallet"></i></div><strong>Monthly<br />Deposits</strong>
+                </div>
+                <div class="number dashtext-4">@Model.CurrentDeposits.ToString("c")</div>
+            </div>
+        </div>
+    </div>
+</div>
