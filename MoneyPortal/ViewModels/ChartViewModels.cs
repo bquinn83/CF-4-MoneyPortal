@@ -33,13 +33,13 @@ namespace KillBug.ViewModels
     public class ChartData
     {
         public string KeyLabel { get; set; }
-        public List<int> Data { get; set; }
+        public List<decimal> Data { get; set; }
         public List<string> Labels { get; set; }
         public ChartOptions Options { get; set; }
 
         public ChartData()
         {
-            Data = new List<int>();
+            Data = new List<decimal>();
             Labels = new List<string>();
             Options = new ChartOptions();
         }

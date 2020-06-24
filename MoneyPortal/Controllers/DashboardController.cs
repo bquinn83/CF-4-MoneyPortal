@@ -64,8 +64,7 @@ namespace MoneyPortal.Controllers
                 HouseholdId = householdId,
                 HouseholdName = db.Households.Find(householdId).Name,
                 UsersBankAccounts = new SelectList(db.BankAccounts.Where(ba => ba.OwnerId == user.Id && ba.HouseholdId != householdId), "Id", "DisplayName"),
-                Budgets = new SelectList(db.Categories.Where(c => c.HouseholdId == householdId), "Id", "Name"),
-                BudgetList = new SelectList(db.Categories.Where(c => c.HouseholdId == householdId), "Id", "Name")
+                Budgets = new SelectList(db.Categories.Where(c => c.HouseholdId == householdId), "Id", "Name")
             };
             return View(viewData);
         }

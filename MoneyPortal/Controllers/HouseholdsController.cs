@@ -53,7 +53,7 @@ namespace MoneyPortal.Controllers
                 };
 
                 var items = new List<SelectListItem>();
-                foreach(var budget in db.Categories.OrderBy(c => c.Name).ToList())
+                foreach(var budget in db.Categories.Where(c => c.HouseholdId == householdId).OrderBy(c => c.Name).ToList())
                 {
                     var group = new SelectListGroup() { Name = budget.Name };
                     foreach(var budgetItem in budget.CategoryItems.ToList())
@@ -139,8 +139,9 @@ namespace MoneyPortal.Controllers
                 };
                 db.Households.Add(household);
                 db.SaveChanges();
-
                 user.HouseholdId = household.Id;
+                db.SaveChanges();
+
                 userManager.RemoveFromRole(userId, "Personal");
                 userManager.AddToRole(userId, "Owner");
 
@@ -234,7 +235,7 @@ namespace MoneyPortal.Controllers
 
         // GET: Households/Delete
         [Authorize(Roles = "Owner")]
-        public ActionResult Delete()
+        public async Task<ActionResult> Delete()
         {
             var householdId = db.Users.Find(User.Identity.GetUserId()).HouseholdId;
             var users = db.Users.Where(u => u.HouseholdId == householdId).ToList();
@@ -253,7 +254,7 @@ namespace MoneyPortal.Controllers
                 userManager.AddToRole(user.Id, "Personal");
             }
 
-            foreach(var budget in db.Categories.ToList())
+            foreach(var budget in db.Categories.Where(c => c.HouseholdId == householdId).ToList())
             {
                 foreach(var budgetItem in budget.CategoryItems.ToList())
                 {
@@ -264,6 +265,8 @@ namespace MoneyPortal.Controllers
 
             db.Households.Remove(db.Households.Find(householdId));
             db.SaveChanges();
+
+            await UserAuthorization.RefreshAuthentication(HttpContext, db.Users.Find(User.Identity.GetUserId()));
 
             return RedirectToAction("Main", "Dashboard");
         }

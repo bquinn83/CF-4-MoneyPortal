@@ -56,7 +56,7 @@ namespace MoneyPortal.Controllers
             account.Name = bankAccountName;
             account.TypeId = BankAccountTypes;
             account.LowBalanceLevel = lowBalanceLevel;
-            account.DisplayName = $"{ account.Name } - { account.Type.Name }";
+            account.DisplayName = $"{ account.Name } - { db.BankAccountTypes.Find(account.TypeId).Name }";
             db.Entry(account).State = EntityState.Modified;
             db.SaveChanges();
 

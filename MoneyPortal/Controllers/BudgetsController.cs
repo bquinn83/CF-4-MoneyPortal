@@ -37,7 +37,7 @@ namespace MoneyPortal.Controllers
                 db.SaveChanges();
 
                 var data = new Dictionary<int, string>();
-                foreach (var b in db.Categories.ToList())
+                foreach (var b in db.Categories.Where(c => c.HouseholdId == user.HouseholdId).ToList())
                 {
                     data.Add(b.Id, b.Name);
                 }
@@ -122,8 +122,9 @@ namespace MoneyPortal.Controllers
                 {
                     if(item != "")
                     {
-                        db.Transactions.Where(t => t.CategoryItemId == Convert.ToInt32(item)).ForEach(t => t.CategoryItemId = null);
-                        db.CategoryItems.Remove(db.CategoryItems.Find(Convert.ToInt32(item)));
+                        var id = Convert.ToInt32(item);
+                        db.Transactions.Where(t => t.CategoryItemId == id).ForEach(t => t.CategoryItemId = null);
+                        db.CategoryItems.Remove(db.CategoryItems.Find(id));
                         db.SaveChanges();
                         itemsRemoved++;
                     }

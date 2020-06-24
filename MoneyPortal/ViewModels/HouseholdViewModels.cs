@@ -61,6 +61,7 @@ namespace MoneyPortal.ViewModels
             TotalBudget = house.Categories.Sum(c => c.TargetAmount);
             CurrentSpending = house.BankAccounts
                                 .SelectMany(ba => ba.Transactions)
+                                .Where(t => t.TransactionType.Name != "Deposit" && t.TransactionType.Name != "Transfer")
                                 .Where(t => t.Created.Year == now.Year && t.Created.Month == now.Month)
                                 .Sum(t => t.Amount);
             CurrentDeposits = house.BankAccounts
