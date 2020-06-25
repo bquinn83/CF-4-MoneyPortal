@@ -182,7 +182,7 @@ namespace MoneyPortal_Service
                         // Use the "DocumentTitle" option to change the Document title.
                         // Very helpful when you have multiple Swagger pages open, to tell them apart.
                         //
-                        c.DocumentTitle("Money Portal API Service");
+                        c.DocumentTitle("API Service");
 
                         // Use the "InjectStylesheet" option to enrich the UI with one or more additional CSS stylesheets.
                         // The file must be included in your project as an "Embedded Resource", and then the resource's
@@ -194,7 +194,7 @@ namespace MoneyPortal_Service
                         // has loaded. The file must be included in your project as an "Embedded Resource", and then the resource's
                         // "Logical Name" is passed to the method as shown above.
                         //
-                        c.InjectJavaScript(thisAssembly, "MoneyPortal_Service.Content.CustomSwagger.js");
+                        c.InjectJavaScript(thisAssembly, "MoneyPortal_Service.Scripts.CustomSwagger.js");
 
                         // The swagger-ui renders boolean data types as a dropdown. By default, it provides "true" and "false"
                         // strings as the possible choices. You can use this option to change these to something else,

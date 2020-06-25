@@ -417,9 +417,6 @@
     <Content Include="Content\css\DataTables-1.10.21\images\sort_both.png" />
     <Content Include="Content\css\DataTables-1.10.21\images\sort_desc.png" />
     <Content Include="Content\css\DataTables-1.10.21\images\sort_desc_disabled.png" />
-    <Content Include="Content\favicon_io\favicon.ico" />
-    <Content Include="Content\favicon_io\android-chrome-192x192.png" />
-    <Content Include="Content\favicon_io\android-chrome-512x512.png" />
     <Content Include="Content\favicon_io\apple-touch-icon.png" />
     <Content Include="Content\favicon_io\favicon-16x16.png" />
     <Content Include="Content\favicon_io\favicon-32x32.png" />
@@ -517,7 +514,6 @@
     <Content Include="Content\webfonts\fa-brands-400.svg" />
     <Content Include="Content\webfonts\fa-regular-400.svg" />
     <Content Include="Content\webfonts\fa-solid-900.svg" />
-    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\Chart.js" />
@@ -531,6 +527,7 @@
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\sweetalert2.all.min.js" />
     <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Uploads\Avatars\avatar-637281210552239204.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -557,7 +554,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Uploads\Avatars\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\dark-dashboard.eot" />
