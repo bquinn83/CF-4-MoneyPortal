@@ -1,5 +1,6 @@
 ﻿@using Microsoft.Owin.Security
-@model MoneyPortal.ViewModels.LoginViewModel
+@using MoneyPortal.ViewModels
+@model LoginViewModel
 @{
     ViewBag.Title = "Log In";
 }
@@ -31,21 +32,23 @@
 @Html.ActionLink("Forgot Password?", "ForgotPassword", null, new { @class = "forgot-pass" })
 <br>
 <small>Do not have an account? </small>@Html.ActionLink("Sign Up!", "Register", null, new { @class = "signup" })
-@*<hr />
-<small>Sign up with an External Login!</small>
-<div id="socialLoginList">
-    <p>
-        @using (Html.BeginForm("ExternalLogin", "Account", FormMethod.Post, htmlAttributes: new { style = "max-width: 100%" }))
-        {
-            @Html.AntiForgeryToken()
-            var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
-            foreach (AuthenticationDescription p in loginProviders)
-            {
-                <button type="submit" class="btn btn-primary" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button>
-            }
-        }
-    </p>
-</div>*@
+@*
+    <hr />
+        <small>Sign up with an External Login!</small>
+        <div id="socialLoginList">
+            <p>
+                @using (Html.BeginForm("ExternalLogin", "Account", FormMethod.Post, htmlAttributes: new { style = "max-width: 100%" }))
+                {
+                    @Html.AntiForgeryToken()
+                    var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
+                    foreach (AuthenticationDescription p in loginProviders)
+                    {
+                        <button type="submit" class="btn btn-primary" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button>
+                    }
+                }
+            </p>
+        </div>
+    *@
 <hr />
 <small>Try a Demo User!</small>
 <div id="DemuUsers">
@@ -53,7 +56,7 @@
         @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post, htmlAttributes: new { style = "max-width: 100%" }))
         {
             @Html.AntiForgeryToken()
-            <button type="submit" class="btn btn-primary" name="emailKey" value="DemoEmailAdmin">Admin</button>
+            @*<button type="submit" class="btn btn-primary" name="emailKey" value="DemoEmailAdmin">Admin</button>*@
             <button type="submit" class="btn btn-primary" name="emailKey" value="DemoEmailHouseholdOwner">Owner</button>
             <button type="submit" class="btn btn-primary" name="emailKey" value="DemoEmailHouseholdMember">Member</button>
             <button type="submit" class="btn btn-primary" name="emailKey" value="DemoEmailPersonal">Personal</button>
