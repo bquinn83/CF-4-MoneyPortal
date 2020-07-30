@@ -262,6 +262,9 @@ input:-webkit-autofill:active {
 .text-amount-transfer {
     color: #ffc107;
 }
+.text-amount-withdrawal {
+    color: #b11b2e;
+}
 
 .edit-button, .update-button {
     color: #429244;
@@ -298,4 +301,30 @@ input:-webkit-autofill:active {
 
 .control-label-sm {
     font-size: .75rem;
+}
+
+.dashtext-g {
+    padding-left: 20px;
+    color: #429244 !important;
+}
+
+.dashtext-r {
+    padding-left: 20px;
+    color: #b11b2e !important;
+}
+
+.dashtext-y {
+    padding-left: 20px;
+    color: #ffc107 !important;
+}
+
+.title .words {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: .9rem;
+    font-weight: bolder;
+    color: #8a8d93;
+    margin-bottom: 5px;
+    padding-left: 10px;
+    padding-top: 5px;
 }

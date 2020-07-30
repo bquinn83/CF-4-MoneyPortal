@@ -112,8 +112,10 @@ namespace MoneyPortal.Controllers
         public ActionResult AccountStatistics(int id)
         {
             var account = db.BankAccounts.Find(id);
+            ViewBag.BankAccountId = account.Id;
             return PartialView("_AccountStatistics", new AccountStatistics(account));
         }
+
         //GET: BankAccounts/AccountTransactions
         public ActionResult AccountTransactions(int id)
         {

@@ -57,13 +57,14 @@ namespace MoneyPortal.Controllers
             }
         }
 
-        public ActionResult UserProfile(ManageMessageId? message)
+        public ActionResult UserProfile(ManageMessage? message)
         {
-            ViewBag.StatusMessage = message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.ChangeEmailSuccess ? "Your email has been changed."
-                : message == ManageMessageId.Error ? "There has been an error."
-                : message == ManageMessageId.UpdateProfileSuccess ? "You have successfully updated your profile."
-                : message == ManageMessageId.UpdateProfileError ? "There has been an error updateing your profile."
+            ViewBag.StatusMessage = message == ManageMessage.ChangePasswordSuccess ? "Your password has been changed."
+                : message == ManageMessage.ChangeEmailSuccess ? "Your email has been changed."
+                : message == ManageMessage.Error ? "There has been an error."
+                : message == ManageMessage.UpdateProfileSuccess ? "You have successfully updated your profile."
+                : message == ManageMessage.UpdateProfileError ? "There has been an error updating your profile."
+                : message == ManageMessage.ChangePasswordError ? "There has been an error updating your password."
                 : "";
 
             var user = db.Users.Find(User.Identity.GetUserId());
@@ -107,27 +108,27 @@ namespace MoneyPortal.Controllers
 
                     db.Entry(dbUser).State = EntityState.Modified;
                     db.SaveChanges();
-                    return RedirectToAction("UserProfile", "Manage", new { Message = ManageMessageId.UpdateProfileSuccess });
+                    return RedirectToAction("UserProfile", "Manage", new { Message = ManageMessage.UpdateProfileSuccess });
                 }
                 catch (Exception ex)
                 {
-                    return RedirectToAction("UserProfile", "Manage", new { Message = ManageMessageId.UpdateProfileError });
+                    return RedirectToAction("UserProfile", "Manage", new { Message = ManageMessage.UpdateProfileError });
                 }
             }
 
-            return RedirectToAction("UserProfile", "Manage", new { Message = ManageMessageId.UpdateProfileError });
+            return RedirectToAction("UserProfile", "Manage", new { Message = ManageMessage.UpdateProfileError });
         }
 
         //
         // GET: /Manage/Index
-        public async Task<ActionResult> Index(ManageMessageId? message)
+        public async Task<ActionResult> Index(ManageMessage? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                message == ManageMessage.ChangePasswordSuccess ? "Your password has been changed."
+                : message == ManageMessage.SetPasswordSuccess ? "Your password has been set."
+                : message == ManageMessage.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
+                : message == ManageMessage.Error ? "An error has occurred."
+                : message == ManageMessage.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
 
             var userId = User.Identity.GetUserId();
@@ -148,7 +149,7 @@ namespace MoneyPortal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
         {
-            ManageMessageId? message;
+            ManageMessage? message;
             var result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
             if (result.Succeeded)
             {
@@ -157,11 +158,11 @@ namespace MoneyPortal.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                message = ManageMessageId.RemoveLoginSuccess;
+                message = ManageMessage.RemoveLoginSuccess;
             }
             else
             {
-                message = ManageMessageId.Error;
+                message = ManageMessage.Error;
             }
             return RedirectToAction("ManageLogins", new { Message = message });
         }
@@ -184,16 +185,9 @@ namespace MoneyPortal.Controllers
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return RedirectToAction("UserProfile", new { Message = ManageMessageId.ChangeEmailSuccess });
+                return RedirectToAction("UserProfile", new { Message = ManageMessage.ChangeEmailSuccess });
             }
             
-        }
-
-        //
-        // GET: /Manage/ChangePassword
-        public ActionResult ChangePassword()
-        {
-            return View();
         }
 
         //
@@ -204,7 +198,7 @@ namespace MoneyPortal.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return RedirectToAction("UserProfile", "Manage", model);
+                return RedirectToAction("UserProfile", "Manage", new { Message = ManageMessage.ChangePasswordError });
             }
             var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
             if (result.Succeeded)
@@ -214,10 +208,9 @@ namespace MoneyPortal.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                return RedirectToAction("UserProfile", "Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
+                return RedirectToAction("UserProfile", "Manage", new { Message = ManageMessage.ChangePasswordSuccess });
             }
-            AddErrors(result);
-            return View(model);
+            return RedirectToAction("UserProfile", "Manage", new { Message = ManageMessage.ChangePasswordError });
         }
 
         //
@@ -243,7 +236,7 @@ namespace MoneyPortal.Controllers
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     }
-                    return RedirectToAction("Index", new { Message = ManageMessageId.SetPasswordSuccess });
+                    return RedirectToAction("Index", new { Message = ManageMessage.SetPasswordSuccess });
                 }
                 AddErrors(result);
             }
@@ -254,11 +247,11 @@ namespace MoneyPortal.Controllers
 
         //
         // GET: /Manage/ManageLogins
-        public async Task<ActionResult> ManageLogins(ManageMessageId? message)
+        public async Task<ActionResult> ManageLogins(ManageMessage? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.Error ? "An error has occurred."
+                message == ManageMessage.RemoveLoginSuccess ? "The external login was removed."
+                : message == ManageMessage.Error ? "An error has occurred."
                 : "";
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user == null)
@@ -292,10 +285,10 @@ namespace MoneyPortal.Controllers
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
             if (loginInfo == null)
             {
-                return RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
+                return RedirectToAction("ManageLogins", new { Message = ManageMessage.Error });
             }
             var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
-            return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
+            return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessage.Error });
         }
 
         protected override void Dispose(bool disposing)
@@ -349,10 +342,11 @@ namespace MoneyPortal.Controllers
             return false;
         }
 
-        public enum ManageMessageId
+        public enum ManageMessage
         {
             ChangeEmailSuccess,
             ChangePasswordSuccess,
+            ChangePasswordError,
             UpdateProfileSuccess,
             UpdateProfileError,
             SetTwoFactorSuccess,

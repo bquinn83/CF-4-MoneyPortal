@@ -29,16 +29,18 @@
             </div>
         </div>
     </div>
-    @*<div class="col-4">
-        <div class="btn block" id="household-wizard" data-toggle="modal" data-target="">
-            <div class="title d-flex justify-content-center">
-                <strong>Household Wizard</strong>
-            </div>
-            <div class="block-body d-flex justify-content-center">
-                <i class="fas fa-magic fa-6x"></i>
+    @*
+        <div class="col-4">
+            <div class="btn block" id="household-wizard" data-toggle="modal" data-target="">
+                <div class="title d-flex justify-content-center">
+                    <strong>Household Wizard</strong>
+                </div>
+                <div class="block-body d-flex justify-content-center">
+                    <i class="fas fa-magic fa-6x"></i>
+                </div>
             </div>
         </div>
-    </div>*@
+    *@ 
     <div class="col-4">
         <div class="btn block" id="add-bank-account" data-toggle="modal" data-target="#modal-add-bank-account">
             <div class="title d-flex justify-content-center">
@@ -96,7 +98,6 @@
             <div class="modal-header">
                 <h4 class="modal-title">Join Household</h4>
                 <div data-dismiss="modal"><i class="fas fa-lg fa-times btn btn-block-close"></i></div>
-                @*<button type="button" class="close" data-dismiss="modal"><i class="fas fa-times"></i></button>*@
             </div>
             @using (Html.BeginForm("CheckInvitation", "Invitations", FormMethod.Post, new { id = "form-join-household" }))
             {

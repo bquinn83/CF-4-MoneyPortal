@@ -66,6 +66,7 @@ namespace MoneyPortal.Controllers
                 UsersBankAccounts = new SelectList(db.BankAccounts.Where(ba => ba.OwnerId == user.Id && ba.HouseholdId != householdId), "Id", "DisplayName"),
                 Budgets = new SelectList(db.Categories.Where(c => c.HouseholdId == householdId), "Id", "Name")
             };
+            ViewBag.BudgetCategories = db.CategoryItems.Where(ci => ci.Category.HouseholdId == householdId).Count();
             return View(viewData);
         }
 

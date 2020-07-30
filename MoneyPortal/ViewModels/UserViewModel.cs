@@ -61,6 +61,7 @@ namespace MoneyPortal.ViewModels
             AddressZip = user.AddressZip;
             PhoneNumber = user.PhoneNumber;
             AboutMe = user.AboutMe;
+            Role = user.UserRole();
         }
     }
 }

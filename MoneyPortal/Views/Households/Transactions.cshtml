@@ -37,7 +37,7 @@
                 <td>
                     @if (item.Type == "Deposit")
                     {
-                        <strong class="text-amount-deposit update-amount">@item.Amount.ToString("c")</strong>
+                        <strong class="text-amount-deposit">@item.Amount.ToString("c")</strong>
                     }
                     else if (item.Type == "Transfer")
                     {
@@ -45,7 +45,7 @@
                     }
                     else
                     {
-                        <strong class="update-amount">@item.Amount.ToString("c")</strong>
+                        <strong class="text-amount-withdrawal">@item.Amount.ToString("c")</strong>
                     }
                 </td>
                 <td>

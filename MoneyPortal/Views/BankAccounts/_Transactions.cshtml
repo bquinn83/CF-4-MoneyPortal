@@ -51,15 +51,15 @@
                                 <td class="d-none">
                                     @if (item.TransactionType.Name == "Deposit")
                                     {
-                                        <span>Deposit</span>
+                                        <span class="transaction-type">Deposit</span>
                                     }
                                     else if (item.TransactionType.Name == "Transfer")
                                     {
-                                        <span>Transfer</span>
+                                        <span class="transaction-type">Transfer</span>
                                     }
                                     else
                                     {
-                                        <span>Withdrawal</span>
+                                        <span class="transaction-type">Withdrawal</span>
                                     }
                                 </td>
                                 @if (item.TransactionType.Name == "Deposit")
@@ -77,7 +77,7 @@
                                 else
                                 {
                                     <td class="details">
-                                        <strong class="update-amount">@Html.DisplayFor(modelItem => item.DisplayAmount)</strong>
+                                        <strong class="update-amount text-amount-withdrawal">@Html.DisplayFor(modelItem => item.DisplayAmount)</strong>
                                     </td>
                                 }
                                 <td class="details">
@@ -175,8 +175,8 @@
                     $.post('@Url.Action("DeleteTransaction", "Transactions")', { id: transactionId }, function (r) {
                         if (r) {
                             toastr["success"]("Your transaction has been removed!", "Deleted!")
-                            $('#account_statistics').load('@Url.Action("AccountStatistics", "BankAccounts", new { id = ViewBag.BankAccountId })')
                             tables.row($(e.currentTarget).parents('tr')).remove().draw()
+                            $('#account-statistics').load('@Url.Action("AccountStatistics", "BankAccounts", new { id = ViewBag.BankAccountId })')
                         }
                         else {
                             toastr["error"]("There was an error removing your transaction.", "Error!")
@@ -195,9 +195,27 @@
                 if (result) {
                     t.parent().find('.cancel-button').click()
                     t.parent().find('.update-amount').text(formatter.format(t.parent().find('.input-amount').val()))
+                    var tranType = t.parent().find('.input-type option:selected').text()
+                    if (tranType == "Deposit") {
+                        t.parent().find('.transaction-type').text("Deposit")
+                        t.parent().find('.update-amount').removeClass("text-amount-withdrawal")
+                        t.parent().find('.update-amount').removeClass("text-amount-transfer")
+                        t.parent().find('.update-amount').addClass("text-amount-deposit")
+                    } else if (tranType == "Transfer") {
+                        t.parent().find('.transaction-type').text("Transfer")
+                        t.parent().find('.update-amount').removeClass("text-amount-withdrawal")
+                        t.parent().find('.update-amount').removeClass("text-amount-deposit")
+                        t.parent().find('.update-amount').addClass("text-amount-transfer")
+                    } else {
+                        t.parent().find('.transaction-type').text("Withdrawal")
+                        t.parent().find('.update-amount').addClass("text-amount-deposit")
+                        t.parent().find('.update-amount').addClass("text-amount-transfer")
+                        t.parent().find('.update-amount').addClass("text-amount-withdrawal")
+                    }
+                    tables.draw();
                     t.parent().find('.update-memo').text(t.parent().find('.input-memo').val())
                     t.parent().find('.update-type').text(t.parent().find('.input-type option:selected').text())
-                    $('#account_statistics').load('@Url.Action("AccountStatistics", "BankAccounts", new { id = ViewBag.BankAccountId })')
+                    $('#account-statistics').load('@Url.Action("AccountStatistics", "BankAccounts", new { id = ViewBag.BankAccountId })')
                     toastr["success"]("Your transaction has been updated!", "Transaction Update!")
                 } else if (result == false){
                     toastr["error"]("There was an error updating your transaction.", "Update Error!")

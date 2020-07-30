@@ -6,41 +6,45 @@
 <div class="row">
     <div class="col-md-3 col-sm-6">
         <div class="statistic-block block">
-            <div class="progress-details d-flex align-items-end justify-content-between">
-                <div class="title">
-                    <div class="icon"><i class="fas fa-lg fa-money-bill-alt"></i></div><strong>Total<br />Balance</strong>
+            <div class="progress-detailsalign-items-end justify-content-between">
+                <div class="title d-flex">
+                    <div class="icon"><i class="fas fa-lg fa-money-bill-alt"></i></div>
+                    <div class="words">Total Balance</div>
                 </div>
-                <div class="number dashtext-1">@Model.TotalBalance.ToString("c")</div>
+                <div class="number dashtext-g">@Model.TotalBalance.ToString("c")</div>
             </div>
         </div>
     </div>
     <div class="col-md-3 col-sm-6">
         <div class="statistic-block block">
-            <div class="progress-details d-flex align-items-end justify-content-between">
-                <div class="title">
-                    <div class="icon"><i class="fas fa-lg fa-list-ol"></i></div><strong>Total<br />Budget</strong>
+            <div class="progress-details align-items-end justify-content-between">
+                <div class="title d-flex">
+                    <div class="icon"><i class="fas fa-lg fa-list-ol"></i></div>
+                    <div class="words">Total Budget</div>
                 </div>
-                <div class="number dashtext-2">@Model.TotalBudget.ToString("c")</div>
+                <div class="number dashtext-y">@Model.TotalBudget.ToString("c")</div>
             </div>
         </div>
     </div>
     <div class="col-md-3 col-sm-6">
         <div class="statistic-block block">
-            <div class="progress-details d-flex align-items-end justify-content-between">
-                <div class="title">
-                    <div class="icon"><i class="fas fa-lg fa-hand-holding-usd"></i></div><strong>Monthly<br />Spending</strong>
+            <div class="progress-details align-items-end justify-content-between">
+                <div class="title d-inline-flex">
+                    <div class="icon"><i class="fas fa-lg fa-hand-holding-usd"></i></div>
+                    <div class="words">Monthly Spending</div>
                 </div>
-                <div class="number dashtext-3">@Model.CurrentSpending.ToString("c")</div>
+                <div class="number dashtext-r">@Model.CurrentSpending.ToString("c")</div>
             </div>
         </div>
     </div>
     <div class="col-md-3 col-sm-6">
         <div class="statistic-block block">
-            <div class="progress-details d-flex align-items-end justify-content-between">
-                <div class="title">
-                    <div class="icon"><i class="fas fa-lg fa-wallet"></i></div><strong>Monthly<br />Deposits</strong>
+            <div class="progress-details align-items-end justify-content-between">
+                <div class="title d-inline-flex">
+                    <div class="icon"><i class="fas fa-lg fa-wallet"></i></div>
+                    <div class="words">Monthly Deposits</div>
                 </div>
-                <div class="number dashtext-4">@Model.CurrentDeposits.ToString("c")</div>
+                <div class="number dashtext-g">@Model.CurrentDeposits.ToString("c")</div>
             </div>
         </div>
     </div>

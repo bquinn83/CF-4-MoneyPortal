@@ -64,7 +64,7 @@ namespace MoneyPortal.Controllers
                 return RedirectToAction("CustomLogOff");
             }
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            return View(new LoginViewModel());
         }
 
         //
@@ -167,7 +167,7 @@ namespace MoneyPortal.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            return View(new RegisterViewModel());
         }
 
         //
@@ -298,7 +298,7 @@ namespace MoneyPortal.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
-            return View();
+            return View(new ForgotPasswordViewModel());
         }
 
         //

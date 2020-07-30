@@ -6,41 +6,45 @@
 <div class="row">
     <div class="col-md-3 col-sm-6">
         <div class="statistic-block block">
-            <div class="progress-details d-flex align-items-end justify-content-between">
-                <div class="title">
-                    <div class="icon"><i class="fas fa-lg fa-money-bill-alt"></i></div><strong>Current<br/>Balance</strong>
+            <div class="progress-details align-items-end justify-content-between">
+                <div class="title d-flex">
+                    <div class="icon"><i class="fas fa-lg fa-money-bill-alt"></i></div>
+                    <div class="words">Current Balance</div>
                 </div>
-                <div class="number dashtext-1">@Model.CurrentBalance</div>
+                <div class="number dashtext-g">@Model.CurrentBalance</div>
             </div>
         </div>
     </div>
     <div class="col-md-3 col-sm-6">
         <div class="statistic-block block">
-            <div class="progress-details d-flex align-items-end justify-content-between">
-                <div class="title">
-                    <div class="icon"><i class="fas fa-lg fa-receipt"></i></div><strong>Monthly<br/>Spending</strong>
+            <div class="progress-details align-items-end justify-content-between">
+                <div class="title d-flex">
+                    <div class="icon"><i class="fas fa-lg fa-receipt"></i></div>
+                    <div class="words">Monthly Spending</div>
                 </div>
-                <div class="number dashtext-2">@Model.MonthlySpending</div>
+                <div class="number dashtext-r">@Model.MonthlySpending</div>
             </div>
         </div>
     </div>
     <div class="col-md-3 col-sm-6">
         <div class="statistic-block block">
-            <div class="progress-details d-flex align-items-end justify-content-between">
-                <div class="title">
-                    <div class="icon"><i class="fas fa-lg fa-hand-holding-usd"></i></div><strong>Monthly<br/>Deposits</strong>
+            <div class="progress-details align-items-end justify-content-between">
+                <div class="title d-flex">
+                    <div class="icon"><i class="fas fa-lg fa-hand-holding-usd"></i></div>
+                    <div class="words">Monthly Deposits</div>
                 </div>
-                <div class="number dashtext-3">@Model.MonthlyDeposits</div>
+                <div class="number dashtext-g">@Model.MonthlyDeposits</div>
             </div>
         </div>
     </div>
     <div class="col-md-3 col-sm-6">
         <div class="statistic-block block">
-            <div class="progress-details d-flex align-items-end justify-content-between">
-                <div class="title">
-                    <div class="icon"><i class="fas fa-lg fa-exchange-alt"></i></div><strong>Monthly<br/>Transactions</strong>
+            <div class="progress-details align-items-end justify-content-between">
+                <div class="title d-flex">
+                    <div class="icon"><i class="fas fa-lg fa-exchange-alt"></i></div>
+                    <div class="words">Monthly Transactions</div>
                 </div>
-                <div class="number dashtext-4">@Model.MonthlyTransactions</div>
+                <div class="number dashtext-y">@Model.MonthlyTransactions</div>
             </div>
         </div>
     </div>
