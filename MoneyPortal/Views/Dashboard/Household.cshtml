@@ -58,13 +58,13 @@
                     <div class="form-group row">
                         @Html.Label("Recipient Emails", new { @class = "control-label col-md-4" })
                         <div class="col-md-8">
-                            @Html.TextArea("RecipientEmails", htmlAttributes: new { @class = "form-control", placeholder = "Enter comma seperated emails.", rows = "2" })
+                            @Html.TextArea("RecipientEmails", htmlAttributes: new { @class = "form-control", placeholder = "Enter comma seperated emails.", rows = "2", required = "" })
                         </div>
                     </div>
                     <div class="form-group row">
                         @Html.Label("Personal Message", new { @class = "control-label col-md-4" })
                         <div class="col-md-8">
-                            @Html.TextArea("PersonalMessage", htmlAttributes: new { @class = "form-control", rows = "4" })
+                            @Html.TextArea("PersonalMessage", htmlAttributes: new { @class = "form-control", rows = "4", placeholder="Enter an optional invite message."})
                         </div>
                     </div>
                     <div class="form-group row no-gutters mb-0">
@@ -224,7 +224,7 @@
     </div>
 </div>
 
-<!--HOUSEHOLD DETAILS-->
+<!--HOUSEHOLD STATISTICS-->
 <div id="household-statistics">
     @Html.Partial("_HouseholdStatistics", new HouseholdStatisticsVM(Model.HouseholdId))
 </div>
@@ -357,12 +357,13 @@
             e.preventDefault();
             var actionUrl = $(this).attr("action");
             $.post(actionUrl, $(this).serialize(), function (result) {
-                if (result > 0) {
-                    toastr["success"](`You have sent ${result} invitations!`, "Invitations Sent!")
-                    $('#form-invite-member')[0].reset();
-                } else {
-                    toastr["error"]("There were no valid emails", "Invite Error!")
-                }
+                    for (var email in result.Success) {
+                        toastr["success"](`You have sent an invitation:<br/> - ${result.Success[email]}!`, "Invitations Sent!")
+                    }
+                    for (let email in result.Failed) {
+                        toastr["error"](`Invalid email:<br/> - ${result.Failed[email]}`, "Invite Error!")
+                    }
+                $('#form-invite-member')[0].reset();
             }).fail(function () {
                 toastr["error"]("There was an error submitting your invites.", "Submit Error!")
             })

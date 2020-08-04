@@ -102,7 +102,10 @@ namespace MoneyPortal.Controllers
             var householdId = db.Users.Find(userId).HouseholdId;
 
             var recipients = new List<string>(RecipientEmails.Split(','));
-            var invitesSent = 0;
+
+            var result = new Dictionary<string, List<string>>();
+            result.Add("Success", new List<string>());
+            result.Add("Failed", new List<string>());
             foreach (var email in recipients)
             {
                 if (new EmailAddressAttribute().IsValid(email.Trim()))
@@ -135,11 +138,15 @@ namespace MoneyPortal.Controllers
                     {
                         await SendInvitation(invitation.Id, InviteBody.NonRegisteredEmail);
                     }
-                    invitesSent++;
+                    result["Success"].Add(email);
+                }
+                else
+                {
+                    result["Failed"].Add(email);
                 }
             }
 
-            return Json(invitesSent, JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         private async Task SendInvitation(int invitationId, InviteBody bodyType)

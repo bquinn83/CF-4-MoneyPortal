@@ -184,22 +184,6 @@ namespace MoneyPortal.Controllers
             }
         }
 
-        //GET: Households/Leave
-        [Authorize(Roles = "Member")]
-        public async Task<ActionResult> Leave()
-        {
-            var user = db.Users.Find(User.Identity.GetUserId());
-            user.HouseholdId = null;
-            db.BankAccounts.Where(ba => ba.OwnerId == user.Id).ForEach(ba => ba.HouseholdId = null);
-            db.BankAccounts.Where(ba => ba.OwnerId == user.Id).SelectMany(ba => ba.Transactions).ForEach(t => t.CategoryItemId = null);
-            db.SaveChanges();
-
-            userManager.RemoveFromRole(user.Id, "Member");
-            userManager.AddToRole(user.Id, "Personal");
-            await UserAuthorization.RefreshAuthentication(HttpContext, user);
-
-            return RedirectToAction("Main", "Dashboard");
-        }
 
         //GET: Households/RemoveBankAccount
         [Authorize(Roles ="Owner, Member")]
@@ -254,9 +238,9 @@ namespace MoneyPortal.Controllers
                 userManager.AddToRole(user.Id, "Personal");
             }
 
-            foreach(var budget in db.Categories.Where(c => c.HouseholdId == householdId).ToList())
+            foreach (var budget in db.Categories.Where(c => c.HouseholdId == householdId).ToList())
             {
-                foreach(var budgetItem in budget.CategoryItems.ToList())
+                foreach (var budgetItem in budget.CategoryItems.ToList())
                 {
                     db.CategoryItems.Remove(budgetItem);
                 }
@@ -267,6 +251,23 @@ namespace MoneyPortal.Controllers
             db.SaveChanges();
 
             await UserAuthorization.RefreshAuthentication(HttpContext, db.Users.Find(User.Identity.GetUserId()));
+
+            return RedirectToAction("Main", "Dashboard");
+        }
+
+        //GET: Households/Leave
+        [Authorize(Roles = "Member")]
+        public async Task<ActionResult> Leave()
+        {
+            var user = db.Users.Find(User.Identity.GetUserId());
+            user.HouseholdId = null;
+            db.BankAccounts.Where(ba => ba.OwnerId == user.Id).ForEach(ba => ba.HouseholdId = null);
+            db.BankAccounts.Where(ba => ba.OwnerId == user.Id).SelectMany(ba => ba.Transactions).ForEach(t => t.CategoryItemId = null);
+            db.SaveChanges();
+
+            userManager.RemoveFromRole(user.Id, "Member");
+            userManager.AddToRole(user.Id, "Personal");
+            await UserAuthorization.RefreshAuthentication(HttpContext, user);
 
             return RedirectToAction("Main", "Dashboard");
         }
