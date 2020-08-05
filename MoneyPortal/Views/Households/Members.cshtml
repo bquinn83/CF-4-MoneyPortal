@@ -4,72 +4,77 @@
 @{
     ViewBag.Title = "Household Members";
 }
-<table class="table">
-    <tr>
-        <th>
-            Owner
-        </th>
-        <th>
-            Joined Accounts
-        </th>
-        <th>
-            Transactions
-        </th>
-    </tr>
-    <tr>
-        <td>
-            @Html.DisplayFor(model => model.Owner.FullName)
-        </td>
-        <td>
-            @Html.DisplayFor(model => model.Owner.JoinedAccounts)
-        </td>
-        <td>
-            @Html.DisplayFor(model => model.Owner.Transactions)
-        </td>
-    </tr>
-</table>
-<br />
-<table class="table">
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Joined Accounts
-            </th>
-            <th>
-                Transactions
-            </th>
-            @if (User.IsInRole("Owner"))
-            {
-                <th></th>
-            }
-        </tr>
-        @foreach (var member in Model.Members)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => member.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => member.JoinedAccounts)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => member.Transactions)
-                </td>
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-4">
+            <div class="user-block block text-center">
+                <div class="avatar">
+                    <img src="/@Model.Owner.Avatar" alt="..." class="img-fluid">
+                </div>
+                <h3 class="h5">@Model.Owner.FullName</h3>
+                <div class="contributions">Household Owner</div>
+                <div class="details d-flex public-user-block">
+                    <div class="item"><i class="fas fa-lg fa-university"></i><strong>@Model.Owner.JoinedAccounts</strong></div>
+                    <div class="item"><i class="fas fa-lg fa-money-check"></i><strong>@Model.Owner.Transactions</strong></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @foreach (var member in Model.Members)
+    {
+        <div class="public-user-block block">
+            <div class="row d-flex align-items-center">
+                <div class="col-lg-4 d-flex align-items-center">
+                    <div class="avatar"> <img src="/@member.Avatar" alt="..." class="img-fluid"></div>
+                    <div class="name">
+                        <strong class="d-block">@member.FullName</strong>
+                        <span class="d-block">Member</span>
+                    </div>
+                </div>
+                <div class="col-lg-4 ml-auto">
+                    <div class="details d-flex">
+                        <div class="item"><i class="fas fa-lg fa-university"></i><strong>@member.JoinedAccounts</strong></div>
+                        <div class="item"><i class="fas fa-lg fa-money-check"></i><strong>@member.Transactions</strong></div>
+                    </div>
+                </div>
                 @if (User.IsInRole("Owner"))
                 {
-                    <td>
-                        @Html.ActionLink("Remove", "RemoveMember", new { id = member.Id })
-                    </td>
+                    <div class="col-lg-4 text-right">
+                        @*<div class="contributions">@Html.ActionLink("Remove", "RemoveMember", new { id = member.Id })</div>*@
+                        <button type="button" class="btn btn-primary btn-remove-member" value="@member.Id">Remove</button>
+                    </div>
                 }
-            </tr>
-        }
+            </div>
+        </div>
+    }
+</div>
 
-</table>
 @section Scripts{
     <script>
         $('#dd-household-link').click()
         $('#household-members').addClass('active')
+
+        $('.btn-remove-member').on("click", (e) => {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("RemoveMember", "Households")",
+                data: {
+                    id: $(e.currentTarget).val()
+                },
+                dataType: "json",
+                success: function (result) {
+                    if (result == true) {
+                        toastr["success"]("You have removed the member from the household!.", "User Removed!")
+                        $(e.currentTarget).parents('.public-user-block').hide();
+                    } else {
+                        toastr["error"]("The user could not be removed.", "Error!")
+                    }
+                },
+                error: function (result) {
+                    toastr["error"]("There was an error submitting your request.", "Submission Error!")
+                }
+            });
+        })
     </script>
 }

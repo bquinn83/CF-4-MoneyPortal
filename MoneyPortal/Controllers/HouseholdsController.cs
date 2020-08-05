@@ -48,15 +48,19 @@ namespace MoneyPortal.Controllers
                     Amount = transaction.Amount,
                     Type = transaction.TransactionType.Name,
                     Memo = transaction.Memo,
-                    //BudgetItem = transaction.CategoryItem.Name ?? "",
+                    BudgetItem = (transaction.CategoryItem != null ? transaction.CategoryItem.Name : ""),
                     Date = transaction.Created    
                 };
+                //if(transaction.CategoryItem != null)
+                //{
+                //    tVM.BudgetItem = transaction.CategoryItem.Name;
+                //}
 
                 var items = new List<SelectListItem>();
                 foreach(var budget in db.Categories.Where(c => c.HouseholdId == householdId).OrderBy(c => c.Name).ToList())
                 {
                     var group = new SelectListGroup() { Name = budget.Name };
-                    foreach(var budgetItem in budget.CategoryItems.ToList())
+                    foreach(var budgetItem in budget.CategoryItems.OrderBy(ci => ci.Name).ToList())
                     {
                         items.Add(new SelectListItem() { 
                             Value = budgetItem.Id.ToString(), 
@@ -98,6 +102,7 @@ namespace MoneyPortal.Controllers
                 {
                     Id = owner.Id,
                     FullName = owner.FullName,
+                    Avatar = owner.AvatarPath,
                     JoinedAccounts = owner.BankAccounts.Where(ba => ba.HouseholdId == householdId).Count(),
                     Transactions = owner.BankAccounts.Where(ba => ba.HouseholdId == householdId).SelectMany(ba => ba.Transactions).Count()
                 }
@@ -111,6 +116,7 @@ namespace MoneyPortal.Controllers
                     {
                         Id = user.Id,
                         FullName = user.FullName,
+                        Avatar = user.AvatarPath,
                         JoinedAccounts = user.BankAccounts.Where(ba => ba.HouseholdId == householdId).Count(),
                         Transactions = user.BankAccounts.Where(ba => ba.HouseholdId == householdId).SelectMany(ba => ba.Transactions).Count()
                     });
@@ -184,7 +190,6 @@ namespace MoneyPortal.Controllers
             }
         }
 
-
         //GET: Households/RemoveBankAccount
         [Authorize(Roles ="Owner, Member")]
         public ActionResult RemoveBankAccount(int id)
@@ -201,20 +206,27 @@ namespace MoneyPortal.Controllers
             return RedirectToAction("BankAccounts");
         }
 
-        //GET: Households/RemoveMember
-        [Authorize(Roles = "Owner")]
-        public ActionResult RemoveMember(string id)
+        //POST: Households/RemoveMember
+        [HttpPost, Authorize(Roles = "Owner")]
+        public JsonResult RemoveMember(string id)
         {
-            var user = db.Users.Find(id);
-            user.HouseholdId = null;
-            db.BankAccounts.Where(ba => ba.OwnerId == user.Id).ForEach(ba => ba.HouseholdId = null);
-            db.BankAccounts.Where(ba => ba.OwnerId == user.Id).SelectMany(ba => ba.Transactions).ForEach(t => t.CategoryItemId = null);
-            db.SaveChanges();
+            try
+            {
+                var user = db.Users.Find(id);
+                user.HouseholdId = null;
+                db.BankAccounts.Where(ba => ba.OwnerId == user.Id).ForEach(ba => ba.HouseholdId = null);
+                db.BankAccounts.Where(ba => ba.OwnerId == user.Id).SelectMany(ba => ba.Transactions).ForEach(t => t.CategoryItemId = null);
+                db.SaveChanges();
 
-            userManager.RemoveFromRole(user.Id, "Member");
-            userManager.AddToRole(user.Id, "Personal");
+                userManager.RemoveFromRole(user.Id, "Member");
+                userManager.AddToRole(user.Id, "Personal");
 
-            return RedirectToAction("Members");
+                return Json(true, JsonRequestBehavior.AllowGet);
+            } catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
         }
 
         // GET: Households/Delete

@@ -37,6 +37,7 @@ namespace MoneyPortal.ViewModels
     {
         public string Id { get; set; }
         public string FullName { get; set; }
+        public string Avatar { get; set; }
         public int JoinedAccounts { get; set; }
         public int Transactions { get; set; }
     }
