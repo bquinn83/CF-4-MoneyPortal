@@ -41,7 +41,7 @@
                     }
                     else if (item.Type == "Transfer")
                     {
-                        <strong class="text-amount-transfer">(@item.Amount.ToString("c"))</strong>
+                        <strong class="text-amount-transfer">@item.Amount.ToString("c")</strong>
                     }
                     else
                     {
@@ -53,8 +53,11 @@
                     <br />
                     <small>@Html.DisplayFor(modelItem => item.Type)</small>
                 </td>
-                <td data-sort="@item.BudgetItem">
-                    @Html.DropDownList("CategoryItem", item.BudgetItemList, "", new { @class = "form-control budget-select", id = item.Id })
+                <td data-sort="@item.BudgetItem" class="align-middle">
+                    @if (item.Type != "Deposit" && item.Type != "Transfer")
+                    {
+                        @Html.DropDownList("CategoryItem", item.BudgetItemList, "", new { @class = "form-control budget-select", id = item.Id })
+                    }
                 </td>
                 <td data-sort="@item.Date.Ticks" class="text-right">
                     <small>
