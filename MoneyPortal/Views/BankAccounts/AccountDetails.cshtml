@@ -207,10 +207,10 @@
             var actionUrl = $(this).attr("action");
             $.post(actionUrl, $(this).serialize(), function (result) {
                 if (result) {
+                    toastr["success"]("Your transaction has been added!", "New Transaction!")
                     $('#form-add-transaction')[0].reset()
                     $('#account-statistics').load('@Url.Action("AccountStatistics", "BankAccounts", new { id = Model.Id })')
                     $('#account_transactions').load('@Url.Action("AccountTransactions", "BankAccounts", new { id = Model.Id })')
-                    toastr["success"]("Your transaction has been added!", "New Transaction!")
                 } else if (result == false){
                     toastr["error"]("There was an error adding your transaction.", "Error!")
                 }

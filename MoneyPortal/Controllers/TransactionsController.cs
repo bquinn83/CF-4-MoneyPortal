@@ -71,7 +71,7 @@ namespace MoneyPortal.Controllers
             transaction.Memo = memo;
 
             db.Entry(transaction).State = EntityState.Modified;
-            //reverse transaction
+            //undo old transaction
             if(originalType == "Deposit")
             {
                 account.CurrentBalance -= originalAmount;
@@ -79,7 +79,7 @@ namespace MoneyPortal.Controllers
             {
                 account.CurrentBalance += originalAmount;
             }
-            //redo transaction
+            //calculate new transaction
             if (newType == "Deposit")
             {
                 account.CurrentBalance += transaction.Amount;
@@ -89,7 +89,9 @@ namespace MoneyPortal.Controllers
                 account.CurrentBalance -= transaction.Amount;
             }
             db.Entry(account).State = EntityState.Modified;
+            
             //send notification
+
             db.SaveChanges();
 
             return Json(true);
