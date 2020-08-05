@@ -151,7 +151,7 @@ namespace MoneyPortal.Controllers
                 var group = new SelectListGroup() { Name = $"{ budget.Name } (${budget.TargetAmount})" };
                 if (budget.CategoryItems.Count > 0)
                 {
-                    foreach (var budgetItem in budget.CategoryItems.ToList())
+                    foreach (var budgetItem in budget.CategoryItems.OrderBy(ci => ci.Name).ToList())
                     {
                         items.Add(new SelectListItem()
                         {

@@ -32,7 +32,7 @@ namespace MoneyPortal.Controllers
             }
             else if (User.IsInRole("Personal"))
             {
-                ViewBag.Types = new SelectList(db.BankAccountTypes, "Id", "Name");
+                //ViewBag.Types = new SelectList(db.BankAccountTypes, "Id", "Name");
                 return View("Lobby");
             }
             else if (User.IsInRole("Admin"))
@@ -63,8 +63,8 @@ namespace MoneyPortal.Controllers
             {
                 HouseholdId = householdId,
                 HouseholdName = db.Households.Find(householdId).Name,
-                UsersBankAccounts = new SelectList(db.BankAccounts.Where(ba => ba.OwnerId == user.Id && ba.HouseholdId != householdId), "Id", "DisplayName"),
-                Budgets = new SelectList(db.Categories.Where(c => c.HouseholdId == householdId), "Id", "Name")
+                UsersBankAccounts = new SelectList(db.BankAccounts.Where(ba => ba.OwnerId == user.Id && ba.HouseholdId != householdId).OrderBy(ba => ba.Name), "Id", "DisplayName"),
+                Budgets = new SelectList(db.Categories.Where(c => c.HouseholdId == householdId).OrderBy(c => c.Name), "Id", "Name")
             };
             ViewBag.BudgetCategories = db.CategoryItems.Where(ci => ci.Category.HouseholdId == householdId).Count();
             return View(viewData);
@@ -76,7 +76,7 @@ namespace MoneyPortal.Controllers
             return View();
         }
 
-        //PARTIAL VIEW ACTIONS
+        //PARTIAL VIEWS
         //GET: BankAccounts/AccountStatistics
         public ActionResult HouseholdStatistics(int id)
         {
