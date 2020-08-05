@@ -139,7 +139,7 @@ nav#sidebar .sidebar-header {
     margin-top: 1.4rem;
 }
 
-.avatar {
+.avatar-border {
     border: 3px solid #429244 !important;
 }
 
@@ -327,4 +327,8 @@ input:-webkit-autofill:active {
     margin-bottom: 5px;
     padding-left: 10px;
     padding-top: 5px;
+}
+.public-user-block .item {
+    width: 50%;
+    text-align: center;
 }
