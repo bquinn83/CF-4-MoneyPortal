@@ -355,6 +355,7 @@ MigrationBackup/
 
 # additional files
 *.config
+*.DS_Store
 MoneyPortal/Migrations/Configuration.cs
 MoneyPortal/App_Data*
 MoneyPortal/App_Start/Startup.Auth.cs
