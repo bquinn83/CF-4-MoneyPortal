@@ -35,6 +35,7 @@ namespace MoneyPortal.Models
         public virtual ICollection<BankAccount> BankAccounts { get; set; }
         #endregion
 
+
         [NotMapped]
         public string FullName
         {
@@ -65,7 +66,8 @@ namespace MoneyPortal.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("demo-financialportal-secret", throwIfV1Schema: false)
+            //: base("DefaultConnection", throwIfV1Schema: false)
         {
         }
 

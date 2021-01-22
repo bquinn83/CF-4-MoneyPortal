@@ -14,7 +14,7 @@ namespace MoneyPortal_Service.Models
     public class ApiDbContext : DbContext
     {
         public ApiDbContext()
-            : base("ApiConnection")
+            : base("demo-financialportal-secret")
         {
 
         }
