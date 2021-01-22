@@ -12,13 +12,19 @@
     {
         if (Model.HouseholdId == null)
         {
-            <div class="col-auto">
+            <div class="col-auto" id="btn-link-account">
                 <div class="shortcut btn" id="shc-link-bank-account"><strong>Link to Household</strong> <i class="fas fa-home"></i></div>
+            </div>
+            <div class="col-auto d-none" id="btn-unlink-account">
+                <div class="shortcut btn" id="shc-unlink-bank-account"><strong>Unlink from Household</strong> <i class="fas fa-home"></i></div>
             </div>
         }
         else
         {
-            <div class="col-auto">
+            <div class="col-auto d-none" id="btn-link-account">
+                <div class="shortcut btn" id="shc-link-bank-account"><strong>Link to Household</strong> <i class="fas fa-home"></i></div>
+            </div>
+            <div class="col-auto" id="btn-unlink-account">
                 <div class="shortcut btn" id="shc-unlink-bank-account"><strong>Unlink from Household</strong> <i class="fas fa-home"></i></div>
             </div>
         }
@@ -168,23 +174,42 @@
                 }
             })
         })
-        //not complete
-        $('#shc-add-to-household').on("click", () => {
+
+        $('#shc-link-bank-account').on("click", () => {
             Swal.fire({
-                title: 'Add to Household?',
-                text: "This account will be added to your household!",
+                title: 'Link to Household?',
+                text: "This account will be linked to your household!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Add!'
+                confirmButtonText: 'Link!'
             }).then((result) => {
                 if (result.value) {
                     //add to household
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("LinkBankAccount", "Households")",
+                        data: { id: @Model.Id },
+                        dataType: "json",
+                        success: function (r) {
+                            if (r) {
+                                toastr["success"]("You have linked this account to your household!", "Link Successful")
+                                $('#btn-link-account').addClass('d-none');
+                                $('#btn-unlink-account').removeClass('d-none');
+                            } else {
+                                toastr["error"]("There was an error linking this account to your household.", "Error!")
+                            }
+                        },
+                        error: function () {
+                            toastr["error"]("There was an error submitting your request.", "Submission Error!")
+                        }
+                    })
                 }
             })
         })
-        $('#shc-remove-from-household').on("click", () => {
+        $('#btn-unlink-account').on("click", () => {
             Swal.fire({
                 title: 'Remove from Household?',
                 text: "This account will be removed from your household!",
@@ -196,6 +221,24 @@
             }).then((result) => {
                 if (result.value) {
                     //add to household
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("RemoveBankAccount", "Households")",
+                        data: { id: @Model.Id },
+                        dataType: "json",
+                        success: function (r) {
+                            if (r) {
+                                toastr["success"]("You have linked this account to your household!", "Link Successful")
+                                $('#btn-link-account').addClass('d-none');
+                                $('#btn-unlink-account').removeClass('d-none');
+                            } else {
+                                toastr["error"]("There was an error linking this account to your household.", "Error!")
+                            }
+                        },
+                        error: function () {
+                            toastr["error"]("There was an error submitting your request.", "Submission Error!")
+                        }
+                    })
                 }
             })
         })

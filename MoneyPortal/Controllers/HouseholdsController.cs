@@ -215,12 +215,49 @@ namespace MoneyPortal.Controllers
             }
         }
 
+        //POST: Households/LinkBankAccount
+        [HttpPost, Authorize(Roles ="Owner, Member")]
+        public JsonResult LinkBankAccount(int id)
+        {
+            try
+            {
+                var userId = User.Identity.GetUserId();
+                var householdId = db.Users.Find(userId).HouseholdId;
+                var account = db.BankAccounts.Find(id);
+                
+                account.HouseholdId = householdId;
                 db.SaveChanges();
-            }
-            //else add error message, can't remove another users account...
 
-            return RedirectToAction("BankAccounts");
+                return Json(true);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Json(false);
+            }
         }
+
+        //POST: Households/LinkBankAccount
+        [HttpPost, Authorize(Roles ="Owner, Member")]
+        public JsonResult LinkBankAccount(int UsersBankAccounts, int HouseholdId)
+        {
+            try
+            {
+                var userId = User.Identity.GetUserId();
+                var account = db.BankAccounts.Find(UsersBankAccounts);
+                
+                account.HouseholdId = HouseholdId;
+                db.SaveChanges();
+
+                return Json(true);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Json(false);
+            }
+        }
+
 
         //POST: Households/RemoveMember
         [HttpPost, Authorize(Roles = "Owner")]
