@@ -12,12 +12,15 @@ using System.Web;
 using System.Web.Configuration;
 using System.Web.Management;
 using System.Web.Mvc;
+using CsQuery.ExtensionMethods;
 using CsQuery.ExtensionMethods.Internal;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+
 using MoneyPortal.Classes;
 using MoneyPortal.Models;
+using MoneyPortal.Services;
 
 namespace MoneyPortal.Controllers
 {
@@ -165,19 +168,11 @@ namespace MoneyPortal.Controllers
                 callbackUrl = Url.Action("ConfirmInvitation", "Account", new { email = invitation.RecipientEmail, code = invitation.Code }, protocol: Request.Url.Scheme);
             }
 
-            var mail = new EmailModel()
-            {
-                FromName = "Money Portal",
-                FromEmail = WebConfigurationManager.AppSettings["OutlookFrom"],
-                ToEmail = invitation.RecipientEmail,
-                Subject = "You've been Invited to join a Money Portal Household!",
-                Body = $"<p>{ household.Owner.FullName } has invited you to their Money Portal Household. </p>" +
-                        $"<p>\"{ invitation.PersonalMessage }\"</p>" +
-                        $"<p>Please click <a href=\"{callbackUrl}\">here</a> to join the household!</p>" +
-                        $"<p>Having trouble? Copy and paste your code into the application to join:</p>" +
-                        invitation.Code
-            };
-            await mail.Launch();
+            //MailGun API EmailSender
+            var message = $"<p>{ household.Owner.FullName } has invited you to their Money Portal Household. </p>" +
+                            $"<p>\"{ invitation.PersonalMessage }\"</p>";
+            var sender = new EmailSender();
+            await sender.Execute("You've been invited!", "mp-invitation", invitation.RecipientEmail, new InvitationTemplate(callbackUrl, message, invitation.Code.ToString()));
         }
 
         protected override void Dispose(bool disposing)

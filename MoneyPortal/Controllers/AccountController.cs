@@ -1,17 +1,19 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using MoneyPortal.Models;
-using MoneyPortal.ViewModels;
 using System.Web.Configuration;
 using System.Net.Mail;
+
+using MoneyPortal.Models;
+using MoneyPortal.Services;
+using MoneyPortal.ViewModels;
 
 namespace MoneyPortal.Controllers
 {
@@ -21,11 +23,9 @@ namespace MoneyPortal.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ApplicationDbContext db = new ApplicationDbContext();
-
         public AccountController()
         {
         }
-
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;
@@ -196,15 +196,8 @@ namespace MoneyPortal.Controllers
 
                     try
                     {
-                        var mail = new EmailModel()
-                        {
-                            FromName = "Money Portal",
-                            FromEmail = WebConfigurationManager.AppSettings["OutlookFrom"],
-                            ToEmail = user.Email,
-                            Subject = "Thanks for registering!",
-                            Body = $"Please confirm your email by clicking <a href=\"{callbackUrl}\">here</a>."
-                        };
-                        await mail.Launch();
+                        var sender = new EmailSender();
+                        await sender.Execute("Confirm Your Email", "mp-confirmemail", user.Email, callbackUrl);
                     }
                     catch (Exception ex)
                     {
@@ -317,22 +310,14 @@ namespace MoneyPortal.Controllers
                     return View("ForgotPasswordConfirmation");
                 }
 
-                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
 
                 try
                 {
-                    var mail = new EmailModel()
-                    {
-                        FromName = "Money Portal",
-                        FromEmail = WebConfigurationManager.AppSettings["OutlookFrom"],
-                        ToEmail = user.Email,
-                        Subject = "Password Reset!",
-                        Body = $"Please reset your password by clicking <a href=\"{callbackUrl}\">here</a>."
-                    };
-                    await mail.Launch();
+                    var sender = new EmailSender();
+                    await sender.Execute("Reset Your Password", "mp-pwreset", user.Email, callbackUrl);
                 }
                 catch (Exception ex)
                 {
@@ -376,15 +361,8 @@ namespace MoneyPortal.Controllers
 
                 try
                 {
-                    var mail = new EmailModel()
-                    {
-                        FromName = "Money Portal",
-                        FromEmail = WebConfigurationManager.AppSettings["OutlookFrom"],
-                        ToEmail = user.Email,
-                        Subject = "Please confirm your email!",
-                        Body = $"Please confirm your email by clicking <a href=\"{callbackUrl}\">here</a>."
-                    };
-                    await mail.Launch();
+                    var sender = new EmailSender();
+                    await sender.Execute("Confirm Your Email", "mp-confirmemail", user.Email, callbackUrl);
                 }
                 catch (Exception ex)
                 {
