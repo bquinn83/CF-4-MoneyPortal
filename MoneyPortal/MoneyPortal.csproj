@@ -243,6 +243,9 @@
     <Reference Include="PreMailer.Net, Version=1.2.7.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\PreMailer.Net.1.2.7\lib\net40\PreMailer.Net.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp, Version=106.11.7.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.11.7\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="SgmlReaderDll, Version=1.8.11.0, Culture=neutral, PublicKeyToken=46b2db9ca481831b, processorArchitecture=MSIL">
       <HintPath>..\packages\SgmlReader.1.8.11\lib\4.0\SgmlReaderDll.dll</HintPath>
     </Reference>
@@ -378,6 +381,11 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BankAccountType.cs" />
+    <Compile Include="Services\ConfirmEmailTemplate.cs" />
+    <Compile Include="Services\EmailSender.cs" />
+    <Compile Include="Services\IMailTemplate.cs" />
+    <Compile Include="Services\InvitationTemplate.cs" />
+    <Compile Include="Services\ResetPasswordTemplate.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\BankAccount.cs" />
     <Compile Include="Models\Category.cs" />
