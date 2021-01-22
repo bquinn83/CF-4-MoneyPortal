@@ -1,10 +1,20 @@
-﻿//BLOCK CONTROL BUTTONS
+﻿//DYNAMIC SHORTCUT BUTTON
+$('.shortcut-btn').on("click", (e) => {
+    var target = '#' + $(e.currentTarget).attr('data-toggle')
+    if ($(target).hasClass('d-none')) {
+        $(target).hide().removeClass('d-none')
+    }
+    $('#shortcut-row').prepend($(target))
+    $(target).slideDown()
+});
+
+//BLOCK CONTROL BUTTONS
 $('.btn-block-minimize').on("click", function (e) {
     $(e.currentTarget).toggleClass(['fa-chevron-up', 'fa-chevron-down'])
     $(e.currentTarget).closest('.block').children('.collapsable').slideToggle()
 });
 $('.btn-block-close').on("click", function (e) {
-    $(e.currentTarget).closest('.block').parent().hide()
+    $(e.currentTarget).closest('.block').parent().slideUp()
 });
 
 //TOASTR ALERTS SETUP
