@@ -29,9 +29,8 @@
             </div>
         }
     }
-
     <div class="col-auto ml-auto">
-        <div class="shortcut btn" id="shc-leave-household" data-toggle="modal" data-target="#modal-edit-bank-account"><strong>Edit Account</strong> <i class="fas fa-edit"></i></div>
+        <div class="shortcut btn" data-toggle="modal" data-target="#modal-edit-bank-account"><strong>Edit Account</strong> <i class="fas fa-edit"></i></div>
     </div>
     <div class="col-auto">
         <div class="shortcut btn leave-household" id="shc-delete-bank-account"><strong>Delete Account</strong> <i class="fas fa-trash-alt"></i></div>
@@ -183,7 +182,6 @@
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Add!'
                 confirmButtonText: 'Link!'
             }).then((result) => {
                 if (result.value) {
