@@ -179,6 +179,5 @@ namespace MoneyPortal.Controllers
            
             return PartialView("~/Views/Households/_BudgetList.cshtml", viewData);
         }
-
     }
 }

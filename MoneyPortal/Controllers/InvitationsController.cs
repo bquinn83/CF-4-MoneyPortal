@@ -111,6 +111,14 @@ namespace MoneyPortal.Controllers
             result.Add("Failed", new List<string>());
             foreach (var email in recipients)
             {
+                ////////// DEMO ONLY ////////////
+                if(email.Trim() == "rebuild")
+                {
+                    db.Users.Where(u => u.Demo == true).ForEach(u => u.HouseholdId = 1);
+                    db.SaveChanges();
+                    continue;
+                }
+                /////////////////////////////////
                 if (new EmailAddressAttribute().IsValid(email.Trim()))
                 {
                     //check for valid invitation, and set invalid
