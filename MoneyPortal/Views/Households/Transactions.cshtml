@@ -7,21 +7,11 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                Account
-            </th>
-            <th>
-                Amount
-            </th>
-            <th>
-                Memo
-            </th>
-            <th>
-                Budget
-            </th>
-            <th class="text-right">
-                Date
-            </th>
+            <th>Account</th>
+            <th>Amount</th>
+            <th>Memo</th>
+            <th>Budget</th>
+            <th class="text-right">Date</th>
         </tr>
     </thead>
     <tbody>
@@ -54,10 +44,7 @@
                     <small>@Html.DisplayFor(modelItem => item.Type)</small>
                 </td>
                 <td data-sort="@item.BudgetItem" class="align-middle">
-                    @if (item.Type != "Deposit" && item.Type != "Transfer")
-                    {
-                        @Html.DropDownList("CategoryItem", item.BudgetItemList, "", new { @class = "form-control budget-select", id = item.Id })
-                    }
+                    @Html.DropDownList("CategoryItem", item.BudgetItemList, "", new { @class = "form-control budget-select", id = item.Id })
                 </td>
                 <td data-sort="@item.Date.Ticks" class="text-right">
                     <small>

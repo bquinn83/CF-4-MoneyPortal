@@ -38,7 +38,12 @@ namespace MoneyPortal.Controllers
                 HouseholdName = db.Households.Find(householdId).Name,
                 Transactions = new List<TransactionVM>()
             };
-            foreach (var transaction in db.Transactions.Where(t => t.BankAccount.HouseholdId == householdId).Include(t => t.BankAccount).Include(t => t.TransactionType).Include(t => t.CategoryItem).Include(t => t.BankAccount.Owner).ToList())
+            foreach (var transaction in db.Transactions.Where(t => t.BankAccount.HouseholdId == householdId)
+                                                        .Include(t => t.BankAccount)
+                                                        .Include(t => t.TransactionType)
+                                                        .Where(t => t.TransactionType.Name != "Deposit" && t.TransactionType.Name != "Transfer")
+                                                        .Include(t => t.CategoryItem)
+                                                        .Include(t => t.BankAccount.Owner).ToList())
             {
                 var tVM = new TransactionVM
                 {
