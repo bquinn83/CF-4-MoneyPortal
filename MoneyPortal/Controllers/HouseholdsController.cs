@@ -192,13 +192,29 @@ namespace MoneyPortal.Controllers
 
         //GET: Households/RemoveBankAccount
         [Authorize(Roles ="Owner, Member")]
-        public ActionResult RemoveBankAccount(int id)
+        public JsonResult RemoveBankAccount(int id)
         {
-            var account = db.BankAccounts.Find(id);
-            if(User.IsInRole("Owner") || account.OwnerId == User.Identity.GetUserId())
+            try
             {
-                db.BankAccounts.Find(id).HouseholdId = null;
-                db.Transactions.Where(t => t.BankAccountId == id).ForEach(t => t.CategoryItemId = null);
+                var account = db.BankAccounts.Find(id);
+                if(User.IsInRole("Owner") || account.OwnerId == User.Identity.GetUserId())
+                {
+                    db.BankAccounts.Find(id).HouseholdId = null;
+                    db.Transactions.Where(t => t.BankAccountId == id).ForEach(t => t.CategoryItemId = null);
+                    db.SaveChanges();
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                } else
+                {
+                    Console.WriteLine("Can't Remove another users account!");
+                    return Json(false);
+                }
+            } catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return Json(false);
+            }
+        }
+
                 db.SaveChanges();
             }
             //else add error message, can't remove another users account...

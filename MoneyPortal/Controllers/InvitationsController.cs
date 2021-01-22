@@ -169,6 +169,7 @@ namespace MoneyPortal.Controllers
 
             if (InviteBody.CurrentUser == bodyType)
             {
+                //must implement a join to household for current users:
                 callbackUrl = Url.Action("Login", "Account", null, protocol: Request.Url.Scheme); //, new { email = invitation.RecipientEmail, code = invitation.Code }, protocol: Request.Url.Scheme);
             }
             else if (InviteBody.NonRegisteredEmail == bodyType)
