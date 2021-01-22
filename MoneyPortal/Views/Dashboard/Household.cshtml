@@ -6,35 +6,26 @@
 
 <!--SHORTCUT BUTTONS-->
 <div class="row shortcut-bar">
+    <div class="col-auto">
+        <div class="shortcut btn shortcut-btn" id="shc-join-bank-account" data-toggle="join-bank-account"><strong>Link Bank Account</strong> <i class="fas fa-university"></i></div>
+    </div>
     @if (User.IsInRole("Owner"))
     {
-        if (Model.UsersBankAccounts != null)
-        {
-            <div class="col-auto">
-                <div class="shortcut btn" id="shc-join-bank-account"><strong>Link Bank Account</strong> <i class="fas fa-university"></i></div>
-            </div>
-        }
         <div class="col-auto">
-            <div class="shortcut btn" id="shc-invite-member"><strong>Invite Members</strong> <i class="fas fa-user-plus"></i></div>
+            <div class="shortcut btn shortcut-btn" id="shc-invite-member" data-toggle="invite-member"><strong>Invite Members</strong> <i class="fas fa-user-plus"></i></div>
         </div>
         <div class="col-auto">
-            <div class="shortcut btn" id="shc-create-budgets"><strong>Create Budgets</strong> <i class="fas fa-sitemap"></i></div>
+            <div class="shortcut btn shortcut-btn" id="shc-create-budgets" data-toggle="create-budgets"><strong>Create Budgets</strong> <i class="fas fa-sitemap"></i></div>
         </div>
         @*<div class="col-auto">
-            <div class="shortcut btn" id="shc-edit-budgets"><strong>Edit Budgets</strong> <i class="fas fa-edit"></i></div>
-        </div>*@
+                <div class="shortcut btn" id="shc-edit-budgets"><strong>Edit Budgets</strong> <i class="fas fa-edit"></i></div>
+            </div>*@
         <div class="col-auto ml-auto">
             <div class="shortcut btn leave-household" id="shc-delete-household"><strong>Delete Household</strong> <i class="fas fa-house-damage"></i></div>
         </div>
     }
     @if (User.IsInRole("Member"))
     {
-        if (Model.UsersBankAccounts != null)
-        {
-            <div class="col-auto">
-                <div class="shortcut btn" id="shc-join-bank-account"><strong>Link Bank Account</strong> <i class="fas fa-university"></i></div>
-            </div>
-        }
         <div class="col-auto ml-auto">
             <div class="shortcut btn leave-household" id="shc-leave-household"><strong>Leave Household</strong> <i class="fas fa-door-closed"></i></div>
         </div>
@@ -43,41 +34,8 @@
 
 <!--SHORTCUT BOXES-->
 <div class="row" id="shortcut-row">
-    <!--INVITE MEMBER-->
-    <div class="col-6 shortcut-block" id="invite-member">
-        <div class="block">
-            <div class="title row no-gutters mb-0">
-                <strong>Invite Member</strong>
-                <div class="col-auto ml-auto"><i class="fas fa-lg fa-chevron-up btn btn-block-minimize" id="collapse-bank-account"></i></div>
-                <div class="col-auto"><i class="fas fa-lg fa-times btn btn-block-close"></i></div>
-            </div>
-            <div class="block-body collapsable">
-                @using (Html.BeginForm("Invite", "Invitations", FormMethod.Post, new { id = "form-invite-member" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <div class="form-group row">
-                        @Html.Label("Recipient Emails", new { @class = "control-label col-md-4" })
-                        <div class="col-md-8">
-                            @Html.TextArea("RecipientEmails", htmlAttributes: new { @class = "form-control", placeholder = "Enter comma seperated emails.", rows = "2", required = "" })
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        @Html.Label("Personal Message", new { @class = "control-label col-md-4" })
-                        <div class="col-md-8">
-                            @Html.TextArea("PersonalMessage", htmlAttributes: new { @class = "form-control", rows = "4", placeholder="Enter an optional invite message."})
-                        </div>
-                    </div>
-                    <div class="form-group row no-gutters mb-0">
-                        <div class="col-auto ml-auto">
-                            <button type="submit" class="btn btn-primary">Invite!</button>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-    <!--JOIN BANK ACCOUNT-->
-    <div class="col-6 shortcut-block" id="join-bank-account">
+    <!--LINK BANK ACCOUNT-->
+    <div class="col-6 shortcut-block d-none" id="join-bank-account">
         <div class="block">
             <div class="title row no-gutters mb-0">
                 <strong>Join Bank Account</strong>
@@ -118,110 +76,143 @@
         </div>
 
     </div>
-    <!--CREATE BUDGETS & ITEMS / REMOVE ITEMS-->
-    <div class="col-6 shortcut-block" id="create-budgets">
-        <div class="block">
-            <div class="title row no-gutters mb-0">
-                <strong>Create Budgets</strong>
-                <div class="col-auto ml-auto"><i class="fas fa-lg fa-chevron-up btn btn-block-minimize" id="collapse-bank-account"></i></div>
-                <div class="col-auto"><i class="fas fa-lg fa-times btn btn-block-close"></i></div>
-            </div>
-            <div class="block-body collapsable">
-                <div class="row">
-                    <div class="col-md-7">
-                        @using (Html.BeginForm("CreateBudget", "Budgets", FormMethod.Post, new { id = "form-add-budget" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            @Html.HiddenFor(Model => Model.HouseholdId)
-                            <div class="form-group row">
-                                @Html.Label("Name", new { @class = "control-label col-md-3" })
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" name="budgetName" required />
-
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                @Html.Label("Description", new { @class = "control-label col-md-3" })
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" name="budgetDescription" required />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                @Html.Label("Budget Amount", htmlAttributes: new { @class = "control-label col-md-3" })
-                                <div class="col-md-9 input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text form-control">$</span>
-                                    </div>
-                                    <input type="number" class="form-control" name="budgetAmount" required />
-                                    <div class="input-group-append">
-                                        <span class="input-group-text form-control">.00</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group row no-gutters mb-0">
-                                <div class="col-auto ml-auto">
-                                    <button type="submit" class="btn btn-primary" data-dismiss="modal">Create Budget</button>
-                                </div>
-                            </div>
-                        }
-                        <br />
-                        <div class="title"><strong>Create Items</strong></div>
-                        @using (Html.BeginForm("CreateBudgetItem", "Budgets", FormMethod.Post, new { id = "form-add-budget-item" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <div class="form-group row">
-                                @Html.Label("Budget", new { @class = "control-label col-md-3" })
-                                <div class="col-md-9">
-                                    @Html.DropDownList("Budgets", null, new { @class = "form-control", id = "dd-budgets" })
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                @Html.Label("Name", new { @class = "control-label col-md-3" })
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" name="budgetItemName" required />
-                                </div>
-                            </div>
-                            <div class="form-group row no-gutters mb-0">
-                                <div class="col-auto ml-auto">
-                                    <button type="submit" class="btn btn-primary">Create Item</button>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                    <div class="col-md-5">
-                        @using (Html.BeginForm("RemoveItem", "Budgets", FormMethod.Post, new { id = "form-remove-budget-item" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <div class="form-group mb-0" id="div-budget-list">
-                                @if (User.IsInRole("Owner"))
-                                {
-                                    @Html.Action("BudgetList", "Budgets")
-                                }
-                            </div>
-                            <div class="form-group row no-gutters mb-0">
-                                <div class="col-auto ml-auto">
-                                    <button type="submit" class="btn btn-danger">Remove Item</button>
-                                </div>
-                            </div>
-                        }
-                    </div>
+    @if (User.IsInRole("Owner"))
+    {
+        <!--INVITE MEMBER-->
+        <div class="col-6 shortcut-block d-none" id="invite-member">
+            <div class="block">
+                <div class="title row no-gutters mb-0">
+                    <strong>Invite Member</strong>
+                    <div class="col-auto ml-auto"><i class="fas fa-lg fa-chevron-up btn btn-block-minimize" id="collapse-bank-account"></i></div>
+                    <div class="col-auto"><i class="fas fa-lg fa-times btn btn-block-close"></i></div>
                 </div>
+                <div class="block-body collapsable">
+                    @using (Html.BeginForm("Invite", "Invitations", FormMethod.Post, new { id = "form-invite-member" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-group row">
+                            @Html.Label("Recipient Emails", new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.TextArea("RecipientEmails", htmlAttributes: new { @class = "form-control", placeholder = "Enter comma seperated emails.", rows = "2", required = "" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.Label("Personal Message", new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.TextArea("PersonalMessage", htmlAttributes: new { @class = "form-control", rows = "4", placeholder = "Enter an optional invite message." })
+                            </div>
+                        </div>
+                        <div class="form-group row no-gutters mb-0">
+                            <div class="col-auto ml-auto">
+                                <button type="submit" class="btn btn-primary">Invite!</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <!--CREATE BUDGETS & ITEMS / REMOVE ITEMS-->
+        <div class="col-6 shortcut-block d-none" id="create-budgets">
+            <div class="block">
+                <div class="title row no-gutters mb-0">
+                    <strong>Create Budgets</strong>
+                    <div class="col-auto ml-auto"><i class="fas fa-lg fa-chevron-up btn btn-block-minimize" id="collapse-bank-account"></i></div>
+                    <div class="col-auto"><i class="fas fa-lg fa-times btn btn-block-close"></i></div>
+                </div>
+                <div class="block-body collapsable">
+                    <div class="row">
+                        <div class="col-md-7">
+                            @using (Html.BeginForm("CreateBudget", "Budgets", FormMethod.Post, new { id = "form-add-budget" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(Model => Model.HouseholdId)
+                                <div class="form-group row">
+                                    @Html.Label("Name", new { @class = "control-label col-md-3" })
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="budgetName" required />
 
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    @Html.Label("Description", new { @class = "control-label col-md-3" })
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="budgetDescription" required />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    @Html.Label("Budget Amount", htmlAttributes: new { @class = "control-label col-md-3" })
+                                    <div class="col-md-9 input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text form-control">$</span>
+                                        </div>
+                                        <input type="number" class="form-control" name="budgetAmount" required />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text form-control">.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row no-gutters mb-0">
+                                    <div class="col-auto ml-auto">
+                                        <button type="submit" class="btn btn-primary" data-dismiss="modal">Create Budget</button>
+                                    </div>
+                                </div>
+                            }
+                            <br />
+                            <div class="title"><strong>Create Items</strong></div>
+                            @using (Html.BeginForm("CreateBudgetItem", "Budgets", FormMethod.Post, new { id = "form-add-budget-item" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <div class="form-group row">
+                                    @Html.Label("Budget", new { @class = "control-label col-md-3" })
+                                    <div class="col-md-9">
+                                        @Html.DropDownList("Budgets", null, new { @class = "form-control", id = "dd-budgets" })
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    @Html.Label("Name", new { @class = "control-label col-md-3" })
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="budgetItemName" id="budgetItemName" required />
+                                    </div>
+                                </div>
+                                <div class="form-group row no-gutters mb-0">
+                                    <div class="col-auto ml-auto">
+                                        <button type="submit" class="btn btn-primary">Create Item</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="col-md-5">
+                            @using (Html.BeginForm("RemoveItem", "Budgets", FormMethod.Post, new { id = "form-remove-budget-item" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <div class="form-group mb-0" id="div-budget-list">
+                                    @Html.Action("BudgetList", "Budgets")
+                                </div>
+                                <div class="form-group row no-gutters mb-0">
+                                    <div class="col-auto ml-auto">
+                                        <button type="submit" class="btn btn-danger">Remove Item</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
-    </div>
-    <!--EDIT BUDGET-->
-    <div class="col-6 shortcut-block" id="edit-budgets">
-        <div class="block">
-            <div class="title row no-gutters mb-0">
-                <strong>Edit Budget</strong>
-                <div class="col-auto ml-auto"><i class="fas fa-lg fa-chevron-up btn btn-block-minimize" id="collapse-bank-account"></i></div>
-                <div class="col-auto"><i class="fas fa-lg fa-times btn btn-block-close"></i></div>
-            </div>
-            <div class="block-body collapsable">
+        <!--EDIT BUDGET-->
+        <div class="col-6 shortcut-block d-none" id="edit-budgets">
+            <div class="block">
+                <div class="title row no-gutters mb-0">
+                    <strong>Edit Budget</strong>
+                    <div class="col-auto ml-auto"><i class="fas fa-lg fa-chevron-up btn btn-block-minimize" id="collapse-bank-account"></i></div>
+                    <div class="col-auto"><i class="fas fa-lg fa-times btn btn-block-close"></i></div>
+                </div>
+                <div class="block-body collapsable">
+                </div>
             </div>
         </div>
-    </div>
+    }
 </div>
 
 <!--HOUSEHOLD STATISTICS-->
@@ -229,7 +220,7 @@
     @Html.Partial("_HouseholdStatistics", new HouseholdStatisticsVM(Model.HouseholdId))
 </div>
 
-<!-- ADD CHARTING & BUDGETS HERE -->
+<!--CHARTING & BUDGETS-->
 <div class="row">
     <div class="col-md-8">
         <div class="block">
@@ -240,7 +231,7 @@
             <div class="block-body collapsable">
                 @if (ViewBag.BudgetCategories > 0)
                 {
-                        <canvas id="budgets-bar-chart"></canvas>
+                    <canvas id="budgets-bar-chart"></canvas>
                 }
                 else
                 {
@@ -280,25 +271,6 @@
         //ACTIVE MENU BUTTON
         $('#dd-household-link').click()
         $('#household-dashboard').addClass('active')
-
-        //SHORTCUT BUTTONS
-        $('.shortcut-block').hide()
-        $('#shc-invite-member').on("click", () => {
-            $('#shortcut-row').prepend($('#invite-member'))
-            $('#invite-member').slideDown()
-        })
-        $('#shc-join-bank-account').on("click", () => {
-            $('#shortcut-row').prepend($('#join-bank-account'))
-            $('#join-bank-account').slideDown()
-        })
-        $('#shc-create-budgets').on("click", () => {
-            $('#shortcut-row').prepend($('#create-budgets'))
-            $('#create-budgets').slideDown()
-        })
-        $('#shc-edit-budgets').on("click", () => {
-            $('#shortcut-row').prepend($('#edit-budgets'))
-            $('#edit-budgets').slideDown()
-        })
 
         //LEAVE/DELETE HOUSEHOLD SHORTCUT BUTTON
         $('#shc-leave-household').on("click", () => {
@@ -418,9 +390,9 @@
             var actionUrl = $(this).attr("action");
             $.post(actionUrl, $(this).serialize(), function (result) {
                 if (result == true) {
-                    $('#form-add-budget-item')[0].reset();
-                    $('#div-budget-list').load('@Url.Action("BudgetList", "Budgets")')
                     toastr["success"]("Your budget item has been added!", "New Budget Item!")
+                    $('#budgetItemName').val('')
+                    $('#div-budget-list').load('@Url.Action("BudgetList", "Budgets")')
                 } else {
                     toastr["error"]("There was an error creating your budget item.", "Error!")
                 }
