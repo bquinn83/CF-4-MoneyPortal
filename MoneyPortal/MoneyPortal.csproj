@@ -418,6 +418,9 @@
     <Content Include="Content\css\DataTables-1.10.21\images\sort_both.png" />
     <Content Include="Content\css\DataTables-1.10.21\images\sort_desc.png" />
     <Content Include="Content\css\DataTables-1.10.21\images\sort_desc_disabled.png" />
+    <Content Include="Content\emails\mp-invitation.html" />
+    <Content Include="Content\emails\mp-confirmemail.html" />
+    <Content Include="Content\emails\mp-pwreset.html" />
     <Content Include="Content\favicon_io\apple-touch-icon.png" />
     <Content Include="Content\favicon_io\favicon-16x16.png" />
     <Content Include="Content\favicon_io\favicon-32x32.png" />
