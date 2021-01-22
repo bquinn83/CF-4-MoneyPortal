@@ -619,8 +619,8 @@
     <Content Include="Views\Households\_BudgetList.cshtml" />
     <Content Include="Views\BankAccounts\_Transactions.cshtml" />
     <Content Include="Views\BankAccounts\_AccountStatistics.cshtml" />
-    <None Include="Properties\PublishProfiles\MoneyPortal - Web Deploy.pubxml" />
     <Content Include="Views\Dashboard\_HouseholdStatistics.cshtml" />
+    <None Include="Properties\PublishProfiles\demo-financialportal - Web Deploy.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

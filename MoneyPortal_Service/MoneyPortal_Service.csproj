@@ -214,7 +214,7 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
-    <None Include="Properties\PublishProfiles\MoneyPortalWebAPI - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\demo-financialportal-api - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <EmbeddedResource Include="Content\CustomSwagger.css" />
     <EmbeddedResource Include="Scripts\CustomSwagger.js" />
